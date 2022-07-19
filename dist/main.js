@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 // For more information, see https://sdk.apify.com/
 const apify_1 = tslib_1.__importDefault(require("apify"));
+const controller_1 = require("./browser/controller");
 apify_1.default.main(async () => {
     console.log('Loading input');
     // Structure of input is defined in INPUT_SCHEMA.json.
@@ -17,6 +18,8 @@ apify_1.default.main(async () => {
     const result = null;
     // 👆👆👆👆👆👆👆👆👆👆
     console.log('The result is: ', input.firstNumber + input.secondNumber);
+    const controller = new controller_1.PlaywrightController();
+    await controller.openBrowser();
     // Structure of output is defined in .actor/actor.json
     await apify_1.default.pushData({
         firstNumber: input.firstNumber,

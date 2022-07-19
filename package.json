@@ -3,7 +3,8 @@
 	"version": "0.0.1",
 	"description": "This is an example of an Apify actor.",
 	"dependencies": {
-		"apify": "^2.3.0"
+		"apify": "^2.3.0",
+		"playwright": "^1.23.4"
 	},
 	"devDependencies": {
 		"@apify/tsconfig": "^0.1.0",
@@ -14,7 +15,7 @@
 		"start": "npm run start:dev",
 		"start:prod": "node dist/main.js",
 		"start:dev": "ts-node -T src/main.ts",
-		"build": "tsc",
+		"build": "tsc -p tsconfig.json",
 		"test": "echo \"Error: oops, the actor has no tests yet, sad!\" && exit 1"
 	},
 	"author": "It's not you it's me",
