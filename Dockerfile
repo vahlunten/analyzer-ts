@@ -8,12 +8,14 @@ RUN npm install --include=dev \
 
 # create final image
 FROM apify/actor-node-playwright-chrome:16
+COPY . ./
+
 # copy only necessary files
-COPY --from=builder /usr/src/app/package*.json ./
-COPY --from=builder /usr/src/app/README.md ./
-COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/.actor ./.actor
-COPY --from=builder /usr/src/app/INPUT_SCHEMA.json ./INPUT_SCHEMA.json
+# COPY --from=builder /usr/src/app/package*.json ./
+# COPY --from=builder /usr/src/app/README.md ./
+# COPY --from=builder /usr/src/app/dist ./dist
+# COPY --from=builder /usr/src/app/.actor ./.actor
+# COPY --from=builder /usr/src/app/INPUT_SCHEMA.json ./INPUT_SCHEMA.json
 
 # install only prod deps
 RUN npm --quiet set progress=false \
