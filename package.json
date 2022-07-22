@@ -3,7 +3,10 @@
 	"version": "0.0.1",
 	"description": "This is an example of an Apify actor.",
 	"dependencies": {
+		"@types/node": "^18.0.6",
 		"apify": "^2.3.0",
+		"fingerprint-generator": "^2.0.1",
+		"fingerprint-injector": "^2.0.1",
 		"playwright": "^1.23.4"
 	},
 	"devDependencies": {

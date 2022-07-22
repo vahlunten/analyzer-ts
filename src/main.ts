@@ -3,7 +3,7 @@
 
 // For more information, see https://sdk.apify.com/
 import Apify from 'apify';
-import { PlaywrightController } from "./browser/controller";
+import { PlaywrightController } from "./browser/PlaywrightController";
 
 interface InputSchema {
     firstNumber: number;
@@ -25,7 +25,7 @@ Apify.main(async () => {
     
     console.log('The result is: ', input.firstNumber + input.secondNumber);
     const controller = new PlaywrightController();
-    await controller.openBrowser();
+    await controller.openBrowser(false, true);
 
     // Structure of output is defined in .actor/actor.json
     await Apify.pushData({

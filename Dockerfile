@@ -1,5 +1,5 @@
 # using multistage build, as we need dev deps to build the TS source code
-FROM apify/actor-node-playwright-chrome:16 AS builder
+FROM apify/actor-node:16 AS builder
 
 # copy all files, install all dependencies (including dev deps) and build the project
 COPY . ./
@@ -7,15 +7,13 @@ RUN npm install --include=dev \
     && npm run build
 
 # create final image
-FROM apify/actor-node-playwright-chrome:16
-COPY . ./
-
+FROM apify/actor-node-playwright:16
 # copy only necessary files
-# COPY --from=builder /usr/src/app/package*.json ./
-# COPY --from=builder /usr/src/app/README.md ./
-# COPY --from=builder /usr/src/app/dist ./dist
-# COPY --from=builder /usr/src/app/.actor ./.actor
-# COPY --from=builder /usr/src/app/INPUT_SCHEMA.json ./INPUT_SCHEMA.json
+COPY --from=builder /usr/src/app/package.json ./
+COPY --from=builder /usr/src/app/README.md ./
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/apify.json ./apify.json
+COPY --from=builder /usr/src/app/INPUT_SCHEMA.json ./INPUT_SCHEMA.json
 
 # install only prod deps
 RUN npm --quiet set progress=false \
@@ -28,4 +26,4 @@ RUN npm --quiet set progress=false \
     && npm --version
 
 # run compiled code
-CMD npm run start:prod
+CMD ./start_xvfb_and_run_cmd.sh && npm run start:prod
