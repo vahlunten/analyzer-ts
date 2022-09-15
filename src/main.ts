@@ -3,34 +3,35 @@
 
 // For more information, see https://sdk.apify.com/
 import Apify from 'apify';
-import { PlaywrightController } from "./browser/PlaywrightController";
+import { logObject } from './helpers/helperFunctions';
+import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
+import { ScrapedData } from './scraper/ScrapedData';
 
 interface InputSchema {
-    firstNumber: number;
-    secondNumber: number;
+    url: string;
+    keywords: string[];
 }
 
 Apify.main(async () => {
     console.log('Loading input')
     // Structure of input is defined in INPUT_SCHEMA.json.
     const input = await Apify.getInput() as InputSchema;
-    console.log('First number: ', input.firstNumber);
-    console.log('Second number: ', input.secondNumber);
 
-    // 👉 Complete the code so that result is
-    // the sum of firstNumber and secondNumber.
-    // 👇👇👇👇👇👇👇👇👇👇
-    const result = null;
-    // 👆👆👆👆👆👆👆👆👆👆
-    
-    console.log('The result is: ', input.firstNumber + input.secondNumber);
-    const controller = new PlaywrightController();
-    await controller.openBrowser(false, true);
+    const url = input.url;
+    const keywords = input.keywords;
+    const controller = new PlaywrightScraper();
+    // await controller.scrapePage('http://amiunique.org', ['hello', 'world']);
 
-    // Structure of output is defined in .actor/actor.json
-    await Apify.pushData({
-        firstNumber: input.firstNumber,
-        secondNumber: input.secondNumber,
-        sum: result,
-    })
+    let scrapedData: ScrapedData;
+    try{
+        scrapedData = await controller.scrapePage(url, keywords);
+        // logObject(scrapedData);
+        await Apify.setValue('OUTPUT', { foo: 'bar' });
+    } catch (e: any) {
+        console.log('Tope lever error inside main' + e.message);
+    }
+
+
+   await Apify.setValue("OUTPUT", JSON.stringify(scrapedData!, null, 2), { contentType: 'application/json; charset=utf-8' });
+
 });

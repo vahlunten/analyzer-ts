@@ -1,20 +1,25 @@
 {
-  "title": "Add two integers",
-  "type": "object",
-  "schemaVersion": 1,
-  "properties": {
-    "firstNumber": {
-      "title": "First integer",
-      "type": "integer",
-      "description": "The number you want to add to the second number.",
-      "editor": "number"
+    "title": "Page analyzer input schema",
+    "description": "Input for page analyzer:\n1.  Url of a website to be analyzed\n2.  Keywords to be searched for",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "url": {
+        "title": "Website url",
+        "type": "string",
+        "description": "Url to a website to by analyzed",
+        "editor": "textfield",
+        "prefill": "https://example.org/"
+      },
+      "keywords": {
+        "title": "Keywords",
+        "type": "array",
+        "description": "Keywords to be searched for during analysis",
+        "editor": "stringList"
+      }
     },
-    "secondNumber": {
-      "title": "Second integer",
-      "type": "integer",
-      "description": "The number you want to add to the first number.",
-      "editor": "number"
-    }
-  },
-  "required": ["firstNumber", "secondNumber"]
-}
+    "required": [
+      "url",
+      "keywords"
+    ]
+  }

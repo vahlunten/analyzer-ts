@@ -1,4 +1,4 @@
-export enum HttpRequestMethods {
+export enum HttpRequestMethod {
     CONNECT = 'CONNECT',
     DELETE = 'DELETE',
     GET = 'GET',
@@ -7,5 +7,5 @@ export enum HttpRequestMethods {
     PATCH = 'PATCH',
     POST = 'POST',
     PUT = 'PUT',
-    TRACE = 'TRACE'    
+    TRACE = 'TRACE',    
 }

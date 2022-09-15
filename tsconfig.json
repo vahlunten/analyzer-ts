@@ -2,9 +2,12 @@
     "extends": "@apify/tsconfig",
     "compilerOptions": {
         "skipLibCheck": true,
-        "outDir": "dist"
+        "outDir": "dist",
     },
     "include": [
         "./src/**/*"
-    ]
+    ],
+    "rules": {
+        "@typescript-eslint/no-unused-vars": 0
+      }
 }
