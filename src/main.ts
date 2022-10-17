@@ -5,7 +5,10 @@
 import Apify from 'apify';
 import { logObject } from './helpers/helperFunctions';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
-import { ScrapedData } from './scraper/ScrapedData';
+import { ScrapedDataClass } from './scraper/ScrapedData';
+
+const { log } = Apify.utils;
+
 
 interface InputSchema {
     url: string;
@@ -13,19 +16,30 @@ interface InputSchema {
 }
 
 Apify.main(async () => {
-    console.log('Loading input')
+    
     // Structure of input is defined in INPUT_SCHEMA.json.
     const input = await Apify.getInput() as InputSchema;
 
     const url = input.url;
     const keywords = input.keywords;
-    const controller = new PlaywrightScraper();
+
+    log.setLevel(log.LEVELS.DEBUG);
+    log.info('Welcome to the page analyzer!');
+    log.info('URL: ', {url: url});
+    log.info('KEYWORDS: ', {keywords: keywords});
+
+    const controller = new PlaywrightScraper(url, keywords);
     // await controller.scrapePage('http://amiunique.org', ['hello', 'world']);
 
-    let scrapedData: ScrapedData;
+    let scrapedData: ScrapedDataClass;
     try{
-        scrapedData = await controller.scrapePage(url, keywords);
+        scrapedData = await controller.scrapePage();
         // logObject(scrapedData);
+
+        // parse data
+        // search
+        // validate
+        
         await Apify.setValue('OUTPUT', { foo: 'bar' });
     } catch (e: any) {
         console.log('Tope lever error inside main' + e.message);

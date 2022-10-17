@@ -3,11 +3,14 @@
     "compilerOptions": {
         "skipLibCheck": true,
         "outDir": "dist",
+        "noUnusedLocals": false,
+        "noUnusedParameters": false
     },
     "include": [
         "./src/**/*"
     ],
-    "rules": {
-        "@typescript-eslint/no-unused-vars": 0
-      }
+    "exclude": [
+        "node_modules",
+        "dist"
+      ]
 }
