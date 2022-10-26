@@ -15,40 +15,41 @@ interface InputSchema {
     url: string;
     keywords: string[];
 }
-
+console.log("macka");
 Apify.main(async () => {
 
-    // Structure of input is defined in INPUT_SCHEMA.json.
-    //     const input = await Apify.getInput() as InputSchema;
+    Structure of input is defined in INPUT_SCHEMA.json.
+        const input = await Apify.getInput() as InputSchema;
 
-    //     const url = input.url;
-    //     const keywords = input.keywords;
+        const url = input.url;
+        const keywords = input.keywords;
 
-    //     log.setLevel(log.LEVELS.DEBUG);
-    //     log.info('Welcome to the page analyzer!');
-    //     log.info('URL: ', {url: url});
-    //     log.info('KEYWORDS: ', {keywords: keywords});
+        log.setLevel(log.LEVELS.DEBUG);
+        log.info('Welcome to the page analyzer!');
+        log.info('URL: ', {url: url});
+        log.info('KEYWORDS: ', {keywords: keywords});
 
-    //     const controller = new PlaywrightScraper(url, keywords);
-    //     // await controller.scrapePage('http://amiunique.org', ['hello', 'world']);
+        const controller = new PlaywrightScraper(url, keywords);
+        // await controller.scrapePage('http://amiunique.org', ['hello', 'world']);
 
-    //     let scrapedData: ScrapedDataClass;
-    //     try{
-    //         scrapedData = await controller.scrapePage();
-    //         // logObject(scrapedData);
+        let scrapedData: ScrapedDataClass;
+        try{
+            scrapedData = await controller.scrapePage();
+            // logObject(scrapedData);
 
-    //         // parse data
-    //         // search
-    //         // validate
+            // parse data
+            // search
+            // validate
 
-    //         await Apify.setValue('OUTPUT', { foo: 'bar' });
-    //     } catch (e: any) {
-    //         console.log('Tope lever error inside main' + e.message);
-    //     }
+            await Apify.setValue('OUTPUT', { foo: 'bar' });
+        } catch (e: any) {
+            console.log('Tope lever error inside main' + e.message);
+        }
 
 
-    //    await Apify.setValue("OUTPUT", JSON.stringify(scrapedData!, null, 2), { contentType: 'application/json; charset=utf-8' });
+       await Apify.setValue("OUTPUT", JSON.stringify(scrapedData!, null, 2), { contentType: 'application/json; charset=utf-8' });
 
+    console.log("peeeeees");
     const testJson = {
         parent0: "macka",
         parent1: "pes",
@@ -57,9 +58,10 @@ Apify.main(async () => {
             child1: "child 1 text",
             child2: "papagaj"
         },
-        parent3: ["mackaa", "pesoo"]
+        parent3: ["mackaa", "pesoo"],
+        parent4: null
     }
-    const searcher = new JsonSearcher(["pes", "macka"]);
+    const searcher = new JsonSearcher(["pes", "macka", "text"]);
     const searchResults = searcher.searchJson(testJson);
     searchResults?.forEach(element => {
         console.log(element.path);

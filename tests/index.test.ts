@@ -1,32 +1,38 @@
-import {  JsonSearcher } from "../src/search/JsonSearch";
+import { JsonSearcher } from "../src/search/JsonSearch";
+import { normalizeArray } from "../src/search/normalize";
 
-describe('Testing lookup for a dog.', () => {
-  test('should return 2 results', () => {
-   
-    const searcher = new JsonSearcher(["pes", "macka"]);
-    const searchResults = searcher.searchSubtree(testJson, [], 0);
-    searchResults?.forEach(element => {
-      console.log(element.path);
-    });
+describe('JsonSearch test', () => {
+  test('should return 0 results', () => {
+
+    const normalizedKeywords = normalizeArray(["pes", "macka"]);
+    const searcher = new JsonSearcher();
+    const searchResults = searcher.searchJson(testJson, normalizedKeywords);
+    expect(searchResults).toStrictEqual([]);
   });
+
+  test('should return 1 results', () => {
+
+    const normalizedKeywords = normalizeArray(["value1"]);
+    const searcher = new JsonSearcher();
+    const searchResults = searcher.searchJson(testJson, normalizedKeywords);
+    expect(searchResults?.length).toBe(1);
+  });
+
 });
 
-const exanpleJson = {
-  parent: {
-    child: "Child value"
-  },
-  differentParent: {
-    differentChild: "Different child value"
-  }
-}
 
-const testJson ={
-  parent0: "macka",
-  parent1: "pes",
-  parent2: {
-    child0: "child 0 text",
-    child1: "child 1 text",
-    child2: "papagaj"
+const testJson = {
+  object: {
+    objectChild: {
+      name: ""
+    }
+
   },
-  parent3: ["mackaa", "pesoo"]
-}
+  array: [
+    "value1",
+    "value2",
+  ],
+  emptyArray: [],
+  emptyObject: {},
+  
+}    

@@ -1,20 +1,20 @@
 import { isArray, isObject } from "lodash";
-import { normalizeArray, normalizeString, NormalizedKeywordPair } from "./normalize";
+import { normalizeArray, normalizeString, NormalizedKeywordPair as KeywordNormalizedPair } from "./normalize";
 import { SearchResult } from "./SearchResult";
 
 
 export class JsonSearcher {
 
-    normalizedKeywordsPair: NormalizedKeywordPair[];
+    normalizedKeywordsPair: KeywordNormalizedPair[] = [];
 
-    constructor(keywords: string[]) {
-        this.normalizedKeywordsPair = normalizeArray(keywords);
+    constructor() {
+       
     }
 
-    public searchJson(json: any): null | SearchResult[] {
+    public searchJson(json: any, keywords: KeywordNormalizedPair[]): null | SearchResult[] {
+        this.normalizedKeywordsPair = keywords;
         return this.searchSubtree(json, [], 0);
     }
-
 
     public searchSubtree(subtree: any, path: string[], depth: number = 0): null | SearchResult[] {
 
@@ -22,22 +22,22 @@ export class JsonSearcher {
 
         if (!subtree) {
             return null;
-        } else if (isObject(subtree)) {
-            Object.entries(subtree).forEach(([key, value]) => {
-                const keySearch = this.searchSubtree(value, [...path, `${key}`], depth + 1);
-                if (keySearch) {
-                    searchResults.concat(keySearch);
-                }
-            });
-            return searchResults;
         } else if (isArray(subtree)) {
             subtree.forEach((value, index) => {
                 const elementSearch = this.searchSubtree(value, [...path, `[${index}]`], depth + 1);
                 if (elementSearch) {
-                    searchResults.concat(elementSearch);
+                    searchResults = searchResults.concat(elementSearch);
                 }
             })
-            return searchResults;
+            // return searchResults;
+        } else if (isObject(subtree)) {
+            Object.entries(subtree).forEach(([key, value]) => {
+                const keySearch = this.searchSubtree(value, [...path, `${key}`], depth + 1);
+                if (keySearch) {
+                    searchResults = searchResults.concat(keySearch);
+                }
+            });
+            // return searchResults;
         } else {
             const text = subtree.toString();
             const textNormalized = normalizeString(text);
@@ -46,12 +46,9 @@ export class JsonSearcher {
                     searchResults.push(new SearchResult(path, keyword, text));
                 }
             });
-
-            return searchResults;
             // TODO: Calculate scores
-
         }
-
+        return searchResults;
     }
 
 }
