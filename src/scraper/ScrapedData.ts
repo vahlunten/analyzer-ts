@@ -1,9 +1,10 @@
 import { Cookie } from "playwright";
-import { ParsedRequestResponse } from "../parsing/XHR/XHRRequests";
+import { NormalizedKeywordPair } from "../helpers/normalize";
+import { ParsedRequestResponse } from "./parsing/XHR/XHRRequests";
 
 export class ScrapedDataClass {
     public url: string;
-    public keywords: string[];
+    public keywords: NormalizedKeywordPair[];
 
     public initialResponseBody: string | null = null;
     public responseStatus: number | null = null;
@@ -26,12 +27,17 @@ export class ScrapedDataClass {
 
 
 
-    public constructor(url: string, keywords: string[]) {
+    public constructor(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;
         this.keywords = keywords;
     }
 
 
+}
+
+export class Output {
+    public scrapedData?: ScrapedDataClass;
+    public NormalizedKeywordPair?: NormalizedKeywordPair;
 }
 // export interface DataSource {
 //     data: any[],

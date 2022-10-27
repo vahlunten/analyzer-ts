@@ -1,5 +1,5 @@
 import { isArray, isObject } from "lodash";
-import { normalizeArray, normalizeString, NormalizedKeywordPair as KeywordNormalizedPair } from "./normalize";
+import { normalizeArray, normalizeString, NormalizedKeywordPair as KeywordNormalizedPair } from "../helpers/normalize";
 import { SearchResult } from "./SearchResult";
 
 

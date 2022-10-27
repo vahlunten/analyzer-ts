@@ -1,4 +1,4 @@
-import { NormalizedKeywordPair } from "./normalize";
+import { NormalizedKeywordPair } from "../helpers/normalize";
 
 export class SearchResult {
     public path:string[];

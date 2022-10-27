@@ -1,5 +1,5 @@
 import { JsonSearcher } from "../src/search/JsonSearch";
-import { normalizeArray } from "../src/search/normalize";
+import { normalizeArray } from "../src/helpers/normalize";
 
 describe('JsonSearch test', () => {
   test('should return 0 results', () => {

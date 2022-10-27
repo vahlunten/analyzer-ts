@@ -3,12 +3,13 @@ import { FingerprintInjector } from 'fingerprint-injector';
 import { Browser, BrowserContext, chromium, Page, Request, Response } from 'playwright';
 import { logObject } from "../helpers/helperFunctions";
 import { ScrapedDataClass } from './ScrapedData';
-import { ParsedRequestResponse, interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
-import { parseJsonLD } from '../parsing/json-ld';
-import { parseMetadata } from '../parsing/meta';
-import { parseSchemaOrgData } from "../parsing/schema-org";
+import { ParsedRequestResponse, interceptRequests, onResponse } from './parsing/XHR/XHRRequests';
+import { parseJsonLD } from './parsing/json-ld';
+import { parseMetadata } from './parsing/meta';
+import { parseSchemaOrgData } from "./parsing/schema-org";
 import cheerio from 'cheerio';
 import Apify from 'apify';
+import { NormalizedKeywordPair } from '../helpers/normalize';
 
 const { log } = Apify.utils;
 
@@ -19,9 +20,9 @@ export class PlaywrightScraper {
     requests: ParsedRequestResponse[] = [];
     scrapedData: ScrapedDataClass;
     url: string;
-    keywords: string[];
+    keywords: NormalizedKeywordPair[];
 
-    constructor(url: string, keywords: string[]) {
+    constructor(url: string, keywords: NormalizedKeywordPair[]) {
         log.debug("Hello from playwright controller constructor.");
         this.url = url;
         this.keywords = keywords;
