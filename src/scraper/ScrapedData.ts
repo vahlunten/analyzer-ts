@@ -1,5 +1,6 @@
 import { Cookie } from "playwright";
 import { NormalizedKeywordPair } from "../helpers/normalize";
+import { SearchResult } from "../search/SearchResult";
 import { ParsedRequestResponse } from "./parsing/XHR/XHRRequests";
 
 export class ScrapedDataClass {
@@ -8,8 +9,8 @@ export class ScrapedDataClass {
 
     public initialResponseBody: string | null = null;
     public responseStatus: number | null = null;
-
     public domContent: string | null = null;
+
     public jsonLDData: any | null = null;
     public jsonLDDataInitial: any | null = null;
 
@@ -20,11 +21,12 @@ export class ScrapedDataClass {
     public metadataInitial: any | null = null;
 
     public windowProperties: any | null = null;
+    public windowPropertiesInitial: any | null = null;
 
     public xhrParsed: ParsedRequestResponse[] | null = null;
     public cookies: Cookie[] | null = null;
 
-
+    public searchResults:Map<Number, KeywordConclusion>[] = [];
 
 
     public constructor(url: string, keywords: NormalizedKeywordPair[]) {
@@ -39,14 +41,14 @@ export class Output {
     public scrapedData?: ScrapedDataClass;
     public NormalizedKeywordPair?: NormalizedKeywordPair;
 }
-// export interface DataSource {
-//     data: any[],
-//     dataFound: SearchResult[],
 
-// }
 
-// export interface SearchResult {
-//     keyword: string,
-//     path: string,
-//     data: string,
-// }
+export class KeywordConclusion {
+    public htmlFound:SearchResult[] = [];
+    public jsonFound:SearchResult[] = [];
+    public schemaFound:SearchResult[] = [];
+    public metaFound:SearchResult[] = [];
+    public windowFound:SearchResult[] = [];
+    public xhrFound:SearchResult[] = [];
+
+}

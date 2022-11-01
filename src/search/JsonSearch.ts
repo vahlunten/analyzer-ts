@@ -1,18 +1,20 @@
 import { isArray, isObject } from "lodash";
 import { normalizeArray, normalizeString, NormalizedKeywordPair as KeywordNormalizedPair } from "../helpers/normalize";
-import { SearchResult } from "./SearchResult";
+import { DataSource, SearchResult } from "./SearchResult";
 
 
 export class JsonSearcher {
 
     normalizedKeywordsPair: KeywordNormalizedPair[] = [];
+    source?: DataSource; 
 
     constructor() {
        
     }
 
-    public searchJson(json: any, keywords: KeywordNormalizedPair[]): null | SearchResult[] {
+    public searchJson(json: any, keywords: KeywordNormalizedPair[], source: DataSource ): null | SearchResult[] {
         this.normalizedKeywordsPair = keywords;
+        this.source = source;
         return this.searchSubtree(json, [], 0);
     }
 
@@ -43,7 +45,7 @@ export class JsonSearcher {
             const textNormalized = normalizeString(text);
             this.normalizedKeywordsPair.forEach((keyword) => {
                 if (textNormalized.indexOf(keyword.normalized) != -1) {
-                    searchResults.push(new SearchResult(path, keyword, text));
+                    searchResults.push(new SearchResult(path, keyword, text, this.source!));
                 }
             });
             // TODO: Calculate scores

@@ -18,7 +18,7 @@ export function normalizeString(keyword: string): string {
     let normalized = removeHTMLTags(keyword);
     normalized = replaceHTMLEntities(normalized);
     normalized = removeSpaces(normalized);
-    normalized = convertCommasInNumbers(normalized)
+    normalized = convertCommasInNumbers(normalized);
     return normalized;
 }
 
@@ -29,5 +29,6 @@ const convertCommasInNumbers = (text: string) => text.replace(/(\d+),(\d+)/g, '$
 
 export interface NormalizedKeywordPair {
     original: string, 
-    normalized: string
+    normalized: string,
+    
 }
