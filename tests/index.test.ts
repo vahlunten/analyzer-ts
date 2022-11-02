@@ -35,6 +35,17 @@ describe("Search tests", () => {
   });
 
 })
+
+
+describe("Chereriocrawler test", () => {
+
+  test("Should get titles of example.org /1 /2", async () => {
+    const data = await Validator.loadHtml();   
+
+    expect(data).toHaveLength(2);
+
+  })
+})
 const testJson = {
   object: {
     objectChild: {

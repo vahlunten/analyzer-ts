@@ -1,8 +1,14 @@
-import { ScrapedDataClass } from "../scraper/ScrapedData";
-import { SearchResult } from "./SearchResult";
+import { NormalizedKeywordPair } from "../helpers/normalize";
+import { ScrapedDataClass, SearchResults } from "../scraper/ScrapedData";
+import { JsonSearcher } from "./JsonSearch";
+import { DataSource, SearchResult } from "./SearchResult";
 
-export function searchData(scraped:ScrapedDataClass) {
+export function searchData(scraped:ScrapedDataClass, keywords:NormalizedKeywordPair[]): SearchResult[] {
     const fitlered = removeDuplicates([],[]);
+
+    const jsonLdFound = new JsonSearcher().searchJson(scraped.jsonLDData, keywords, DataSource.initial);
+
+    return jsonLdFound;
 } 
 
 

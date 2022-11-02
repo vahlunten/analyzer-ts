@@ -9,7 +9,8 @@ import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { Output, ScrapedDataClass } from './scraper/ScrapedData';
 import { JsonSearcher } from './search/JsonSearch';
 import { searchData } from './search/Search';
-import { SearchResult } from './search/SearchResult';
+import { DataSource, SearchResult } from './search/SearchResult';
+import { Validator } from './validation/Validator';
 
 const { log } = Apify.utils;
 
@@ -38,7 +39,7 @@ Apify.main(async () => {
     let scrapedData: ScrapedDataClass;
     try {
         scrapedData = await scraper.scrapePage();
-        const dataFound = searchData(scrapedData);
+        const dataFound = searchData(scrapedData, normalizedKeywords);
        
         output.scrapedData = scrapedData;
         output.NormalizedKeywordPair
@@ -52,5 +53,6 @@ Apify.main(async () => {
 
 
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
+    
 
 });

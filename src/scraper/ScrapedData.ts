@@ -42,12 +42,16 @@ export class Output {
 }
 
 
-export class KeywordConclusion {
+export interface KeywordConclusion {
+    SearchResults:SearchResults;
+    Keyword:NormalizedKeywordPair;
+}
+
+export class SearchResults {
     public htmlFound:SearchResult[] = [];
     public jsonFound:SearchResult[] = [];
     public schemaFound:SearchResult[] = [];
     public metaFound:SearchResult[] = [];
     public windowFound:SearchResult[] = [];
     public xhrFound:SearchResult[] = [];
-
 }

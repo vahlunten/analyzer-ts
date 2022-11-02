@@ -12,18 +12,18 @@ export class JsonSearcher {
        
     }
 
-    public searchJson(json: any, keywords: KeywordNormalizedPair[], source: DataSource ): null | SearchResult[] {
+    public searchJson(json: any, keywords: KeywordNormalizedPair[], source: DataSource ): SearchResult[] {
         this.normalizedKeywordsPair = keywords;
         this.source = source;
         return this.searchSubtree(json, [], 0);
     }
 
-    public searchSubtree(subtree: any, path: string[], depth: number = 0): null | SearchResult[] {
+    public searchSubtree(subtree: any, path: string[], depth: number = 0): SearchResult[] {
 
         let searchResults: SearchResult[] = [];
 
         if (!subtree) {
-            return null;
+            return searchResults;
         } else if (isArray(subtree)) {
             subtree.forEach((value, index) => {
                 const elementSearch = this.searchSubtree(value, [...path, `[${index}]`], depth + 1);
