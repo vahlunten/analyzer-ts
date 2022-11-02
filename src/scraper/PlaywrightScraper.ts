@@ -26,7 +26,7 @@ export class PlaywrightScraper {
         log.debug("Hello from playwright controller constructor.");
         this.url = url;
         this.keywords = keywords;
-        this.scrapedData = new ScrapedDataClass(url, keywords);
+        this.scrapedData = new ScrapedDataClass();
         
     }
 

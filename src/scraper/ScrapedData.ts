@@ -4,9 +4,7 @@ import { SearchResult } from "../search/SearchResult";
 import { ParsedRequestResponse } from "./parsing/XHR/XHRRequests";
 
 export class ScrapedDataClass {
-    public url: string;
-    public keywords: NormalizedKeywordPair[];
-
+   
     public initialResponseBody: string | null = null;
     public responseStatus: number | null = null;
     public domContent: string | null = null;
@@ -28,18 +26,19 @@ export class ScrapedDataClass {
 
     public searchResults:Map<Number, KeywordConclusion>[] = [];
 
-
-    public constructor(url: string, keywords: NormalizedKeywordPair[]) {
-        this.url = url;
-        this.keywords = keywords;
-    }
-
-
 }
 
 export class Output {
+    public url: string;
+    public keywords: NormalizedKeywordPair[];
+
     public scrapedData?: ScrapedDataClass;
     public NormalizedKeywordPair?: NormalizedKeywordPair;
+
+    constructor(url: string, keywords: NormalizedKeywordPair[]) {
+        this.url = url;
+        this.keywords = keywords;
+    }
 }
 
 

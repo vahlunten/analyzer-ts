@@ -1,6 +1,9 @@
 import { JsonSearcher } from "../src/search/JsonSearch";
 import { normalizeArray } from "../src/helpers/normalize";
-import { DataSource } from "../src/search/SearchResult";
+import { DataSource, SearchResult } from "../src/search/SearchResult";
+import { Validator } from "../src/validation/Validator";
+import { removeDuplicates } from "../src/search/Search";
+
 
 describe('JsonSearch test', () => {
   test('should return 0 results', () => {
@@ -21,7 +24,17 @@ describe('JsonSearch test', () => {
 
 });
 
+//TODO: fix this 
+describe("Search tests", () => { 
+  test('Should return 0 results', () => {
+    const filtered = removeDuplicates(searchResultInitial, searchResultInitial);
+    for (const iterator of filtered) {
+      console.log(iterator);
+    }
+    expect(filtered.length).toBe(3);
+  });
 
+})
 const testJson = {
   object: {
     objectChild: {
@@ -37,3 +50,16 @@ const testJson = {
   emptyObject: {},
   
 }    
+
+
+const searchResultInitial:SearchResult[] = [
+  new SearchResult(["1"], {original: "5", normalized: "pes"}, "mackaText", DataSource.initial),
+  new SearchResult(["2"], {original: "5", normalized: "pes"}, "mackaText", DataSource.initial),
+  new SearchResult(["3"], {original: "5", normalized: "pes"}, "mackaText", DataSource.initial),
+]
+
+const searchResultDom:SearchResult[] = [
+  new SearchResult(["1"], {original: "5", normalized: "pes"}, "", DataSource.rendered),
+  new SearchResult(["2"], {original: "5", normalized: "pes"}, "mackaText", DataSource.rendered),
+  new SearchResult(["3"], {original: "5", normalized: "pes"}, "mackaText", DataSource.rendered),
+]

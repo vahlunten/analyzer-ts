@@ -8,6 +8,8 @@ import { normalizeArray } from './helpers/normalize';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { Output, ScrapedDataClass } from './scraper/ScrapedData';
 import { JsonSearcher } from './search/JsonSearch';
+import { searchData } from './search/Search';
+import { SearchResult } from './search/SearchResult';
 
 const { log } = Apify.utils;
 
@@ -31,17 +33,16 @@ Apify.main(async () => {
 
     const normalizedKeywords = normalizeArray(keywords);
     const scraper = new PlaywrightScraper(url, normalizedKeywords);
-    // await controller.scrapePage('http://amiunique.org', ['hello', 'world']);
 
-    let output = new Output();
+    let output = new Output(url, normalizedKeywords);
     let scrapedData: ScrapedDataClass;
     try {
         scrapedData = await scraper.scrapePage();
+        const dataFound = searchData(scrapedData);
+       
         output.scrapedData = scrapedData;
         output.NormalizedKeywordPair
         // logObject(scrapedData);
-
-        // parse data
         // search
         // validate
 
