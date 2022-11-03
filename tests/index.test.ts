@@ -37,15 +37,15 @@ describe("Search tests", () => {
 })
 
 
-describe("Chereriocrawler test", () => {
+// describe("Chereriocrawler test", () => {
 
-  test("Should get titles of example.org /1 /2", async () => {
-    const data = await Validator.loadHtml();   
+//   test("Should get titles of example.org /1 /2", async () => {
+//     const data = await Validator.loadHtml();   
 
-    expect(data).toHaveLength(2);
+//     expect(data).toHaveLength(2);
 
-  })
-})
+//   })
+// })
 const testJson = {
   object: {
     objectChild: {
@@ -64,13 +64,13 @@ const testJson = {
 
 
 const searchResultInitial:SearchResult[] = [
-  new SearchResult(["1"], {original: "5", normalized: "pes"}, "mackaText", DataSource.initial),
-  new SearchResult(["2"], {original: "5", normalized: "pes"}, "mackaText", DataSource.initial),
-  new SearchResult(["3"], {original: "5", normalized: "pes"}, "mackaText", DataSource.initial),
+  new SearchResult(["1"], {original: "5", normalized: "pes", index: 0}, "mackaText", DataSource.initial),
+  new SearchResult(["2"], {original: "5", normalized: "pes", index: 1}, "mackaText", DataSource.initial),
+  new SearchResult(["3"], {original: "5", normalized: "pes", index: 2}, "mackaText", DataSource.initial),
 ]
 
 const searchResultDom:SearchResult[] = [
-  new SearchResult(["1"], {original: "5", normalized: "pes"}, "", DataSource.rendered),
-  new SearchResult(["2"], {original: "5", normalized: "pes"}, "mackaText", DataSource.rendered),
-  new SearchResult(["3"], {original: "5", normalized: "pes"}, "mackaText", DataSource.rendered),
+  new SearchResult(["1"], {original: "5", normalized: "pes", index: 0}, "", DataSource.rendered),
+  new SearchResult(["2"], {original: "5", normalized: "pes", index: 1}, "mackaText", DataSource.rendered),
+  new SearchResult(["3"], {original: "5", normalized: "pes", index: 2}, "mackaText", DataSource.rendered),
 ]

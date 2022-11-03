@@ -33,7 +33,8 @@ export class Output {
     public keywords: NormalizedKeywordPair[];
 
     public scrapedData?: ScrapedDataClass;
-    public NormalizedKeywordPair?: NormalizedKeywordPair;
+
+    public keywordConclusions?:KeywordConclusion[];
 
     constructor(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;

@@ -39,10 +39,12 @@ Apify.main(async () => {
     let scrapedData: ScrapedDataClass;
     try {
         scrapedData = await scraper.scrapePage();
-        const dataFound = searchData(scrapedData, normalizedKeywords);
-       
+        const dataFound = searchData(scrapedData, normalizedKeywords, DataSource.initial);
+        const validator = new Validator();
+        const validatedData = await validator.validate(url, normalizedKeywords, dataFound);        
         output.scrapedData = scrapedData;
-        output.NormalizedKeywordPair
+        output.keywordConclusions = Array.from(validatedData.values());
+
         // logObject(scrapedData);
         // search
         // validate

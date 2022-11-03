@@ -15,11 +15,11 @@ export class SearchResult
         this.textFound = textFound;
         this.source = source;
     }
-
 }
 
 export enum DataSource {
-    initial,
-    rendered
+    initial = 'initial',
+    rendered = 'rendered',
+    cheerio = 'cheerioCrawler'
 }
 

@@ -1,13 +1,15 @@
+import { index } from 'cheerio/lib/api/traversing';
 import * as htmlEntities from 'html-entities';
 
-export function normalizeArray(keywords: string[]): {original: string, normalized: string}[] {
+export function normalizeArray(keywords: string[]): NormalizedKeywordPair[] {
 
-    const normalizedKeywords: {original: string, normalized: string}[] = [];
-    keywords.forEach(keyword => {        
+    const normalizedKeywords: NormalizedKeywordPair[] = [];
+    keywords.forEach((keyword, index) => {        
         normalizedKeywords.push(
             {
                 original: keyword,
-                normalized: normalizeString(keyword)
+                normalized: normalizeString(keyword),
+                index: index
             }
         );
     });
@@ -30,5 +32,5 @@ const convertCommasInNumbers = (text: string) => text.replace(/(\d+),(\d+)/g, '$
 export interface NormalizedKeywordPair {
     original: string, 
     normalized: string,
-    
+    index: number    
 }

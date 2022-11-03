@@ -3,13 +3,17 @@ import { ScrapedDataClass, SearchResults } from "../scraper/ScrapedData";
 import { JsonSearcher } from "./JsonSearch";
 import { DataSource, SearchResult } from "./SearchResult";
 
-export function searchData(scraped:ScrapedDataClass, keywords:NormalizedKeywordPair[]): SearchResult[] {
+export function searchData(scraped:ScrapedDataClass, keywords:NormalizedKeywordPair[], source: DataSource): SearchResults {
     const fitlered = removeDuplicates([],[]);
 
-    const jsonLdFound = new JsonSearcher().searchJson(scraped.jsonLDData, keywords, DataSource.initial);
+    const searchResults:SearchResults = new SearchResults();
+    const jsonLdFound = new JsonSearcher().searchJson(scraped.jsonLDData, keywords, source);
+    searchResults.jsonFound = jsonLdFound;
 
-    return jsonLdFound;
+    return searchResults;
 } 
+
+
 
 
 // Filter duplicates obtained from initial response and those from loaded content.

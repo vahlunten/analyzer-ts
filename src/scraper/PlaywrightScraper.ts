@@ -38,8 +38,9 @@ export class PlaywrightScraper {
         
         // scrape initial response
         this.scrapedData.responseStatus = responseStatus;
-        this.scrapedData.initialResponseBody = initialResponseBody;
-        this.parseInitialHtml(this.scrapedData.initialResponseBody);
+        // this.scrapedData.initialResponseBody = initialResponseBody;
+        // this.parseInitialHtml(this.scrapedData.initialResponseBody);
+        this.parseInitialHtml(initialResponseBody);
         return this.scrapedData;
 
     }
@@ -126,11 +127,11 @@ export class PlaywrightScraper {
     async onDomContentLoaded(page:Page) {
 
         const domContent = await page.content();
-        this.scrapedData.domContent = domContent;
+        // this.scrapedData.domContent = domContent;
         this.scrapedData.cookies = await page.context().cookies();
         await this.parseDomContent(domContent);
 
-        await Apify.setValue("domContent", this.scrapedData.domContent!, { contentType: 'text/html; charset=utf-8' });
+        await Apify.setValue("domContent", domContent!, { contentType: 'text/html; charset=utf-8' });
         const ss = await page.screenshot();
         await Apify.setValue("screenshot", ss, { contentType:'image/jpeg'});
 
