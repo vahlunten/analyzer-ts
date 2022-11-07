@@ -2,9 +2,9 @@ import { KeywordConclusion, ScrapedDataClass, SearchResults } from "../scraper/S
 import { SearchResult } from "../search/SearchResult";
 import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
 import { NormalizedKeywordPair } from "../helpers/normalize";
-import { parseJsonLD } from "../scraper/parsing/json-ld";
+import { parseJsonLD } from "../parsing/json-ld";
 import { JSONPath } from "jsonpath-plus";
-import { parseSchemaOrgData } from "../scraper/parsing/schema-org";
+import { parseSchemaOrgData } from "../parsing/schema-org";
 
 
 

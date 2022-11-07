@@ -12,18 +12,29 @@ export function searchData(scraped: ScrapedDataClass, keywords: NormalizedKeywor
 
 
     // merge search results, possible duplicates will be removed later
-    let jsonLdFound = jsonSearcher.searchJson(scraped.jsonLDData, keywords, DataSource.rendered);
-    jsonLdFound = jsonLdFound.concat(jsonSearcher.searchJson(scraped.jsonLDDataInitial, keywords, DataSource.initial));
+    let jsonLdFound = jsonSearcher.searchJson(scraped.initial?.jsonLDData, keywords, DataSource.initial);
+    jsonLdFound = jsonLdFound.concat(jsonSearcher.searchJson(scraped.DOM?.jsonLDData, keywords, DataSource.rendered));
     searchResults.jsonFound = jsonLdFound;
 
 
     // TODO: search meta
-    let metaFound = jsonSearcher.searchJson(scraped.metadata, keywords, DataSource.rendered);
-    metaFound.concat(jsonSearcher.searchJson(scraped.metadataInitial, keywords, DataSource.initial)); 
+    let metaFound = jsonSearcher.searchJson(scraped.initial?.metadata, keywords, DataSource.initial);
+    metaFound = metaFound.concat(jsonSearcher.searchJson(scraped.DOM?.metadata, keywords, DataSource.rendered)); 
     searchResults.metaFound = metaFound;
     // TODO: search html
     
     // TODO: search XHR
+
+    let xhrFound: SearchResult[] = [];
+    scraped.xhrParsed?.forEach( xhr => {
+        if (xhr.response.headers["content-type"]?.indexOf('json') != -1 && xhr.response.body?.length > 0) {
+            xhrFound = xhrFound.concat(jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.initial));
+        }
+    });
+    searchResults.xhrFound = xhrFound;
+
+
+
     // TODO: search window
     // TODO: search schema
 

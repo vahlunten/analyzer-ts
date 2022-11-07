@@ -3,13 +3,14 @@ import { FingerprintInjector } from 'fingerprint-injector';
 import { Browser, BrowserContext, chromium, Page, Request, Response } from 'playwright';
 import { logObject } from "../helpers/helperFunctions";
 import { ScrapedDataClass } from './ScrapedData';
-import { ParsedRequestResponse, interceptRequests, onResponse } from './parsing/XHR/XHRRequests';
-import { parseJsonLD } from './parsing/json-ld';
-import { parseMetadata } from './parsing/meta';
-import { parseSchemaOrgData } from "./parsing/schema-org";
+import { ParsedRequestResponse, interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
+import { parseJsonLD } from '../parsing/json-ld';
+import { parseMetadata } from '../parsing/meta';
+import { parseSchemaOrgData } from "../parsing/schema-org";
 import cheerio from 'cheerio';
 import Apify from 'apify';
 import { NormalizedKeywordPair } from '../helpers/normalize';
+import { parseHtml } from '../parsing/htmlParser';
 
 const { log } = Apify.utils;
 
@@ -19,6 +20,7 @@ export class PlaywrightScraper {
 
     requests: ParsedRequestResponse[] = [];
     scrapedData: ScrapedDataClass;
+
     url: string;
     keywords: NormalizedKeywordPair[];
 
@@ -40,25 +42,14 @@ export class PlaywrightScraper {
         this.scrapedData.responseStatus = responseStatus;
         // this.scrapedData.initialResponseBody = initialResponseBody;
         // this.parseInitialHtml(this.scrapedData.initialResponseBody);
-        this.parseInitialHtml(initialResponseBody);
+        this.scrapedData.initial = parseHtml(initialResponseBody);
+        this.scrapedData.xhrParsed = this.requests;
         return this.scrapedData;
 
     }
 
-    async parseInitialHtml(html: string) {
-        const $ = cheerio.load(html);
-        this.scrapedData.jsonLDDataInitial = parseJsonLD($);
-        this.scrapedData.metadataInitial = parseMetadata($);
-        parseSchemaOrgData($);
-    }
-
     
-    async parseDomContent(html: string) {
-        const $ = cheerio.load(html);
-        this.scrapedData.jsonLDData = parseJsonLD($);
-        this.scrapedData.metadata = parseMetadata($);
-        parseSchemaOrgData($);
-    }
+    
     async openBrowser(useApifyProxy: boolean, generateFingeprint: boolean): Promise<BrowserContext> {
 
         let proxyConfiguration = null;
@@ -129,7 +120,7 @@ export class PlaywrightScraper {
         const domContent = await page.content();
         // this.scrapedData.domContent = domContent;
         this.scrapedData.cookies = await page.context().cookies();
-        await this.parseDomContent(domContent);
+        this.scrapedData.DOM = parseHtml(domContent);
 
         await Apify.setValue("domContent", domContent!, { contentType: 'text/html; charset=utf-8' });
         const ss = await page.screenshot();

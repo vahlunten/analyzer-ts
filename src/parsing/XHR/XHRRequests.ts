@@ -1,7 +1,7 @@
 import { Request, Response, Route } from "playwright";
 // import { HttpRequestMethod } from "../../helpers/HttpRequestMethod";
 
-const IGNORED_EXTENSIONS = [".css",".png", ".jpg", ".jpeg", ".svg", ".gif"];
+const IGNORED_EXTENSIONS = [".css", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
 
 export interface ParsedRequestResponse {
     request: ParsedRequest;
@@ -11,11 +11,13 @@ export interface ParsedRequestResponse {
 export interface ParsedRequest {
     url: String;
     method: string;
+    headers: { [key: string]: string };
 }
 
 export interface ParsedResponse {
     body: string;
     status: number;
+    headers: { [key: string]: string };
 }
 export function interceptRequests(route: Route, request: Request, saveBandwith: boolean) {
 
@@ -24,7 +26,7 @@ export function interceptRequests(route: Route, request: Request, saveBandwith: 
             if (ignored) return ignored;
             return request.url().endsWith(extension);
         }, false);
-    
+
         if (ignore) {
             route.abort();
             return;
@@ -52,7 +54,7 @@ async function parseResponse(response: Response): Promise<ParsedRequestResponse>
 
     // TODO: fix this workaround to prevent "No resource with given identifier found" exception
     try {
-        responseBody = (await response.text()).toString();        
+        responseBody = (await response.text()).toString();
     } catch (err) {
         console.log(err);
     }
@@ -60,13 +62,15 @@ async function parseResponse(response: Response): Promise<ParsedRequestResponse>
     return {
         response: {
             body: responseBody,
-            status: response.status()
+            status: response.status(),
+            headers: await response.allHeaders()
         },
         request: {
             url: response.request().url(),
-            method: response.request().method()
+            method: response.request().method(),
+            headers: await response.request().allHeaders()
         },
         error: null
     };
-    
+
 }

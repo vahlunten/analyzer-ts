@@ -34,8 +34,10 @@ Apify.main(async () => {
         scrapedData = await scraper.scrapePage();
         const searchResults = searchData(scrapedData, normalizedKeywords);
         const validator = new Validator();
+
+
         const validatedData = await validator.validate(url, normalizedKeywords, searchResults);     
-           
+
         output.scrapedData = scrapedData;
         output.searchResults = searchResults;
         output.keywordConclusions = Array.from(validatedData.values());
@@ -45,7 +47,10 @@ Apify.main(async () => {
         // validate
 
     } catch (e: any) {
-        log.error('Top lever error inside main' + e.message);
+        log.error('Top lever error inside main:');
+        log.error(e.message);
+
+
     }
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });   
 
