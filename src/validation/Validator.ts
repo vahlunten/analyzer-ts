@@ -1,9 +1,10 @@
 import { KeywordConclusion, ScrapedDataClass, SearchResults } from "../scraper/ScrapedData";
 import { SearchResult } from "../search/SearchResult";
-import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions } from 'crawlee';
+import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
 import { NormalizedKeywordPair } from "../helpers/normalize";
 import { parseJsonLD } from "../scraper/parsing/json-ld";
 import { JSONPath } from "jsonpath-plus";
+import { parseSchemaOrgData } from "../scraper/parsing/schema-org";
 
 
 
@@ -22,24 +23,33 @@ export class Validator {
             // fill keyword conclusion with unvalidated data
         }
 
-        const jsonValidated  = this.validateJson(searchResults.jsonFound);
+
         const validatedSearchResults = new SearchResults();
+
+        // VALIDATE JSON-ld
+        const jsonValidated = this.validateJsonSearchResults(parseJsonLD(this.$!), searchResults.jsonFound );
         validatedSearchResults.jsonFound = jsonValidated;
+        // Validate metadata
+        const metaValidated = this.validateJsonSearchResults(parseSchemaOrgData(this.$!), searchResults.metaFound);
+        validatedSearchResults.metaFound = metaValidated;
 
         const validatedData = await this.createConclusion(validatedSearchResults, keywords);
         return validatedData;
     }
 
-    public async createConclusion(searchResults: SearchResults, keywords: NormalizedKeywordPair[]):Promise<Map<Number, KeywordConclusion>> {
+    public async createConclusion(searchResults: SearchResults, keywords: NormalizedKeywordPair[]): Promise<Map<Number, KeywordConclusion>> {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 
         for (const keyword of keywords) {
-          conclusion.set(keyword.index, {Keyword: keyword, SearchResults: new SearchResults()});   
+            conclusion.set(keyword.index, { Keyword: keyword, SearchResults: new SearchResults() });
         }
         for (const searchResult of searchResults.jsonFound) {
             conclusion.get(searchResult.keyword.index)?.SearchResults.jsonFound.push(searchResult);
-        }     
+        }
+        for (const searchResult of searchResults.metaFound) {
+            conclusion.get(searchResult.keyword.index)?.SearchResults.metaFound.push(searchResult);
+        }
         return conclusion;
     }
 
@@ -52,6 +62,9 @@ export class Validator {
         //     { requestsFromUrl: 'http://www.example.com/my-url-list.txt', userData: { isFromUrl: true } },
         // ]);
 
+        // // Get the global configuration
+        // const config = Configuration.getGlobalConfig();
+        // config.set();
         const options: CheerioCrawlerOptions = {
             async errorHandler({ request }) {
                 log.info(`Request ${request.url} failed 15 times. Data found can not be validated.`);
@@ -80,18 +93,16 @@ export class Validator {
         }
 
     }
-    public validateJson(searchResults: SearchResult[]): SearchResult[] {
+    public validateJsonSearchResults(source: any, searchResults: SearchResult[]): SearchResult[] {
         let validatedJson: SearchResult[] = [];
 
-        const cheerioJsonParsed = parseJsonLD(this.$!);
+        // const cheerioJsonParsed = parseJsonLD(this.$!);
 
-        // const path: string = 
         for (const jsonSearchResult of searchResults) {
-            // const path: string = jsonSearchResult.path.
 
-            const textFoundValidation = JSONPath({ path: 'data.' + jsonSearchResult.path.join('.'), json: {data: cheerioJsonParsed} });
+            const textFoundValidation = JSONPath({ path: jsonSearchResult.path.join('.'), json: source });
             const validatedSearchResult = jsonSearchResult;
-            validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null; 
+            validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
             validatedJson.push(validatedSearchResult);
         }
 

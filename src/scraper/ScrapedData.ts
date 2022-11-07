@@ -24,8 +24,6 @@ export class ScrapedDataClass {
     public xhrParsed: ParsedRequestResponse[] | null = null;
     public cookies: Cookie[] | null = null;
 
-    public searchResults:Map<Number, KeywordConclusion>[] = [];
-
 }
 
 export class Output {
@@ -33,6 +31,7 @@ export class Output {
     public keywords: NormalizedKeywordPair[];
 
     public scrapedData?: ScrapedDataClass;
+    public searchResults:SearchResults | null = null;
 
     public keywordConclusions?:KeywordConclusion[];
 

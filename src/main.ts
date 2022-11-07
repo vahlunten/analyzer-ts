@@ -1,15 +1,8 @@
-// This is the main Node.js source code file of your actor.
-// An actor is a program that takes an input and produces an output.
-
-// For more information, see https://sdk.apify.com/
 import Apify from 'apify';
-import { logObject } from './helpers/helperFunctions';
 import { normalizeArray } from './helpers/normalize';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { Output, ScrapedDataClass } from './scraper/ScrapedData';
-import { JsonSearcher } from './search/JsonSearch';
 import { searchData } from './search/Search';
-import { DataSource, SearchResult } from './search/SearchResult';
 import { Validator } from './validation/Validator';
 
 const { log } = Apify.utils;
@@ -39,10 +32,12 @@ Apify.main(async () => {
     let scrapedData: ScrapedDataClass;
     try {
         scrapedData = await scraper.scrapePage();
-        const dataFound = searchData(scrapedData, normalizedKeywords, DataSource.initial);
+        const searchResults = searchData(scrapedData, normalizedKeywords);
         const validator = new Validator();
-        const validatedData = await validator.validate(url, normalizedKeywords, dataFound);        
+        const validatedData = await validator.validate(url, normalizedKeywords, searchResults);     
+           
         output.scrapedData = scrapedData;
+        output.searchResults = searchResults;
         output.keywordConclusions = Array.from(validatedData.values());
 
         // logObject(scrapedData);
@@ -52,9 +47,6 @@ Apify.main(async () => {
     } catch (e: any) {
         log.error('Top lever error inside main' + e.message);
     }
-
-
-    await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
-    
+    await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });   
 
 });

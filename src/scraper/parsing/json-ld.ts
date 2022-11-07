@@ -1,4 +1,4 @@
-export function parseJsonLD($ : cheerio.Root): any[] {
+export function parseJsonLD($ : cheerio.Root): {"data": any[]} {
     
     const result: object[] = [];
     $('script[type="application/ld+json"]').each((_, element) => {
@@ -8,5 +8,5 @@ export function parseJsonLD($ : cheerio.Root): any[] {
             console.error(err);
         }
     });
-    return result;
+    return {data: result};
 }
