@@ -1,16 +1,14 @@
 import { FingerprintGenerator } from 'fingerprint-generator';
 import { FingerprintInjector } from 'fingerprint-injector';
 import { Browser, BrowserContext, chromium, Page, Request, Response } from 'playwright';
-import { logObject } from "../helpers/helperFunctions";
-import { ScrapedDataClass } from './ScrapedData';
-import { ParsedRequestResponse, interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
-import { parseJsonLD } from '../parsing/json-ld';
-import { parseMetadata } from '../parsing/meta';
-import { parseSchemaOrgData } from "../parsing/schema-org";
+import { ScrapedDataClass } from "../types";
+import { interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
+
 import cheerio from 'cheerio';
 import Apify from 'apify';
-import { NormalizedKeywordPair } from '../helpers/normalize';
+import { NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { parseHtml } from '../parsing/htmlParser';
+
 
 const { log } = Apify.utils;
 

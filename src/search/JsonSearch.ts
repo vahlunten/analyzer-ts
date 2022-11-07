@@ -1,18 +1,18 @@
 import { isArray, isObject } from "lodash";
-import { normalizeArray, normalizeString, NormalizedKeywordPair as KeywordNormalizedPair } from "../helpers/normalize";
-import { DataSource, SearchResult } from "./SearchResult";
+import { normalizeString } from "../helpers/normalize";
+import { DataSource, SearchResult, NormalizedKeywordPair} from "../types";
 
 
 export class JsonSearcher {
 
-    normalizedKeywordsPair: KeywordNormalizedPair[] = [];
+    normalizedKeywordsPair: NormalizedKeywordPair[] = [];
     source?: DataSource; 
 
     constructor() {
        
     }
 
-    public searchJson(json: any, keywords: KeywordNormalizedPair[], source: DataSource ): SearchResult[] {
+    public searchJson(json: any, keywords: NormalizedKeywordPair[], source: DataSource ): SearchResult[] {
         this.normalizedKeywordsPair = keywords;
         this.source = source;
         return this.searchSubtree(json, [], 0);

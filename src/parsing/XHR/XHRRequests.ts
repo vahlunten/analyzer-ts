@@ -1,24 +1,9 @@
 import { Request, Response, Route } from "playwright";
+import { ParsedRequestResponse } from "../../types";
 // import { HttpRequestMethod } from "../../helpers/HttpRequestMethod";
 
 const IGNORED_EXTENSIONS = [".css", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
 
-export interface ParsedRequestResponse {
-    request: ParsedRequest;
-    response: ParsedResponse;
-    error: null | string;
-}
-export interface ParsedRequest {
-    url: String;
-    method: string;
-    headers: { [key: string]: string };
-}
-
-export interface ParsedResponse {
-    body: string;
-    status: number;
-    headers: { [key: string]: string };
-}
 export function interceptRequests(route: Route, request: Request, saveBandwith: boolean) {
 
     if (saveBandwith) {

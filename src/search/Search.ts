@@ -1,7 +1,5 @@
-import { NormalizedKeywordPair } from "../helpers/normalize";
-import { ScrapedDataClass, SearchResults } from "../scraper/ScrapedData";
+import { DataSource, NormalizedKeywordPair, SearchResult,  ScrapedDataClass, SearchResults} from "../types";
 import { JsonSearcher } from "./JsonSearch";
-import { DataSource, SearchResult } from "./SearchResult";
 
 export function searchData(scraped: ScrapedDataClass, keywords: NormalizedKeywordPair[]): SearchResults {
     const fitlered = removeDuplicates([], []);

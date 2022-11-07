@@ -1,5 +1,5 @@
-import { index } from 'cheerio/lib/api/traversing';
 import * as htmlEntities from 'html-entities';
+import { NormalizedKeywordPair } from '../types';
 
 export function normalizeArray(keywords: string[]): NormalizedKeywordPair[] {
 
@@ -28,9 +28,3 @@ const removeHTMLTags = (text: string) => text.replace(/<[^>]*>?/g, '');
 const replaceHTMLEntities = (text: string) => htmlEntities.decode(text);
 const removeSpaces = (text: string) => text.replace(/\s/g, '');
 const convertCommasInNumbers = (text: string) => text.replace(/(\d+),(\d+)/g, '$1.$2');
-
-export interface NormalizedKeywordPair {
-    original: string, 
-    normalized: string,
-    index: number    
-}

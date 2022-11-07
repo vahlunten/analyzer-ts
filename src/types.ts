@@ -1,7 +1,17 @@
 import { Cookie } from "playwright";
-import { NormalizedKeywordPair } from "../helpers/normalize";
-import { SearchResult } from "../search/SearchResult";
-import { ParsedRequestResponse } from "../parsing/XHR/XHRRequests";
+
+
+export interface InputSchema {
+    url: string;
+    keywords: string[];
+}
+
+export interface NormalizedKeywordPair {
+    original: string, 
+    normalized: string,
+    index: number    
+}
+
 
 export class ScrapedDataClass {
    
@@ -65,4 +75,50 @@ export class SearchResults {
     public metaFound:SearchResult[] = [];
     public windowFound:SearchResult[] = [];
     public xhrFound:SearchResult[] = [];
+}
+
+
+export class SearchResult
+ {
+    public path:string[];
+    public keyword: NormalizedKeywordPair;
+    public textFound: string;
+    public source: DataSource;
+    public score: number = 0;
+    public textFoundValidation: string | null;
+
+    constructor(path: string[], keyword: NormalizedKeywordPair, textFound: string, source: DataSource) {
+        this.path = path;
+        this.keyword = keyword;
+        this.textFound = textFound;
+        this.source = source;
+        this.textFoundValidation = null;
+    }
+}
+
+export enum DataSource {
+    initial = 'initial',
+    rendered = 'rendered',
+    cheerio = 'cheerioCrawler'
+}
+
+
+
+
+
+export interface ParsedRequestResponse {
+    request: ParsedRequest;
+    response: ParsedResponse;
+    error: null | string;
+}
+export interface ParsedRequest {
+    url: String;
+    method: string;
+    headers: { [key: string]: string };
+}
+
+export interface ParsedResponse {
+    body: string;
+    status: number;
+    headers: { [key: string]: string };
 }

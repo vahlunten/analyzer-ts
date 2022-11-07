@@ -1,8 +1,8 @@
 import { JsonSearcher } from "../src/search/JsonSearch";
 import { normalizeArray } from "../src/helpers/normalize";
-import { DataSource, SearchResult } from "../src/search/SearchResult";
 import { Validator } from "../src/validation/Validator";
 import { removeDuplicates } from "../src/search/Search";
+import { DataSource, SearchResult } from "../src/types";
 
 
 describe('JsonSearch test', () => {

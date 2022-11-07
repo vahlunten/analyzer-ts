@@ -1,4 +1,4 @@
-import { ScrapedPage } from "../scraper/ScrapedData";
+import { ScrapedPage } from "../types";
 import cheerio from 'cheerio';
 import { parseJsonLD } from "./json-ld";
 import { parseMetadata } from "./meta";

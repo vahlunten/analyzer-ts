@@ -1,10 +1,10 @@
-import { KeywordConclusion, ScrapedDataClass, SearchResults } from "../scraper/ScrapedData";
-import { SearchResult } from "../search/SearchResult";
+import { KeywordConclusion, ScrapedDataClass, ScrapedPage, SearchResults, SearchResult } from "../types";
 import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
-import { NormalizedKeywordPair } from "../helpers/normalize";
+import { NormalizedKeywordPair } from "../types";
 import { parseJsonLD } from "../parsing/json-ld";
 import { JSONPath } from "jsonpath-plus";
 import { parseSchemaOrgData } from "../parsing/schema-org";
+import { parseHtml } from "../parsing/htmlParser";
 
 
 
@@ -13,31 +13,37 @@ export class Validator {
 
     private $: cheerio.Root | null = null;
     private body: string | null = null;
+    public parsedCheerio: ScrapedPage | null = null;
 
 
     // public pes$: cheerio.Root | null = null;
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<Map<Number, KeywordConclusion>> {
-        // let validatedData = new Map<Number, KeywordConclusion>();
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<KeywordConclusion[]> {
+        let validatedData: KeywordConclusion[];
 
         if (await this.loadHtml(url) == false) {
             // fill keyword conclusion with unvalidated data
+            validatedData = await this.createConclusion(searchResults, keywords);
+        } else {
+            const validatedSearchResults = new SearchResults();
+            this.parsedCheerio = parseHtml(this.body!);
+
+            // VALIDATE JSON-ld
+            const jsonValidated = this.validateJsonSearchResults(this.parsedCheerio.jsonLDData, searchResults.jsonFound);
+            validatedSearchResults.jsonFound = jsonValidated;
+
+            // Validate metadata
+            const metaValidated = this.validateJsonSearchResults(this.parsedCheerio.metadata, searchResults.metaFound);
+            validatedSearchResults.metaFound = metaValidated;
+
+            validatedData = await this.createConclusion(validatedSearchResults, keywords);
         }
 
-
-        const validatedSearchResults = new SearchResults();
-
-        // VALIDATE JSON-ld
-        const jsonValidated = this.validateJsonSearchResults(parseJsonLD(this.$!), searchResults.jsonFound );
-        validatedSearchResults.jsonFound = jsonValidated;
-        // Validate metadata
-        const metaValidated = this.validateJsonSearchResults(parseSchemaOrgData(this.$!), searchResults.metaFound);
-        validatedSearchResults.metaFound = metaValidated;
-
-        const validatedData = await this.createConclusion(validatedSearchResults, keywords);
+        
         return validatedData;
+
     }
 
-    public async createConclusion(searchResults: SearchResults, keywords: NormalizedKeywordPair[]): Promise<Map<Number, KeywordConclusion>> {
+    public async createConclusion(searchResults: SearchResults, keywords: NormalizedKeywordPair[]): Promise<KeywordConclusion[]> {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 
@@ -50,7 +56,7 @@ export class Validator {
         for (const searchResult of searchResults.metaFound) {
             conclusion.get(searchResult.keyword.index)?.SearchResults.metaFound.push(searchResult);
         }
-        return conclusion;
+        return Array.from(conclusion.values());
     }
 
     public async loadHtml(url: string): Promise<boolean> {

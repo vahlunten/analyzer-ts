@@ -1,17 +1,12 @@
 import Apify from 'apify';
 import { normalizeArray } from './helpers/normalize';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
-import { Output, ScrapedDataClass } from './scraper/ScrapedData';
+import { InputSchema, ScrapedDataClass, Output } from "../src/types";
 import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 
 const { log } = Apify.utils;
 
-
-interface InputSchema {
-    url: string;
-    keywords: string[];
-}
 Apify.main(async () => {
 
     // Structure of input is defined in INPUT_SCHEMA.json.
@@ -36,11 +31,11 @@ Apify.main(async () => {
         const validator = new Validator();
 
 
-        const validatedData = await validator.validate(url, normalizedKeywords, searchResults);     
+        const validatedData = await validator.validate(url, normalizedKeywords, searchResults);
 
         output.scrapedData = scrapedData;
         output.searchResults = searchResults;
-        output.keywordConclusions = Array.from(validatedData.values());
+        output.keywordConclusions = validatedData;
 
         // logObject(scrapedData);
         // search
@@ -52,6 +47,6 @@ Apify.main(async () => {
 
 
     }
-    await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });   
+    await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
 
 });
