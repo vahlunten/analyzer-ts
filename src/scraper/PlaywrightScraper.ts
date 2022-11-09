@@ -1,24 +1,18 @@
 import { FingerprintGenerator } from 'fingerprint-generator';
 import { FingerprintInjector } from 'fingerprint-injector';
-import { Browser, BrowserContext, chromium, Page, Request, Response } from 'playwright';
-import { ScrapedDataClass } from "../types";
+import { Browser, BrowserContext, chromium, Page, Response } from 'playwright';
 import { interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
-
-import cheerio from 'cheerio';
-import Apify from 'apify';
-import { NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { parseHtml } from '../parsing/htmlParser';
+import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 
-
+import Apify from 'apify';
 const { log } = Apify.utils;
-
 
 
 export class PlaywrightScraper {
 
     requests: ParsedRequestResponse[] = [];
-    scrapedData: ScrapedDataClass;
-
+    scrapedData: ScrapedData;
     url: string;
     keywords: NormalizedKeywordPair[];
 
@@ -26,21 +20,19 @@ export class PlaywrightScraper {
         log.debug("Hello from playwright controller constructor.");
         this.url = url;
         this.keywords = keywords;
-        this.scrapedData = new ScrapedDataClass();
+        this.scrapedData = new ScrapedData();
         
     }
 
-    async scrapePage(useApifyProxy = true, generateFingeprint = false): Promise<ScrapedDataClass> {
+    async scrapePage(useApifyProxy = true, generateFingeprint = false): Promise<ScrapedData> {
 
         const browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
         const { responseStatus, initialResponseBody } = await this.openPage(this.url, browserContext);
 
         
-        // scrape initial response
         this.scrapedData.responseStatus = responseStatus;
-        // this.scrapedData.initialResponseBody = initialResponseBody;
-        // this.parseInitialHtml(this.scrapedData.initialResponseBody);
         this.scrapedData.initial = parseHtml(initialResponseBody);
+        
         this.scrapedData.xhrParsed = this.requests;
         return this.scrapedData;
 
@@ -113,6 +105,10 @@ export class PlaywrightScraper {
         page.on('domcontentloaded', (page: Page) => this.onDomContentLoaded(page));
     }
 
+    /**
+     * 
+     * @param page 
+     */
     async onDomContentLoaded(page:Page) {
 
         const domContent = await page.content();

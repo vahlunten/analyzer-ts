@@ -1,12 +1,7 @@
-import { KeywordConclusion, ScrapedDataClass, ScrapedPage, SearchResults, SearchResult } from "../types";
+import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult } from "../types";
 import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
-import { NormalizedKeywordPair } from "../types";
-import { parseJsonLD } from "../parsing/json-ld";
 import { JSONPath } from "jsonpath-plus";
-import { parseSchemaOrgData } from "../parsing/schema-org";
 import { parseHtml } from "../parsing/htmlParser";
-
-
 
 
 export class Validator {
@@ -23,7 +18,8 @@ export class Validator {
         if (await this.loadHtml(url) == false) {
             // fill keyword conclusion with unvalidated data
             validatedData = await this.createConclusion(searchResults, keywords);
-        } else {
+        } else {5
+
             const validatedSearchResults = new SearchResults();
             this.parsedCheerio = parseHtml(this.body!);
 
@@ -38,7 +34,7 @@ export class Validator {
             validatedData = await this.createConclusion(validatedSearchResults, keywords);
         }
 
-        
+
         return validatedData;
 
     }
@@ -106,7 +102,7 @@ export class Validator {
 
         for (const jsonSearchResult of searchResults) {
 
-            const textFoundValidation = JSONPath({ path: jsonSearchResult.path.join('.'), json: source });
+            const textFoundValidation = JSONPath({ path: jsonSearchResult.path, json: source });
             const validatedSearchResult = jsonSearchResult;
             validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
             validatedJson.push(validatedSearchResult);

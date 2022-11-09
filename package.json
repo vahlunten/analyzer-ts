@@ -10,6 +10,7 @@
 		"crawlee": "^3.1.0",
 		"fingerprint-generator": "^2.0.1",
 		"fingerprint-injector": "^2.0.1",
+		"got-scraping": "^3.2.12",
 		"html-entities": "^2.3.3",
 		"jsonpath-plus": "^7.2.0",
 		"lodash": "^4.17.21",

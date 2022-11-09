@@ -1,50 +1,48 @@
 import Apify from 'apify';
 import { normalizeArray } from './helpers/normalize';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
-import { InputSchema, ScrapedDataClass, Output } from "../src/types";
-import { searchData } from './search/Search';
+import { InputSchema, ScrapedData, Output, SearchResult, DataSource } from "../src/types";
+import { removeDuplicates, searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 
 const { log } = Apify.utils;
-
+/**
+ * Actor's entry point. 
+ */
 Apify.main(async () => {
-
-    // Structure of input is defined in INPUT_SCHEMA.json.
+ 
+    // Structure of the input is defined in /src/INPUT_SCHEMA.json.
     const input = await Apify.getInput() as InputSchema;
-
-    const url = input.url;
-    const keywords = input.keywords;
+    console.log(input);
 
     log.setLevel(log.LEVELS.DEBUG);
+    log.info('===================================================================================================================');
     log.info('Welcome to the page analyzer!');
-    log.info('URL: ', { url: url });
-    log.info('KEYWORDS: ', { keywords: keywords });
+    log.info('URL: ' + input.url);
+    log.info('KEYWORDS: ' + input.keywords);
+    log.info('===================================================================================================================');
 
-    const normalizedKeywords = normalizeArray(keywords);
-    const scraper = new PlaywrightScraper(url, normalizedKeywords);
+    const normalizedKeywords = normalizeArray(input.keywords);
+    const scraper = new PlaywrightScraper(input.url, normalizedKeywords);
 
-    let output = new Output(url, normalizedKeywords);
-    let scrapedData: ScrapedDataClass;
+    const output = new Output(input.url, normalizedKeywords);
+    const validator = new Validator();
+
+    // TODO: implement multiple retries 
     try {
-        scrapedData = await scraper.scrapePage();
+        const scrapedData = await scraper.scrapePage();
         const searchResults = searchData(scrapedData, normalizedKeywords);
-        const validator = new Validator();
-
-
-        const validatedData = await validator.validate(url, normalizedKeywords, searchResults);
+        const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
 
         output.scrapedData = scrapedData;
         output.searchResults = searchResults;
         output.keywordConclusions = validatedData;
 
-        // logObject(scrapedData);
-        // search
-        // validate
-
     } catch (e: any) {
+
+        // TODO: proper error handling
         log.error('Top lever error inside main:');
         log.error(e.message);
-
 
     }
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });

@@ -13,28 +13,16 @@ export interface NormalizedKeywordPair {
 }
 
 
-export class ScrapedDataClass {
+export class ScrapedData {
    
-    // public initialResponseBody: string | null = null;
     public responseStatus: number | null = null;
-    // public domContent: string | null = null;
-
-    // public jsonLDData: any | null = null;
-    // public jsonLDDataInitial: any | null = null;
-
-    // public schemaOrgData: any | null = null;
-    // public schemaOrgDataInitial: any | null = null;
-
-    // public metadata: any | null = null;
-    // public metadataInitial: any | null = null;
-
-    // public windowProperties: any | null = null;
-    // public windowPropertiesInitial: any | null = null;
     public initial: ScrapedPage | null = null;
     public DOM: ScrapedPage | null = null;
 
     public xhrParsed: ParsedRequestResponse[] | null = null;
     public cookies: Cookie[] | null = null;
+    public error: Error | null = null;
+    
 
 }
 
@@ -51,10 +39,14 @@ export class Output {
     public url: string;
     public keywords: NormalizedKeywordPair[];
 
-    public scrapedData?: ScrapedDataClass;
+    public scrapedData?: ScrapedData;
     public searchResults:SearchResults | null = null;
 
     public keywordConclusions?:KeywordConclusion[];
+
+    
+    public analysisStarted: Date | null = null;
+    public analysisEnded: Date | null = null;
 
     constructor(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;
@@ -80,18 +72,18 @@ export class SearchResults {
 
 export class SearchResult
  {
-    public path:string[];
+    public path:string;
     public keyword: NormalizedKeywordPair;
     public textFound: string;
-    public source: DataSource;
+    public source: DataSource[] = [];
     public score: number = 0;
     public textFoundValidation: string | null;
 
-    constructor(path: string[], keyword: NormalizedKeywordPair, textFound: string, source: DataSource) {
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource) {
         this.path = path;
         this.keyword = keyword;
         this.textFound = textFound;
-        this.source = source;
+        this.source.push(source);
         this.textFoundValidation = null;
     }
 }

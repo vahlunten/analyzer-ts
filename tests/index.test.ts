@@ -27,11 +27,11 @@ describe('JsonSearch test', () => {
 //TODO: fix this 
 describe("Search tests", () => { 
   test('Should return 0 results', () => {
-    const filtered = removeDuplicates(searchResultInitial, searchResultInitial);
+    const filtered = removeDuplicates(searchResultInitial, searchResultDom);
     for (const iterator of filtered) {
       console.log(iterator);
     }
-    expect(filtered.length).toBe(3);
+    expect(filtered.length).toBe(5);
   });
 
 })
@@ -64,13 +64,15 @@ const testJson = {
 
 
 const searchResultInitial:SearchResult[] = [
-  new SearchResult(["1"], {original: "5", normalized: "pes", index: 0}, "mackaText", DataSource.initial),
-  new SearchResult(["2"], {original: "5", normalized: "pes", index: 1}, "mackaText", DataSource.initial),
-  new SearchResult(["3"], {original: "5", normalized: "pes", index: 2}, "mackaText", DataSource.initial),
+  new SearchResult("1", {original: "5", normalized: "pes", index: 0}, "mackaText", DataSource.initial),
+  new SearchResult("2", {original: "5", normalized: "pes", index: 1}, "mackaText", DataSource.initial),
+  new SearchResult("3", {original: "5", normalized: "pes", index: 2}, "mackaText", DataSource.initial),
 ]
 
 const searchResultDom:SearchResult[] = [
-  new SearchResult(["1"], {original: "5", normalized: "pes", index: 0}, "", DataSource.rendered),
-  new SearchResult(["2"], {original: "5", normalized: "pes", index: 1}, "mackaText", DataSource.rendered),
-  new SearchResult(["3"], {original: "5", normalized: "pes", index: 2}, "mackaText", DataSource.rendered),
+  new SearchResult("1", {original: "5", normalized: "pes", index: 0}, "", DataSource.rendered),
+  new SearchResult("2", {original: "5", normalized: "pes", index: 1}, "mackaText", DataSource.rendered),
+  new SearchResult("3", {original: "5", normalized: "pes", index: 2}, "mackaTextyyyyyyy", DataSource.rendered),
+  new SearchResult("4", {original: "5", normalized: "pes", index: 2}, "mackaTextyyyyyyy", DataSource.rendered),
+
 ]
