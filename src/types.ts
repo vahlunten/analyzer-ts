@@ -23,6 +23,10 @@ export class ScrapedData {
     public cookies: Cookie[] | null = null;
     public error: Error | null = null;
     
+    public allWindowProperties: { [key: string]: any } | null= null;
+    public windowFound:SearchResult[] = [];
+
+    public scrapingFinished:boolean = false;
 
 }
 

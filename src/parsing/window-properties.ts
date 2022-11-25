@@ -1,67 +1,105 @@
-// const _ = require('lodash');
-
-// const getNativeWindowProperties = async (page) => {
-//     const keys = await page.evaluate(() => Object.keys(window)) // eslint-disable-line
-//     // Other concurrent worker might have done the same in the meantime
-//     const nativeWindowsProperties = {};
-//     _.each(keys, (key) => {
-//         nativeWindowsProperties[key] = true;
-//     });
-//     return nativeWindowsProperties;
-// };
-
-// // Evaluate window properties, save content for variables that are not function
-// function evalWindowProperties(properties) {
-//     const result = {};
-//     let cache = [];
+import * as _ from "lodash";
+import { Page } from "playwright";
 
 
-//     function isNotImportant(property) {
-//         return property === null
-//             || property === ''
-//             || property === {}
-//             || property === []
-//             || property === true
-//             || property === false;
-//     }
+export async function getWindowObject(page: Page): Promise<{ [key: string]: any }>
 
-//     properties
-//         .forEach((property) => {
-//             const propertyContent = window[property] // eslint-disable-line
-//             if (isNotImportant(propertyContent)) {
-//                 return;
-//             }
-//             if (propertyContent && !!propertyContent.document && !!propertyContent.location) return;
-//             switch (typeof propertyContent) {
-//             // Skip functions, used switch for future improvements
-//             case 'function':
-//                 break;
-//             default:
-//                 try {
-//                     // remove circular references and functions from variable content
-//                     result[property] = JSON.parse(JSON.stringify(propertyContent, (key, value) => {
-//                         if (isNotImportant(value)) return undefined;
-//                         if (typeof value === 'function') {
-//                             return undefined;
-//                         }
-//                         if (typeof value === 'object' && value !== null) {
-//                             if (cache.indexOf(value) !== -1) {
-//                                 return undefined;
-//                             }
-//                             cache.push(value);
-//                         }
-//                         return value;
-//                     }));
-//                 } catch (err) {
-//                     result[property] = err;
-//                 }
-//             }
-//         });
-//     cache = null;
-//     return result;
-// }
+{
+    return await page.evaluate(() => { 
 
-// module.exports = {
-//     getNativeWindowProperties,
-//     evalWindowProperties,
-// };
+
+        const keys =  Object.keys(window);
+
+        // const out:{ [key: string]: any } = {}
+
+        keys.forEach(key => {
+            // @ts-ignore
+            const value = window[key];
+            console.log(value.toString());
+            // if (typeof value == typeof Function) {
+            //     return;
+            // }
+
+            // if (typeof value == typeof Object) {
+            //     // TODO: add cachign to fix circular dependencies
+            // }
+
+            // out[key] = value;
+        })
+        // @ts-ignore
+        const pes = {pes: keys}
+        return pes;
+
+    })
+}
+export async function getWindowPropertyKeys(page: Page): Promise<string[]> {
+
+
+
+    const windowPropertyKeys = await page.evaluate(() => Object.keys(window))
+
+
+    // const allWindowProperties:{ [key: string]: any }= {};
+
+    // const windowObject = window as { [key: string]: any };
+    // _.each(keys, (key) => {
+    //     console.log(key);
+    //     allWindowProperties[key] = windowObject[key];
+    // });
+
+    return windowPropertyKeys;
+
+
+
+    // const obj = await page.evaluate(() => {
+
+    //     const windowAsAny = window as any;
+    //     const windowObject: { [key: string]: any } = { macka: "pes" };
+
+
+    //     // for (const [key, value] of Object.entries(window)) {
+    //     //     console.log(`${key}: ${value}`);
+    //     //     windowObject[key] = value;
+    //     // }
+
+    //     // for (const [key, value] of Object.entries(windowAsAny)) {
+    //     //     console.log(`${key}: ${value}`);
+    //     // }
+
+
+    //     // Object.keys(windowAsAny).forEach(key => {
+    //     //     const value = windowAsAny[key];
+
+    //     //     // if (typeof value == typeof Function) {
+    //     //     //     return;
+    //     //     // }
+
+    //     //     // if (typeof value == typeof Object) {
+    //     //     //     // TODO: add cachign to fix circular dependencies
+    //     //     // }
+
+    //     //     windowObject[key] = value;
+
+
+
+    //     // });
+    //     return windowObject;
+    // });
+    // // await page.pause();
+    // // const allWindowProperties:{ [key: string]: any }= {};
+
+
+    // // _.each(keys, (key) => {
+    // //     console.log(key);
+    // //     allWindowProperties[key] = windowObject[key];
+    // // });
+
+    // return obj;
+};
+
+
+export function getWindowPropertiesValues(properties: string[]): string {
+
+    
+    return "macka";
+} 

@@ -26,17 +26,26 @@ Apify.main(async () => {
     const scraper = new PlaywrightScraper(input.url, normalizedKeywords);
 
     const output = new Output(input.url, normalizedKeywords);
+    output.analysisStarted = new Date();
     const validator = new Validator();
 
     // TODO: implement multiple retries 
     try {
         const scrapedData = await scraper.scrapePage();
-        const searchResults = searchData(scrapedData, normalizedKeywords);
-        const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
+        if(scrapedData.scrapingFinished) {
+            const searchResults = searchData(scrapedData, normalizedKeywords);
+            const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
 
-        output.scrapedData = scrapedData;
-        output.searchResults = searchResults;
-        output.keywordConclusions = validatedData;
+            output.scrapedData = scrapedData;
+            output.searchResults = searchResults;
+            output.keywordConclusions = validatedData;
+
+        }
+        // const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
+
+        // output.scrapedData = scrapedData;
+        // output.searchResults = searchResults;
+        // output.keywordConclusions = validatedData;
 
     } catch (e: any) {
 
@@ -45,6 +54,7 @@ Apify.main(async () => {
         log.error(e.message);
 
     }
+    output.analysisEnded = new Date();
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
 
 });

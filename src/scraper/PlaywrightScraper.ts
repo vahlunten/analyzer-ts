@@ -4,6 +4,7 @@ import { Browser, BrowserContext, chromium, Page, Response } from 'playwright';
 import { interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
 import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
+import { getWindowPropertyKeys, getWindowPropertiesValues, getWindowObject } from "../parsing/window-properties";
 
 import Apify from 'apify';
 const { log } = Apify.utils;
@@ -54,8 +55,14 @@ export class PlaywrightScraper {
         }
         const browser = await chromium.launch({
             headless: false,
-            proxy: proxyConfiguration ?? undefined
+            proxy: proxyConfiguration ?? undefined,
+            devtools: true           
+
         });
+
+        
+            // args: ["--disable-web-security",
+            //        '--user-data-dir="/tmp/chromium"'],
         const browserContext = this.createLaunchContext(browser, generateFingeprint);
         return browserContext;
 
@@ -69,7 +76,6 @@ export class PlaywrightScraper {
         const responseBody = bodyBuffer?.toString() ?? '';;
 
         await Apify.setValue("initial", responseBody, { contentType: 'text/html; charset=utf-8' });
-        // await page.pause();
         return { responseStatus: 200, initialResponseBody: responseBody };
     }
 
@@ -82,7 +88,8 @@ export class PlaywrightScraper {
         const fingerprint = fingerprintGenerator.getFingerprint();
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,
-            locale: fingerprint.fingerprint.navigator.language
+            locale: fingerprint.fingerprint.navigator.language,
+            
         });
 
         if (generateFingerprint) {
@@ -120,7 +127,15 @@ export class PlaywrightScraper {
         const ss = await page.screenshot();
         await Apify.setValue("screenshot", ss, { contentType:'image/jpeg'});
 
-
-
+        const windowObject = await getWindowObject(page);
+        // const allProperties = await getWindowPropertyKeys(page);]
+        const allProperties = ["string1", "String2"];
+        console.log(allProperties);
+        // await page.pause();
+        // await page.evaluate(allProperties => );   
+        // const props = await page.evaluate((allProperties) => getWindowPropertiesValues(allProperties), allProperties);   
+        console.log(windowObject);
+        await page.pause();
+        this.scrapedData.scrapingFinished = true;
     }
 }
