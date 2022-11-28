@@ -2,33 +2,89 @@ import * as _ from "lodash";
 import { Page } from "playwright";
 
 
-export async function getWindowObject(page: Page): Promise<{ [key: string]: any }>
-
-{
-    return await page.evaluate(() => { 
 
 
-        const keys =  Object.keys(window);
+export async function scrapeWindowProperties(page: Page): Promise<{ [key: string]: any }> {
+    return await page.evaluate(() => {
+        function isNotImportant(property:any) {
+            return property === null
+                || property === ''
+                || property === true
+                || property === false
+                || property == undefined;
+        }
 
-        // const out:{ [key: string]: any } = {}
+        const keys = Object.keys(window);
+        let cache:any[] = [];
 
-        keys.forEach(key => {
+        const out: { [key: string]: any } = {}
+        for (let index = 0; index < keys.length; index++) {
+            const element = keys[index];
             // @ts-ignore
-            const value = window[key];
-            console.log(value.toString());
+            const value = window[element];
+            let parsedValue: any;
+
+            try {
+                // remove circular references and functions from variable content
+                out[element] = JSON.parse(JSON.stringify(value, (key, value) => {
+                    if (isNotImportant(value)) return undefined;
+                    if (typeof value === typeof Function) {
+                        return undefined;
+                    }
+                    if (typeof value === typeof Object && value !== null) {
+                        if (cache.indexOf(value) !== -1) {
+                            return undefined;
+                        }
+                        cache.push(value);
+                    }
+                    return value;
+                }));
+            } catch (err) {
+                out[element] = err;
+            }
+
+            // try {
+            //     parsedValue = JSON.parse(JSON.stringify(value));
+            // } catch (error) {
+            //     out[element] = error;
+            //     continue;
+            // }
             // if (typeof value == typeof Function) {
-            //     return;
+            //     continue;
             // }
 
-            // if (typeof value == typeof Object) {
+            // if (typeof value == typeof String) {
             //     // TODO: add cachign to fix circular dependencies
+            //     // if (cache.indexOf(value) !== -1) {
+            //     //     continue;
+            //     // }
+            //     // cache.push(value);
+            //     console.log(value);
+            // out[element] = parsedValue;
+                
+                
             // }
+            // // @ts-ignore
+            // console.log(value);
+            // out[element] = typeof value == typeof Number? value : "23";
+        }
+        // keys.forEach(key => {
+        //     // @ts-ignore
+        //     // const value = window[key];
+        //     console.log("mack");
+        //     // if (typeof value == typeof Function) {
+        //     //     return;
+        //     // }
 
-            // out[key] = value;
-        })
+        //     // if (typeof value == typeof Object) {
+        //     //     // TODO: add cachign to fix circular dependencies
+        //     // }
+
+        //     // out[key] = value;
+        // })
+
         // @ts-ignore
-        const pes = {pes: keys}
-        return pes;
+        return out;
 
     })
 }
@@ -100,6 +156,6 @@ export async function getWindowPropertyKeys(page: Page): Promise<string[]> {
 
 export function getWindowPropertiesValues(properties: string[]): string {
 
-    
+
     return "macka";
 } 

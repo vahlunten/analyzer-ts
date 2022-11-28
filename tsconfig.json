@@ -4,13 +4,14 @@
         "skipLibCheck": true,
         "outDir": "dist",
         "noUnusedLocals": false,
-        "noUnusedParameters": false
+        "noUnusedParameters": false,
     },
     "include": [
-        "./src/**/*"
-, "tests"    ],
+        "./src/**/*",
+        "tests"
+    ],
     "exclude": [
         "node_modules",
         "dist"
-      ]
+    ]
 }

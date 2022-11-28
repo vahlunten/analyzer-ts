@@ -1,8 +1,8 @@
 import Apify from 'apify';
 import { normalizeArray } from './helpers/normalize';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
-import { InputSchema, ScrapedData, Output, SearchResult, DataSource } from "../src/types";
-import { removeDuplicates, searchData } from './search/Search';
+import { InputSchema, Output } from "../src/types";
+import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 
 const { log } = Apify.utils;
@@ -10,7 +10,7 @@ const { log } = Apify.utils;
  * Actor's entry point. 
  */
 Apify.main(async () => {
- 
+
     // Structure of the input is defined in /src/INPUT_SCHEMA.json.
     const input = await Apify.getInput() as InputSchema;
     console.log(input);
@@ -31,21 +31,18 @@ Apify.main(async () => {
 
     // TODO: implement multiple retries 
     try {
+        // get all the data
         const scrapedData = await scraper.scrapePage();
-        if(scrapedData.scrapingFinished) {
-            const searchResults = searchData(scrapedData, normalizedKeywords);
-            const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
 
-            output.scrapedData = scrapedData;
-            output.searchResults = searchResults;
-            output.keywordConclusions = validatedData;
+        // after the browser is closed, search the data 
+        const searchResults = searchData(scrapedData, normalizedKeywords);
+        // compare initial responses retrieved by the chromium broswer and cheerioCrawler 
+        const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
 
-        }
-        // const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
-
-        // output.scrapedData = scrapedData;
-        // output.searchResults = searchResults;
-        // output.keywordConclusions = validatedData;
+        // save the output
+        output.scrapedData = scrapedData;
+        output.searchResults = searchResults;
+        output.keywordConclusions = validatedData;
 
     } catch (e: any) {
 

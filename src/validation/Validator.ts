@@ -8,20 +8,32 @@ export class Validator {
 
     private $: cheerio.Root | null = null;
     private body: string | null = null;
+    private $body: cheerio.Cheerio | null= null;
     public parsedCheerio: ScrapedPage | null = null;
 
-
-    // public pes$: cheerio.Root | null = null;
+    /**
+     * Compare searchresults from analysis with search results from the browser session and search results of initial response loaded by cheerioCrawler.
+     * This funtion will also validate XHR requests.
+     * @param url 
+     * @param keywords 
+     * @param searchResults 
+     * @returns 
+     */
     public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<KeywordConclusion[]> {
         let validatedData: KeywordConclusion[];
 
+        // if we failed to load initial response of
         if (await this.loadHtml(url) == false) {
             // fill keyword conclusion with unvalidated data
             validatedData = await this.createConclusion(searchResults, keywords);
-        } else {5
+        } else {
 
             const validatedSearchResults = new SearchResults();
             this.parsedCheerio = parseHtml(this.body!);
+
+            //validate html
+            const htmlValidated = this.validateHtmlSearchResults(searchResults.htmlFound);
+            validatedSearchResults.htmlFound = htmlValidated;
 
             // VALIDATE JSON-ld
             const jsonValidated = this.validateJsonSearchResults(this.parsedCheerio.jsonLDData, searchResults.jsonFound);
@@ -31,6 +43,9 @@ export class Validator {
             const metaValidated = this.validateJsonSearchResults(this.parsedCheerio.metadata, searchResults.metaFound);
             validatedSearchResults.metaFound = metaValidated;
 
+            // TODO: validate schama.org data
+            // TODO: validate XHR requests        
+
             validatedData = await this.createConclusion(validatedSearchResults, keywords);
         }
 
@@ -39,6 +54,13 @@ export class Validator {
 
     }
 
+    /**
+     * Search results from each data source obtained during analysis are all contained in the single array. 
+     * This method will group search results form all of the data sources afor every keyword. 
+     * @param searchResults 
+     * @param keywords 
+     * @returns 
+     */
     public async createConclusion(searchResults: SearchResults, keywords: NormalizedKeywordPair[]): Promise<KeywordConclusion[]> {
 
         const conclusion = new Map<Number, KeywordConclusion>();
@@ -52,21 +74,18 @@ export class Validator {
         for (const searchResult of searchResults.metaFound) {
             conclusion.get(searchResult.keyword.index)?.SearchResults.metaFound.push(searchResult);
         }
+        for (const searchResult of searchResults.htmlFound) {
+            conclusion.get(searchResult.keyword.index)?.SearchResults.htmlFound.push(searchResult);
+        }
         return Array.from(conclusion.values());
     }
 
+    /**
+     * 
+     * @param url Function will load initial response of analysed url and store it in validator.body
+     * @returns 
+     */
     public async loadHtml(url: string): Promise<boolean> {
-        // Use a helper function to simplify request list initialization.
-        // State and sources are automatically persisted. This is a preferred usage.
-        // const requestList = await RequestList.open('my-request-list', [
-        //     'http://www.example.com/page-1',
-        //     { url: 'http://www.example.com/page-2', method: 'POST', userData: { foo: 'bar' } },
-        //     { requestsFromUrl: 'http://www.example.com/my-url-list.txt', userData: { isFromUrl: true } },
-        // ]);
-
-        // // Get the global configuration
-        // const config = Configuration.getGlobalConfig();
-        // config.set();
         const options: CheerioCrawlerOptions = {
             async errorHandler({ request }) {
                 log.info(`Request ${request.url} failed 15 times. Data found can not be validated.`);
@@ -74,6 +93,7 @@ export class Validator {
             },
             requestHandler: async ({ request, response, body, contentType, $ }) => {
                 this.$ = $;
+                this.$body = $("body");
                 this.body = body.toString();
                 log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
 
@@ -95,6 +115,30 @@ export class Validator {
         }
 
     }
+
+    public validateHtmlSearchResults(searchResult: SearchResult[]): SearchResult[] {
+        let validatedHtml: SearchResult[] = [];
+
+
+        if (this.$ != null) {
+            searchResult.forEach(searchResult => {
+                const textFound = this.$!(searchResult.path).text();
+                const validatedSearchResult = searchResult;
+                searchResult.textFoundValidation = textFound;
+                validatedHtml.push(validatedSearchResult)
+
+            })
+        };
+        return validatedHtml;
+    };
+
+
+    /**
+     * This function will take parsed initial response data and use selectors obtained by analysis to retrieve data from this initial response.  
+     * @param source  Data source object parsed from cheerio crawler's initial response. 
+     * @param searchResults Search results obtained during **analysis**.
+     * @returns Copy of original search results along with values retrieved from cheeriocrawler's initial response. 
+     */
     public validateJsonSearchResults(source: any, searchResults: SearchResult[]): SearchResult[] {
         let validatedJson: SearchResult[] = [];
 

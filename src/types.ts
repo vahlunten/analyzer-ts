@@ -5,7 +5,9 @@ export interface InputSchema {
     url: string;
     keywords: string[];
 }
-
+/**
+ * 
+ */
 export interface NormalizedKeywordPair {
     original: string, 
     normalized: string,
@@ -29,7 +31,9 @@ export class ScrapedData {
     public scrapingFinished:boolean = false;
 
 }
-
+/**
+ * Html document with each data source parse.
+ */
 export class ScrapedPage {
     public body: string | null = null;
     public jsonLDData: any | null = null;
@@ -39,6 +43,9 @@ export class ScrapedPage {
     public searchResults: SearchResults | null= null;
 }
 
+/**
+ * OUTPUT.JSON 
+ */
 export class Output {
     public url: string;
     public keywords: NormalizedKeywordPair[];
@@ -97,10 +104,6 @@ export enum DataSource {
     rendered = 'rendered',
     cheerio = 'cheerioCrawler'
 }
-
-
-
-
 
 export interface ParsedRequestResponse {
     request: ParsedRequest;
