@@ -84,18 +84,20 @@ export class SearchResults {
 export class SearchResult
  {
     public path:string;
+    public pathShort: string | null;
     public keyword: NormalizedKeywordPair;
     public textFound: string;
     public source: DataSource[] = [];
     public score: number = 0;
     public textFoundValidation: string | null;
 
-    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource) {
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "") {
         this.path = path;
         this.keyword = keyword;
         this.textFound = textFound;
         this.source.push(source);
         this.textFoundValidation = null;
+        this.pathShort = pathShort;
     }
 }
 

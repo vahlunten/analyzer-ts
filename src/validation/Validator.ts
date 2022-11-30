@@ -124,7 +124,7 @@ export class Validator {
             searchResult.forEach(searchResult => {
                 const textFound = this.$!(searchResult.path).text();
                 const validatedSearchResult = searchResult;
-                searchResult.textFoundValidation = textFound;
+                validatedSearchResult.textFoundValidation = textFound;
                 validatedHtml.push(validatedSearchResult)
 
             })

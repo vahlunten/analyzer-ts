@@ -21,7 +21,7 @@ export function normalizeString(keyword: string): string {
     normalized = replaceHTMLEntities(normalized);
     normalized = removeSpaces(normalized);
     normalized = convertCommasInNumbers(normalized);
-    return normalized;
+    return normalized.toLowerCase();
 }
 
 const removeHTMLTags = (text: string) => text.replace(/<[^>]*>?/g, '');

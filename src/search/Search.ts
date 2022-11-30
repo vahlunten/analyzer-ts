@@ -10,8 +10,7 @@ export function searchData(scraped: ScrapedData, keywords: NormalizedKeywordPair
 
 
     // TODO: search html
-    const domSearcher = new DOMSearch(scraped.initial?.body!);
-    searchResults.htmlFound = domSearcher.find(keywords);    
+    searchResults.htmlFound = searchHtml(scraped.initial?.body!, scraped.DOM?.body!, keywords);  
 
     // TODO: search schema
 
@@ -29,6 +28,18 @@ export function searchData(scraped: ScrapedData, keywords: NormalizedKeywordPair
     return searchResults;
 }
 
+function searchHtml(initial: string, rendered: string, keywords: NormalizedKeywordPair[]): SearchResult[] {
+
+    let domSearcher = new DOMSearch(initial);
+    const initialSearchResults  = domSearcher.find(keywords);   
+
+    domSearcher = new DOMSearch(rendered);
+    const domSearchResults  = domSearcher.find(keywords);   
+
+
+    const filtered = removeDuplicates(initialSearchResults, domSearchResults);
+    return filtered;
+}
 
 function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeywordPair[]): SearchResult[] {
     const jsonSearcher = new JsonSearcher();

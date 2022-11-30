@@ -4,6 +4,7 @@ import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { InputSchema, Output } from "../src/types";
 import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
+import { readFileSync } from "fs";
 
 const { log } = Apify.utils;
 /**
@@ -13,6 +14,8 @@ Apify.main(async () => {
 
     // Structure of the input is defined in /src/INPUT_SCHEMA.json.
     const input = await Apify.getInput() as InputSchema;
+    // copy frontent application to keyvalue store
+    await Apify.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
     console.log(input);
 
     log.setLevel(log.LEVELS.DEBUG);
@@ -49,7 +52,7 @@ Apify.main(async () => {
         // TODO: proper error handling
         log.error('Top lever error inside main:');
         log.error(e.message);
-
+        console.error(e);
     }
     output.analysisEnded = new Date();
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
