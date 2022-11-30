@@ -27,7 +27,7 @@
 	},
 	"scripts": {
 		"start": "npm run start:dev",
-		"start:prod": "node dist/main.js",
+		"start:prod": "node dist/src/main.js",
 		"start:dev": "ts-node -T src/main.ts",
 		"build": "tsc -p tsconfig.json",
 		"test": "jest"
