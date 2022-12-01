@@ -1,5 +1,5 @@
 import log from "@apify/log";
-import { DataSource, NormalizedKeywordPair, SearchResult, ScrapedData, SearchResults, ParsedRequestResponse } from "../types";
+import { DataSource, NormalizedKeywordPair, SearchResult, ScrapedData, SearchResults, ParsedRequestResponse, XhrSearchResult } from "../types";
 import { DOMSearch } from "./DOMSearch";
 
 import { JsonSearcher } from "./JsonSearch";
@@ -50,13 +50,19 @@ function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeyword
 }
 
 function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: NormalizedKeywordPair[]) {
-    let xhrFound: SearchResult[] = [];
+    let xhrFound: XhrSearchResult[] = [];
     const jsonSearcher = new JsonSearcher();
 
     xhrParsed?.forEach(xhr => {
-        if (xhr.response.headers["content-type"]?.indexOf('json') != -1 && xhr.response.body?.length > 0) {
-            xhrFound = xhrFound.concat(jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.initial));
+        if (xhr.response.headers["content-type"] != null) {
+            if (xhr.response.headers["content-type"].indexOf('json') != -1 && xhr.response.body?.length > 0) {
+                const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.initial));
+                if (xhrSearchResult.length > 0) {
+                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
+                }
+            }
         }
+       
     });
     return xhrFound;
 }

@@ -8,7 +8,7 @@ export class Validator {
 
     private $: cheerio.Root | null = null;
     private body: string | null = null;
-    private $body: cheerio.Cheerio | null= null;
+    private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
 
     /**
@@ -146,10 +146,15 @@ export class Validator {
 
         for (const jsonSearchResult of searchResults) {
 
-            const textFoundValidation = JSONPath({ path: jsonSearchResult.path, json: source });
-            const validatedSearchResult = jsonSearchResult;
-            validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
-            validatedJson.push(validatedSearchResult);
+            try {
+                // TODO: implement own JPath or try to disable @type matching 
+                const textFoundValidation = JSONPath({ path: jsonSearchResult.path, json: source });
+                const validatedSearchResult = jsonSearchResult;
+                validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
+                validatedJson.push(validatedSearchResult);
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         return validatedJson;

@@ -1,4 +1,5 @@
 import { Cookie } from "playwright";
+import { threadId } from "worker_threads";
 
 
 export interface InputSchema {
@@ -77,7 +78,7 @@ export class SearchResults {
     public schemaFound:SearchResult[] = [];
     public metaFound:SearchResult[] = [];
     public windowFound:SearchResult[] = [];
-    public xhrFound:SearchResult[] = [];
+    public xhrFound:XhrSearchResult[] = [];
 }
 
 
@@ -100,6 +101,14 @@ export class SearchResult
         this.pathShort = pathShort;
     }
 }
+export class XhrSearchResult {
+    public searchResults: SearchResult[] = [];
+    public parsedRequestResponse: ParsedRequestResponse;
+    constructor (searchResults: SearchResult[], parsedRequestResponserse: ParsedRequestResponse) {
+        this.searchResults = searchResults;
+        this.parsedRequestResponse  = parsedRequestResponserse;
+    }
+}
 
 export enum DataSource {
     initial = 'initial',
@@ -113,7 +122,7 @@ export interface ParsedRequestResponse {
     error: null | string;
 }
 export interface ParsedRequest {
-    url: String;
+    url: string;
     method: string;
     headers: { [key: string]: string };
 }
