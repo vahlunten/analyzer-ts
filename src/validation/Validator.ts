@@ -1,7 +1,10 @@
-import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult } from "../types";
+import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation } from "../types";
 import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
+import { validateAllXHR } from "./XhrValidation";
+import { setValue } from "apify";
+// import {  } from "@frontend/scripts";
 
 
 export class Validator {
@@ -25,7 +28,7 @@ export class Validator {
         // if we failed to load initial response of
         if (await this.loadHtml(url) == false) {
             // fill keyword conclusion with unvalidated data
-            validatedData = await this.createConclusion(searchResults, keywords);
+            validatedData = await this.createConclusion(searchResults,[], keywords);
         } else {
 
             const validatedSearchResults = new SearchResults();
@@ -44,9 +47,15 @@ export class Validator {
             validatedSearchResults.metaFound = metaValidated;
 
             // TODO: validate schama.org data
-            // TODO: validate XHR requests        
+            const schemaOrgValidated = this.validateJsonSearchResults(this.parsedCheerio.schemaOrgData, searchResults.schemaFound);
+            validatedSearchResults.schemaFound = schemaOrgValidated;
+            // TODO: validate XHR requests    
+            const xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+            await setValue("xhr", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
-            validatedData = await this.createConclusion(validatedSearchResults, keywords);
+            // 
+
+            validatedData = await this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
 
 
@@ -61,7 +70,7 @@ export class Validator {
      * @param keywords 
      * @returns 
      */
-    public async createConclusion(searchResults: SearchResults, keywords: NormalizedKeywordPair[]): Promise<KeywordConclusion[]> {
+    public async createConclusion(searchResults: SearchResults,xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): Promise<KeywordConclusion[]> {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 

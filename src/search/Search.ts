@@ -9,19 +9,18 @@ export function searchData(scraped: ScrapedData, keywords: NormalizedKeywordPair
     const searchResults: SearchResults = new SearchResults();
 
 
-    // TODO: search html
-    searchResults.htmlFound = searchHtml(scraped.initial?.body!, scraped.DOM?.body!, keywords);  
-
-    // TODO: search schema
-
+    // search html
+    searchResults.htmlFound = searchHtml(scraped.initial?.body!, scraped.DOM?.body!, keywords); 
+    // search schema
+    searchResults.schemaFound = SearchJsonData(scraped.initial?.schemaOrgData, scraped.DOM?.schemaOrgData, keywords);
     // search JsonLD
     searchResults.jsonFound = SearchJsonData(scraped.initial?.jsonLDData, scraped.DOM?.jsonLDData, keywords);
     // search meta
     searchResults.metaFound = SearchJsonData(scraped.initial?.metadata, scraped.DOM?.metadata, keywords);
-    // Search xhr
+    // search xhr
     const xhrFound = searchXHR(scraped.xhrParsed!, keywords);
     searchResults.xhrFound = xhrFound;
-    // Search window
+    // search window
     const windowSearchResults = searchWIndowObject(scraped.windowFound, keywords);
     searchResults.windowFound = windowSearchResults;
 

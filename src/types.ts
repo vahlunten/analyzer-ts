@@ -1,6 +1,6 @@
 import { Cookie } from "playwright";
 import { threadId } from "worker_threads";
-
+import { CancelableRequest, Response, Request, Options } from "got-scraping";
 
 export interface InputSchema {
     url: string;
@@ -55,6 +55,8 @@ export class Output {
     public searchResults:SearchResults | null = null;
 
     public keywordConclusions?:KeywordConclusion[];
+
+    public xhrValidated: XhrValidation[] = [];
 
     
     public analysisStarted: Date | null = null;
@@ -113,7 +115,8 @@ export class XhrSearchResult {
 export enum DataSource {
     initial = 'initial',
     rendered = 'rendered',
-    cheerio = 'cheerioCrawler'
+    cheerio = 'cheerioCrawler',
+    got = 'got'
 }
 
 export interface ParsedRequestResponse {
@@ -125,10 +128,26 @@ export interface ParsedRequest {
     url: string;
     method: string;
     headers: { [key: string]: string };
+    body: string | null
 }
 
 export interface ParsedResponse {
     body: string;
     status: number;
     headers: { [key: string]: string };
+}
+
+
+
+export interface XhrValidation {
+    callsMinimalHeaders: GotCall[],
+    callsWithOriginalHeaders: GotCall[],
+    callWithCookies: GotCall[],
+    originalRequestResponse: ParsedRequestResponse
+}
+export interface GotCall {
+    parsedRequestResponse: ParsedRequestResponse, 
+    searchResults: SearchResult[],
+    callSuccess: true | false;
+    isValid: true | false;
 }

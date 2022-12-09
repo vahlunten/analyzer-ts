@@ -5,6 +5,7 @@
         "outDir": "dist",
         "noUnusedLocals": false,
         "noUnusedParameters": false,
+        "paths": { "@frontend/*": ["../analyzer-ui"]},
     },
     "include": [
         "./src/**/*",

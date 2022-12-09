@@ -17,7 +17,10 @@ export function parseHtml(body: string): ScrapedPage {
     out.body = body;
     out.jsonLDData = parseJsonLD($);
     out.metadata = parseMetadata($);
+    // TODO: Fix schema parsing
     out.schemaOrgData = parseSchemaOrgData($);
+    // window properties 
+    // xhr
 
     return out;
 }

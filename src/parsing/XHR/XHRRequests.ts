@@ -53,9 +53,9 @@ async function parseResponse(response: Response): Promise<ParsedRequestResponse>
         request: {
             url: response.request().url(),
             method: response.request().method(),
-            headers: await response.request().allHeaders()
+            headers: await response.request().allHeaders(),
+            body: response.request().postData()
         },
         error: null
-    };
-
+    }
 }
