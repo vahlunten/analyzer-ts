@@ -48,6 +48,7 @@ function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeyword
     return filtered;
 }
 
+// TODO: Use this inside XHR validation 
 function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: NormalizedKeywordPair[]) {
     let xhrFound: XhrSearchResult[] = [];
     const jsonSearcher = new JsonSearcher();

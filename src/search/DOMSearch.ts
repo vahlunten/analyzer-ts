@@ -131,15 +131,15 @@ export class DOMSearch {
             this.keywords.forEach(keyword => {
                 if (normalizedText.indexOf(keyword.normalized) != -1) {
                     searchResults.push(new SearchResult(path.join(" > "), keyword, root.text(), DataSource.initial, this.getUniqueSelector(root)));
-                    console.log("----------");
-                    console.log("Root tagname: " + this.$(root).get(0).tagName);
-                    console.log("Old path: " + path.join(" > "));
+                    // console.log("----------");
+                    // console.log("Root tagname: " + this.$(root).get(0).tagName);
+                    // console.log("Old path: " + path.join(" > "));
 
                     
-                    // console.log();
-                    console.log("New path: " + this.getUniqueSelector(root) + " ; " + this.$(root).get(0).tagName);
-                    console.log("----------");
-                    // console.log(this.getUniqueSelector(root));
+                    // // console.log();
+                    // console.log("New path: " + this.getUniqueSelector(root) + " ; " + this.$(root).get(0).tagName);
+                    // console.log("----------");
+                    // // console.log(this.getUniqueSelector(root));
                 }
                 // console.log("Selectoros:     " + finder(this.$(root).ch, {}));
             })
