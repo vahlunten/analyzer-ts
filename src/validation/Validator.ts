@@ -3,7 +3,7 @@ import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Conf
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
-import { setValue } from "apify";
+import Apify from "apify";
 // import {  } from "@frontend/scripts";
 
 
@@ -49,11 +49,10 @@ export class Validator {
             // TODO: validate schama.org data
             const schemaOrgValidated = this.validateJsonSearchResults(this.parsedCheerio.schemaOrgData, searchResults.schemaFound);
             validatedSearchResults.schemaFound = schemaOrgValidated;
-            // TODO: validate XHR requests    
-            const xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            await setValue("xhr", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
-            // 
+            // validate XHR requests    
+            const xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+            await Apify.setValue("XHR", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             validatedData = await this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
