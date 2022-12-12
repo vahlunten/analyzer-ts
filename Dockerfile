@@ -28,9 +28,6 @@ COPY --from=builder --chown=myuser /home/myuser/dist ./dist
 # to speed up the build using Docker layer cache.
 COPY --chown=myuser package*.json ./
 
-# Copy frontend
-COPY --chown=myuser ./src/static/ ./dist/src/static
-
 # Install NPM packages, skip optional and development dependencies to
 # keep the image small. Avoid logging too much and print the dependency
 # tree for debugging
@@ -47,6 +44,10 @@ RUN npm --quiet set progress=false \
 # Since we do this after NPM install, quick build will be really fast
 # for most source file changes.
 COPY --chown=myuser . ./
+
+
+# Copy frontend
+COPY --chown=myuser ./src/static/ ./dist/src/static
 
 
 # Run the image. If you know you won't need headful browsers,
