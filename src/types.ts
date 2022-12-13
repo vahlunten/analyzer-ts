@@ -33,7 +33,7 @@ export class ScrapedData {
 
 }
 /**
- * Html document with each data source parse.
+ * Html document with each data source parsed.
  */
 export class ScrapedPage {
     public body: string | null = null;
@@ -151,3 +151,5 @@ export interface GotCall {
     callSuccess: true | false;
     isValid: true | false;
 }
+
+export type ResourceType = "initial"| "browser" | "xhr" | "window";
