@@ -11,7 +11,7 @@
         "editor": "textfield",
         "prefill": "https://example.org/"
       },
-      "searchFor": {
+      "keywords": {
         "title": "Keywords",
         "type": "array",
         "description": "Keywords to be searched for during analysis",
@@ -20,6 +20,6 @@
     },
     "required": [
       "url",
-      "searchFor"
+      "keywords"
     ]
   }
