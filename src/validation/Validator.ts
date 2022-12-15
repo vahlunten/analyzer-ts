@@ -101,9 +101,11 @@ export class Validator {
             },
             requestHandler: async ({ request, response, body, contentType, $ }) => {
                 this.$ = $;
-                this.$body = $("body");
+                this.$body = $("body").get(0);
                 this.body = body.toString();
                 log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
+                await Apify.setValue("cheerioInitial", this.body, { contentType: 'text/html; charset=utf-8' });
+
 
             },
             maxRequestRetries: 10,
@@ -128,17 +130,19 @@ export class Validator {
         let validatedHtml: SearchResult[] = [];
 
 
-        if (this.$ != null) {
+        if (this.$body != null) {
             searchResult.forEach(searchResult => {
                 const textFound = this.$!(searchResult.path).text();
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
+                validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000 ;
                 validatedHtml.push(validatedSearchResult)
 
             })
         };
-        return validatedHtml;
-    };
+        return validatedHtml.sort((a, b) => a.score - b.score );
+        
+    }
 
 
     /**

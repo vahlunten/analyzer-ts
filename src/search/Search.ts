@@ -29,10 +29,10 @@ export function searchData(scraped: ScrapedData, keywords: NormalizedKeywordPair
 
 function searchHtml(initial: string, rendered: string, keywords: NormalizedKeywordPair[]): SearchResult[] {
 
-    let domSearcher = new DOMSearch(initial);
+    let domSearcher = new DOMSearch(initial, DataSource.initial);
     const initialSearchResults  = domSearcher.find(keywords);   
 
-    domSearcher = new DOMSearch(rendered);
+    domSearcher = new DOMSearch(rendered, DataSource.rendered);
     const domSearchResults  = domSearcher.find(keywords);   
 
 
@@ -56,7 +56,7 @@ function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: NormalizedKeywo
     xhrParsed?.forEach(xhr => {
         if (xhr.response.headers["content-type"] != null) {
             if (xhr.response.headers["content-type"].indexOf('json') != -1 && xhr.response.body?.length > 0) {
-                const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.initial));
+                const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.xhr));
                 if (xhrSearchResult.length > 0) {
                     xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
                 }

@@ -4,7 +4,7 @@ import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { InputSchema, Output } from "../src/types";
 import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync} from "fs";
 
 const { log } = Apify.utils;
 /**
@@ -59,5 +59,7 @@ Apify.main(async () => {
     }
     output.analysisEnded = new Date();
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
+    writeFileSync("../analyzer-ui/public/OUTPUT", JSON.stringify(output!, null , 2));
+    
 
 });

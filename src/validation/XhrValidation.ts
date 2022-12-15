@@ -107,9 +107,9 @@ async function validateGotCall(xhr: XhrSearchResult, url: string, keywords: Norm
             // TODO: check content type header and search html or json
 
             if (response.headers["content-type"]?.indexOf("json") != -1) {
-                searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataSource.initial);
+                searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataSource.xhr);
             } else if (response.headers["content-type"].indexOf("html") != 1) {
-                searchResults = (new DOMSearch(response.body)).find(keywords);
+                searchResults = (new DOMSearch(response.body, DataSource.xhr)).find(keywords);
             }
             result.searchResults = searchResults;
 

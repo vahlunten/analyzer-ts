@@ -91,16 +91,17 @@ export class SearchResult
     public keyword: NormalizedKeywordPair;
     public textFound: string;
     public source: DataSource[] = [];
-    public score: number = 0;
+    public score: number;
     public textFoundValidation: string | null;
 
-    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "") {
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", score = 0) {
         this.path = path;
         this.keyword = keyword;
         this.textFound = textFound;
         this.source.push(source);
         this.textFoundValidation = null;
         this.pathShort = pathShort;
+        this.score = score;
     }
 }
 export class XhrSearchResult {
@@ -116,7 +117,8 @@ export enum DataSource {
     initial = 'initial',
     rendered = 'rendered',
     cheerio = 'cheerioCrawler',
-    got = 'got'
+    got = 'got',
+    xhr = 'xhr'
 }
 
 export interface ParsedRequestResponse {

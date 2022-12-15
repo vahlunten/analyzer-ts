@@ -4,6 +4,8 @@ import { Validator } from "../src/validation/Validator";
 import { removeDuplicates } from "../src/search/Search";
 import { DataSource, SearchResult } from "../src/types";
 import { DOMSearch } from "../src/search/DOMSearch";
+import { readFileSync } from "fs";
+import  __  from "lodash";
 
 
 // describe('JsonSearch test', () => {
@@ -26,24 +28,41 @@ import { DOMSearch } from "../src/search/DOMSearch";
 // });
 
 describe('Html search test', () => {
-  test('should return 5 results', () => {
-
+  test('', () => {
     const normalizedKeywords = normalizeArray(["NetSpa MONTANA L"]);
-    const searcher = new DOMSearch("html");
-    const searchResults = searcher.find(normalizedKeywords)
-    searchResults.forEach(result => {
-      console.log(result);
-    })
-    expect(searchResults).toHaveLength(9);
+
+    const initialHtml = readFileSync("apify_storage/key_value_stores/default/cheerioInitial.html");
+    const initialSearcher = new DOMSearch(initialHtml.toString(), DataSource.initial);
+    const initialSearchResults = initialSearcher.find(normalizedKeywords)
+
+
+
+
+
+    const cheerioHtml = readFileSync("apify_storage/key_value_stores/default/cheerioInitial.html");
+    const cheerioSearcher = new DOMSearch(cheerioHtml.toString(), DataSource.initial);
+    const cheerioSearchResults = cheerioSearcher.find(normalizedKeywords)
+
+
+    
+    for (let i = 0; i < initialSearchResults.length; i++) {
+      const element = initialSearchResults[i];
+      const elementCheerio = cheerioSearchResults[i];
+
+      console.log(element.textFound);
+      console.log(elementCheerio.textFound);
+      
+    }
+    expect(__.isEqual(initialSearchResults.length,cheerioSearchResults.length)).toBe(true);
   });
 
-  test('should return 1 results', () => {
+  // test('should return 1 results', () => {
 
-    const normalizedKeywords = normalizeArray(["value1"]);
-    const searcher = new JsonSearcher();
-    const searchResults = searcher.searchJson(testJson, normalizedKeywords, DataSource.initial);
-    expect(searchResults?.length).toBe(1);
-  });
+  //   const normalizedKeywords = normalizeArray(["value1"]);
+  //   const searcher = new JsonSearcher();
+  //   const searchResults = searcher.searchJson(testJson, normalizedKeywords, DataSource.initial);
+  //   expect(searchResults?.length).toBe(1);
+  // });
 
 });
 

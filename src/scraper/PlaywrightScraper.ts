@@ -22,7 +22,7 @@ export class PlaywrightScraper {
         this.url = url;
         this.keywords = keywords;
         this.scrapedData = new ScrapedData();
-        
+
     }
     /**
      * Open the browser, open new tab, navigate to the page and scrape and parse all the necessary data from the analyzed web page
@@ -39,17 +39,17 @@ export class PlaywrightScraper {
         const { responseStatus, initialResponseBody } = await this.openPage(this.url, browserContext);
         this.scrapedData.responseStatus = responseStatus;
 
-        
+
         // scrape and parse html, jsonld, schema, metadata
         // window object si scraped on "domContentLoaded" event
-        this.scrapedData.initial = parseHtml(initialResponseBody);      
+        this.scrapedData.initial = parseHtml(initialResponseBody);
 
         // xhr requests are parsed  on "response" event and added to this.request object
         this.scrapedData.xhrParsed = this.requests;
         return this.scrapedData;
 
     }
-    
+
     /**
      * 
      * @param useApifyProxy If true, actor will try to use Apify proxy.
@@ -72,7 +72,7 @@ export class PlaywrightScraper {
         const browser = await chromium.launch({
             headless: false,
             proxy: proxyConfiguration ?? undefined,
-            devtools: true           
+            devtools: true
 
         });
 
@@ -94,7 +94,7 @@ export class PlaywrightScraper {
         this.hookEvents(page);
 
         // navigate to the page and wait until no new network requests are made for 500 ms
-        const initialResponse = await page.goto(url, { waitUntil: 'networkidle' });
+        const initialResponse = await page.goto(url, { waitUntil: 'networkidle', timeout: 50000 });
 
         // const [ download ] = await Promise.all([
         //     page.waitForEvent('download'), // wait for download to start
@@ -104,7 +104,7 @@ export class PlaywrightScraper {
         // const path = await download.path();
         // console.log(path);
 
-        
+
 
         const bodyBuffer = await initialResponse?.body();
         const responseBody = bodyBuffer?.toString() ?? '';;
@@ -133,8 +133,8 @@ export class PlaywrightScraper {
             //TODO: add locale parameter
             locale: fingerprint.fingerprint.navigator.language,
             // Full HD resolution by default, it can only be set at this stage
-            viewport: {width:1920, height: 1080}
-            
+            viewport: { width: 1920, height: 1080 }
+
         });
 
         if (generateFingerprint) {
@@ -150,24 +150,30 @@ export class PlaywrightScraper {
      * @param saveBandwith If true, actor will intercept requests for resources like images and css and abort them. 
      */
     hookEvents(page: Page, saveBandwith: boolean = false) {
-      
+
         if (saveBandwith) {
             page.route("**", (route, request) => interceptRequests(route, request, saveBandwith));
         }
 
         page.on("response", async (response: Response) => await onResponse(this.requests, response));
-        
 
-        page.on('domcontentloaded', (page: Page) => this.onDomContentLoaded(page));
+
+        page.on('load', (page: Page) => this.onDomContentLoaded(page));
     }
 
     /**
      * This function is executed when the page is fully loaded. 
      * @param page Controller of a newly created tab.
      */
-    async onDomContentLoaded(page:Page) {
-
+    async onDomContentLoaded(page: Page) {
+        // await page.waitForTimeout(20000);
+        // const domContent = await new Promise<string>( () => {
+        //     page.waitForTimeout(20000);
+        // }).then( () => {
+        //     return page.content();
+        // })
         const domContent = await page.content();
+        // await page.content();
         // this.scrapedData.domContent = domContent;
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
@@ -179,9 +185,9 @@ export class PlaywrightScraper {
         // often, we can get blocked by for example cloudflare bot protection
         // it is easy for a human to visually tell, wether the page was navigated sucessfully
         const ss = await page.screenshot();
-        await Apify.setValue("screenshot", ss, { contentType:'image/jpeg'});
+        await Apify.setValue("screenshot", ss, { contentType: 'image/jpeg' });
 
-       // this will execute javascript **in the browser** and parse window properties
+        // this will execute javascript **in the browser** and parse window properties
         const windowObject = await scrapeWindowProperties(page);
         this.scrapedData.allWindowProperties = windowObject;
 
