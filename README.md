@@ -35,11 +35,22 @@ Input can be set using JSON or the visual input UI through Apify console.
 4. Run the actor. 
 5. View the analysis results by opening __DASHBOARD.html__ file inside the key-value storage. 
 
+
 ## Output
 
 Output of this actor is saved in Apify key-value store of the particular actor run.
 
 Results of the analysis are saved in the __OUTPUT.json__ file and can be viewed by opening the __DASHBOARD.html__ file.
+
+
+## How to run analzyer locally on your computer
+1. Download this repository.
+2. Run __npm install__
+3. Download analyzer-ui repository https://github.com/vahlunten/analyzer-ui
+4. Run __npm install__
+5  Run __npm run dev__
+6. Run __npm run start__ in analyzer-ts repository. It will run with ./apify_storage/key_value_stores/default/INPUT.json file as an input. 
+7. Open the web app started by analyzer-ui
 
 ## Files stored in key-value store
 Actor also saves some additional files with futher information, useful mainly for developers. 
