@@ -136,6 +136,7 @@ export class Validator {
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
                 validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000 ;
+                validatedSearchResult.isValid = textFound == searchResult.textFound;
                 validatedHtml.push(validatedSearchResult)
 
             })

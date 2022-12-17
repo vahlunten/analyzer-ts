@@ -1,6 +1,4 @@
 import { Cookie } from "playwright";
-import { threadId } from "worker_threads";
-import { CancelableRequest, Response, Request, Options } from "got-scraping";
 
 export interface InputSchema {
     url: string;
@@ -18,49 +16,52 @@ export interface NormalizedKeywordPair {
 
 export class ScrapedData {
    
-    public responseStatus: number | null = null;
-    public initial: ScrapedPage | null = null;
-    public DOM: ScrapedPage | null = null;
+    responseStatus: number | null = null;
+    initial: ScrapedPage | null = null;
+    DOM: ScrapedPage | null = null;
 
-    public xhrParsed: ParsedRequestResponse[] | null = null;
-    public cookies: Cookie[] | null = null;
-    public error: Error | null = null;
+    xhrParsed: ParsedRequestResponse[] | null = null;
+    cookies: Cookie[] | null = null;
+    error: Error | null = null;
     
-    public allWindowProperties: { [key: string]: any } | null= null;
-    public windowFound:SearchResult[] = [];
+    allWindowProperties: { [key: string]: any } | null= null;
+    windowFound:SearchResult[] = [];
 
-    public scrapingFinished:boolean = false;
+    scrapingFinished:boolean = false;
 
 }
 /**
- * Html document with each data source parsed.
+ * Scraped content of HTML document. 
  */
 export class ScrapedPage {
-    public body: string | null = null;
-    public jsonLDData: any | null = null;
-    public schemaOrgData: any | null = null;
-    public metadata: any | null = null;
-    public windowProperties: any | null = null;
-    public searchResults: SearchResults | null= null;
+    body: string | null = null;
+    jsonLDData: any | null = null;
+    schemaOrgData: any | null = null;
+    metadata: any | null = null;
+    windowProperties: any | null = null;
+    searchResults: SearchResults | null= null;
 }
 
 /**
  * OUTPUT.JSON 
  */
 export class Output {
-    public url: string;
-    public keywords: NormalizedKeywordPair[];
+    url: string;
+    keywords: NormalizedKeywordPair[];
 
-    public scrapedData?: ScrapedData;
-    public searchResults:SearchResults | null = null;
+    scrapedData?: ScrapedData;
+    searchResults:SearchResults | null = null;
 
-    public keywordConclusions?:KeywordConclusion[];
+    keywordConclusions?:KeywordConclusion[];
 
-    public xhrValidated: XhrValidation[] = [];
+    xhrValidated: XhrValidation[] = [];
 
     
-    public analysisStarted: Date | null = null;
-    public analysisEnded: Date | null = null;
+    analysisStarted: Date | null = null;
+    analysisEnded: Date | null = null;
+
+    actorSuccess: boolean = true;
+    errorMessage: string | null = null;
 
     constructor(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;
@@ -75,26 +76,28 @@ export interface KeywordConclusion {
 }
 
 export class SearchResults {
-    public htmlFound:SearchResult[] = [];
-    public jsonFound:SearchResult[] = [];
-    public schemaFound:SearchResult[] = [];
-    public metaFound:SearchResult[] = [];
-    public windowFound:SearchResult[] = [];
-    public xhrFound:XhrSearchResult[] = [];
+    htmlFound:SearchResult[] = [];
+    jsonFound:SearchResult[] = [];
+    schemaFound:SearchResult[] = [];
+    metaFound:SearchResult[] = [];
+    windowFound:SearchResult[] = [];
+    xhrFound:XhrSearchResult[] = [];
 }
 
 
 export class SearchResult
  {
-    public path:string;
-    public pathShort: string | null;
-    public keyword: NormalizedKeywordPair;
-    public textFound: string;
-    public source: DataSource[] = [];
-    public score: number;
-    public textFoundValidation: string | null;
+    path:string;
+    pathShort: string | null;
+    keyword: NormalizedKeywordPair;
+    textFound: string;
+    source: DataSource[] = [];
+    score: number;
+    textFoundValidation: string | null;
+    isValid: boolean = true;
 
-    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", score = 0) {
+
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", score = 0, isValid = false) {
         this.path = path;
         this.keyword = keyword;
         this.textFound = textFound;
@@ -102,11 +105,12 @@ export class SearchResult
         this.textFoundValidation = null;
         this.pathShort = pathShort;
         this.score = score;
+        this.isValid = isValid;
     }
 }
 export class XhrSearchResult {
-    public searchResults: SearchResult[] = [];
-    public parsedRequestResponse: ParsedRequestResponse;
+    searchResults: SearchResult[] = [];
+    parsedRequestResponse: ParsedRequestResponse;
     constructor (searchResults: SearchResult[], parsedRequestResponserse: ParsedRequestResponse) {
         this.searchResults = searchResults;
         this.parsedRequestResponse  = parsedRequestResponserse;

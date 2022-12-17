@@ -1,6 +1,6 @@
+import { log } from "crawlee";
 import { Request, Response, Route } from "playwright";
 import { ParsedRequestResponse } from "../../types";
-// import { HttpRequestMethod } from "../../helpers/HttpRequestMethod";
 
 const IGNORED_EXTENSIONS = [".css", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
 
@@ -37,11 +37,11 @@ async function parseResponse(response: Response): Promise<ParsedRequestResponse>
     // console.log(response.request().url());
     let responseBody: string = "";
 
-    // TODO: fix this workaround to prevent "No resource with given identifier found" exception
+    // Redirects will throw "No resource with given identifier found" exception
     try {
         responseBody = (await response.text()).toString();
-    } catch (err) {
-        console.log(err);
+    } catch (err: any) {
+        log.debug(err.message);
     }
 
     return {

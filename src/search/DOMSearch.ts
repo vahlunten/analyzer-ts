@@ -1,7 +1,5 @@
 import cheerio from 'cheerio';
-// import { Cheerio } from 'cheerio';
 import { log } from 'crawlee';
-import { result } from 'lodash';
 import { normalizeString } from '../helpers/normalize';
 import { DataSource, NormalizedKeywordPair, SearchResult } from '../types';
 
@@ -13,8 +11,6 @@ export class DOMSearch {
     public constructor(html: string, source: DataSource) {
         this.$ = cheerio.load(html);
         this.source = source;
-        // init(this.$);
-
     }
 
 
@@ -93,13 +89,7 @@ export class DOMSearch {
             }
             
         }
-
-
-        // do {
-        //     elementSelector = this.getElementSelector(this.$(parents[i]));
-        //     selector = elementSelector + ' > ' + selector;
-        //     i++;
-        // } while (i < parents.length - 1); // Stop before we reach the html element parent
+        
         return result;
     };
 
@@ -191,6 +181,3 @@ export class DOMSearch {
     }
 
 }
-
-// #h1c > h1:nth-child(1)
-// html#rootHtml body.default.alza-sk.hobby div#body2.layout-1.cpg.lng-sk.alza-sk.hobby div#body2Inner div#body3Inner div#page.page1 div#content0c div#content0 div.detail-page.articleLab div#detailItem.canBuy.inStockAvailability div.title-cnt div.title-share div#h1c h1

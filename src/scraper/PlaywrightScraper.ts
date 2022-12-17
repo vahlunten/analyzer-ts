@@ -4,7 +4,7 @@ import { Browser, BrowserContext, chromium, Page, Response } from 'playwright';
 import { interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
 import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
-import { getWindowPropertyKeys, getWindowPropertiesValues, scrapeWindowProperties } from "../parsing/window-properties";
+import { scrapeWindowProperties } from "../parsing/window-properties";
 
 import Apify from 'apify';
 const { log } = Apify.utils;
@@ -18,7 +18,6 @@ export class PlaywrightScraper {
     keywords: NormalizedKeywordPair[];
 
     constructor(url: string, keywords: NormalizedKeywordPair[]) {
-        log.debug("Hello from playwright controller constructor.");
         this.url = url;
         this.keywords = keywords;
         this.scrapedData = new ScrapedData();
@@ -41,7 +40,7 @@ export class PlaywrightScraper {
 
 
         // scrape and parse html, jsonld, schema, metadata
-        // window object si scraped on "domContentLoaded" event
+        // window properties are scraped on "domContentLoaded" event
         this.scrapedData.initial = parseHtml(initialResponseBody);
 
         // xhr requests are parsed  on "response" event and added to this.request object
@@ -95,19 +94,8 @@ export class PlaywrightScraper {
 
         // navigate to the page and wait until no new network requests are made for 500 ms
         const initialResponse = await page.goto(url, { waitUntil: 'networkidle', timeout: 50000 });
-
-        // const [ download ] = await Promise.all([
-        //     page.waitForEvent('download'), // wait for download to start
-        //     page.click('#downloadedButton')
-        // ]);
-        // // wait for download to complete
-        // const path = await download.path();
-        // console.log(path);
-
-
-
         const bodyBuffer = await initialResponse?.body();
-        const responseBody = bodyBuffer?.toString() ?? '';;
+        const responseBody = bodyBuffer?.toString() ?? '';
 
         // save the value of initial response
         // TODO: handle redirects
@@ -147,7 +135,7 @@ export class PlaywrightScraper {
     /**
      * 
      * @param page Controller of a newly created tab.
-     * @param saveBandwith If true, actor will intercept requests for resources like images and css and abort them. 
+     * @param saveBandwith If true, actor will intercept and abort the requests for resources like images and css. 
      */
     hookEvents(page: Page, saveBandwith: boolean = false) {
 
@@ -157,7 +145,6 @@ export class PlaywrightScraper {
 
         page.on("response", async (response: Response) => await onResponse(this.requests, response));
 
-
         page.on('load', (page: Page) => this.onDomContentLoaded(page));
     }
 
@@ -166,6 +153,7 @@ export class PlaywrightScraper {
      * @param page Controller of a newly created tab.
      */
     async onDomContentLoaded(page: Page) {
+        // TODO: wait longer pls
         // await page.waitForTimeout(20000);
         // const domContent = await new Promise<string>( () => {
         //     page.waitForTimeout(20000);
@@ -173,19 +161,17 @@ export class PlaywrightScraper {
         //     return page.content();
         // })
         const domContent = await page.content();
-        // await page.content();
-        // this.scrapedData.domContent = domContent;
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
 
         await Apify.setValue("domContent", domContent!, { contentType: 'text/html; charset=utf-8' });
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 
-        // it is good for quick visual check, wether the analysis was sucessful
+        // it is good for quick visual check, whether the analysis was sucessful
         // often, we can get blocked by for example cloudflare bot protection
         // it is easy for a human to visually tell, wether the page was navigated sucessfully
-        const ss = await page.screenshot();
-        await Apify.setValue("screenshot", ss, { contentType: 'image/jpeg' });
+        const screenshot = await page.screenshot();
+        await Apify.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
 
         // this will execute javascript **in the browser** and parse window properties
         const windowObject = await scrapeWindowProperties(page);
