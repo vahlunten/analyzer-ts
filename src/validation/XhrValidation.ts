@@ -55,11 +55,9 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
             body: xhr.parsedRequestResponse.request.body ?? undefined,
             url: xhr.parsedRequestResponse.request.url
         });
-        calls.push(await validateGotCall(xhr, xhr.parsedRequestResponse.request.url, keywords, options));
+        calls.push(await validateGotCall(xhr, keywords, options));
 
     }
-
-
 
     return {
         originalRequestResponse: xhr.parsedRequestResponse,
@@ -69,7 +67,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     }
 }
 
-async function validateGotCall(xhr: XhrSearchResult, url: string, keywords: NormalizedKeywordPair[], options: Options): Promise<GotCall> {
+async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: Options): Promise<GotCall> {
     const request = gotScraping(undefined, undefined, options);
     let response: Response<string>;
     let searchResults: SearchResult[] = [];

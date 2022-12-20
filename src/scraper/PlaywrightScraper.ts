@@ -96,11 +96,12 @@ export class PlaywrightScraper {
         const initialResponse = await page.goto(url, { waitUntil: 'networkidle', timeout: 50000 });
         const bodyBuffer = await initialResponse?.body();
         const responseBody = bodyBuffer?.toString() ?? '';
-
+        await page.waitForTimeout(20000);
+        await this.getContent(page);
         // save the value of initial response
         // TODO: handle redirects
         await Apify.setValue("initial", responseBody, { contentType: 'text/html; charset=utf-8' });
-        return { responseStatus: 200, initialResponseBody: responseBody };
+        return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
     /**
@@ -145,21 +146,13 @@ export class PlaywrightScraper {
 
         page.on("response", async (response: Response) => await onResponse(this.requests, response));
 
-        page.on('load', (page: Page) => this.onDomContentLoaded(page));
+        // page.on('domcontentloaded', (page: Page) => this.onDomContentLoaded(page));
     }
+   
+   
+    
 
-    /**
-     * This function is executed when the page is fully loaded. 
-     * @param page Controller of a newly created tab.
-     */
-    async onDomContentLoaded(page: Page) {
-        // TODO: wait longer pls
-        // await page.waitForTimeout(20000);
-        // const domContent = await new Promise<string>( () => {
-        //     page.waitForTimeout(20000);
-        // }).then( () => {
-        //     return page.content();
-        // })
+    async getContent(page:Page) {
         const domContent = await page.content();
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
