@@ -22,13 +22,13 @@ export class Validator {
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<KeywordConclusion[]> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{conclusion: KeywordConclusion[], xhrValidated: XhrValidation[]}> {
         let validatedData: KeywordConclusion[];
-
+        let xhrValidated:XhrValidation[] = [];
         // if we failed to load initial response of
         if (await this.loadHtml(url) == false) {
             // fill keyword conclusion with unvalidated data
-            validatedData = await this.createConclusion(searchResults,[], keywords);
+            validatedData =  this.createConclusion(searchResults,[], keywords);
         } else {
 
             const validatedSearchResults = new SearchResults();
@@ -51,14 +51,14 @@ export class Validator {
             validatedSearchResults.schemaFound = schemaOrgValidated;
 
             // validate XHR requests    
-            const xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+            xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
             await Apify.setValue("XHR", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
-            validatedData = await this.createConclusion(validatedSearchResults, xhrValidated, keywords);
+            validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
 
 
-        return validatedData;
+        return {conclusion: validatedData,xhrValidated: xhrValidated};
 
     }
 
@@ -69,7 +69,7 @@ export class Validator {
      * @param keywords 
      * @returns 
      */
-    public async createConclusion(searchResults: SearchResults,xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): Promise<KeywordConclusion[]> {
+    public createConclusion(searchResults: SearchResults,xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 
@@ -136,7 +136,7 @@ export class Validator {
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
                 validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000 ;
-                validatedSearchResult.isValid = textFound == searchResult.textFound;
+                validatedSearchResult.isValid = textFound === searchResult.textFound;
                 validatedHtml.push(validatedSearchResult)
 
             })
@@ -164,6 +164,7 @@ export class Validator {
                 const textFoundValidation = JSONPath({ path: jsonSearchResult.path, json: source });
                 const validatedSearchResult = jsonSearchResult;
                 validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
+                validatedSearchResult.isValid = textFoundValidation === jsonSearchResult.textFound;
                 validatedJson.push(validatedSearchResult);
             } catch (e) {
                 console.error(e);

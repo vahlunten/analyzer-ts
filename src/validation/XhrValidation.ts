@@ -33,42 +33,92 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
 }
 
 async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[],): Promise<XhrValidation> {
-    let calls: GotCall[] = [];
+    let callsWithMinimal: GotCall[] = [];
+    let callsWithOriginalHeaders: GotCall[] = [];
+    let callsWithOriginalCookie: GotCall[] = [];
 
 
     const filteredHeaders: { [key: string]: string } = {};
+
     // Remove pseudo-headers
     Object.keys(xhr.parsedRequestResponse.request.headers).forEach(headerKey => {
         if (headerKey.indexOf(":") == -1) {
             filteredHeaders[headerKey] = xhr.parsedRequestResponse.request.headers[headerKey]
         }
     });
+
+    const options: Options = new Options({
+        method: xhr.parsedRequestResponse.request.method as Method,
+        body: xhr.parsedRequestResponse.request.body ?? undefined,
+        url: xhr.parsedRequestResponse.request.url
+    });
+
+    let succeeded = false; 
+
+    // calls with minimal headers
+    // TODO: prepare minimal headers
+    const minimalHeaders: { [key: string]: string } = {};
+    options.headers = minimalHeaders;
+    // trying every request multiple times to avoid false negatives due to proxy limitations
     for (let i = 0; i < 5; i++) {
+        
+        const callValidation = await validateGotCall(xhr, keywords, options);
+        callsWithMinimal.push(callValidation);
 
-        // TODO: Calls with cookies
-        // TODO: Calls with minimal headers
-
-        // Calls with original headers from Playwright
-        const options: Options = new Options({
-            headers: filteredHeaders,
-            method: xhr.parsedRequestResponse.request.method as Method,
-            body: xhr.parsedRequestResponse.request.body ?? undefined,
-            url: xhr.parsedRequestResponse.request.url
-        });
-        calls.push(await validateGotCall(xhr, keywords, options));
-
+        if (callValidation.isValid) {
+            succeeded = true;
+            break;
+        }
     }
+
+
+    // calls with original headers from chromium without a cookie
+    // only execute if we failed to validate request with less headers
+    if (!succeeded) {
+        const originalHeadersWithoutCookie: { [key: string]: string } = {};
+        options.headers = originalHeadersWithoutCookie;
+
+        for (let i = 0; i < 5; i++) {
+        
+            const callValidation = await validateGotCall(xhr, keywords, options);
+            callsWithOriginalHeaders.push(callValidation);
+    
+            if (callValidation.isValid) {
+                succeeded = true;
+                break;
+            }
+        }
+                
+    }
+    // calls with original headers including a cookie
+    if (!succeeded) {
+        const originalHeaders: { [key: string]: string } = {};    
+        options.headers = originalHeaders;
+
+        for (let i = 0; i < 5; i++) {
+        
+            const callValidation = await validateGotCall(xhr, keywords, options);
+            callsWithOriginalCookie.push(callValidation);
+    
+            if (callValidation.isValid) {
+                succeeded = true;
+                break;
+            }
+        }
+                
+    }    
 
     return {
         originalRequestResponse: xhr.parsedRequestResponse,
-        callsMinimalHeaders: [],
-        callsWithOriginalHeaders: calls,
-        callWithCookies: []
+        callsMinimalHeaders: callsWithMinimal,
+        callsWithOriginalHeaders: callsWithOriginalHeaders,
+        callWithCookies: callsWithOriginalCookie,
+        validationSuccess: succeeded
     }
 }
 
 async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: Options): Promise<GotCall> {
-    const request = gotScraping(undefined, undefined, options);
+    const request = gotScraping(undefined, undefined, options, );
     let response: Response<string>;
     let searchResults: SearchResult[] = [];
     let result: GotCall = {
@@ -83,7 +133,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
             },
             response: {
                 body: "",
-                status: 404,
+                status: -1,
                 headers: {}
             },
             error: null

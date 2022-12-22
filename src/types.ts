@@ -1,6 +1,6 @@
 import { Cookie } from "playwright";
 
-export interface InputSchema {
+export interface Input {
     url: string;
     keywords: string[];
 }
@@ -57,8 +57,8 @@ export class Output {
     xhrValidated: XhrValidation[] = [];
 
     
-    analysisStarted: Date | null = null;
-    analysisEnded: Date | null = null;
+    analysisStarted: string | null = null;
+    analysisEnded: string | null = null;
 
     actorSuccess: boolean = true;
     errorMessage: string | null = null;
@@ -94,7 +94,7 @@ export class SearchResult
     source: DataSource[] = [];
     score: number;
     textFoundValidation: string | null;
-    isValid: boolean = true;
+    isValid: boolean;
 
 
     constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", score = 0, isValid = false) {
@@ -149,7 +149,8 @@ export interface XhrValidation {
     callsMinimalHeaders: GotCall[],
     callsWithOriginalHeaders: GotCall[],
     callWithCookies: GotCall[],
-    originalRequestResponse: ParsedRequestResponse
+    originalRequestResponse: ParsedRequestResponse,
+    validationSuccess: boolean
 }
 export interface GotCall {
     parsedRequestResponse: ParsedRequestResponse, 

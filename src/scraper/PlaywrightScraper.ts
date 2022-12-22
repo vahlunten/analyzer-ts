@@ -96,7 +96,7 @@ export class PlaywrightScraper {
         const initialResponse = await page.goto(url, { waitUntil: 'networkidle', timeout: 50000 });
         const bodyBuffer = await initialResponse?.body();
         const responseBody = bodyBuffer?.toString() ?? '';
-        await page.waitForTimeout(20000);
+        await page.waitForTimeout(10000);
         await this.getContent(page);
         // save the value of initial response
         // TODO: handle redirects
