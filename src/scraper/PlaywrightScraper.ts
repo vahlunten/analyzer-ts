@@ -29,7 +29,7 @@ export class PlaywrightScraper {
      * @param generateFingeprint If true, custom fingerprint will be generated. Some values of chromium/playwright fingerprint are overridden by default.  
      * @returns 
      */
-    async scrapePage(useApifyProxy = true, generateFingeprint = false): Promise<ScrapedData> {
+    async scrapePage(useApifyProxy = true, generateFingeprint = true): Promise<ScrapedData> {
 
         // opens browser and a new tab 
         const browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
@@ -89,7 +89,7 @@ export class PlaywrightScraper {
     async openPage(url: string, browserContext: BrowserContext): Promise<{ responseStatus: number, initialResponseBody: string }> {
         // open new tab
         const page = await browserContext.newPage();
-        // register onResposne and onDomContentLoaded events
+        // register hooks to intercept requests and capture their responses
         this.hookEvents(page);
 
         // navigate to the page and wait until no new network requests are made for 500 ms
@@ -113,17 +113,28 @@ export class PlaywrightScraper {
     async createLaunchContext(browser: Browser, generateFingerprint: boolean): Promise<BrowserContext> {
 
         const fingerprintGenerator = new FingerprintGenerator({
-            devices: ['desktop']
+            browsers: [
+                "chrome",
+                "safari",
+                "firefox",
+                "edge"
+            ],
+            devices: [
+                "desktop"
+            ],
+            operatingSystems: [
+                "windows"
+            ]
         });
 
         const fingerprint = fingerprintGenerator.getFingerprint();
+        const headers  = fingerprint.headers as {[key:string] : string};
+        Object.keys(headers).forEach(h => {console.log(`Header: ${h}, value: ${headers[h]}`)});
+
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,
-            //TODO: add locale parameter
             locale: fingerprint.fingerprint.navigator.language,
-            // Full HD resolution by default, it can only be set at this stage
-            viewport: { width: 1920, height: 1080 }
-
+            viewport: fingerprint.fingerprint.screen
         });
 
         if (generateFingerprint) {
