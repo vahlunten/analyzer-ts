@@ -4,7 +4,8 @@ import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { Input, Output } from "../src/types";
 import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
-import { readFileSync, writeFileSync } from "fs";
+import { copyFile, readFileSync, writeFileSync } from "fs";
+import { copyOutput } from './helpers/copy';
 
 const { log } = Apify.utils;
 /**
@@ -15,8 +16,8 @@ Apify.main(async () => {
 
     if (process.env.NODE_ENV != "production") {
         // Copy input from input examples
-        const inputFile = "./src/static/example_inputs/INPUT_AMIUNIQUE.json"
-        
+        const inputFile = "./src/static/example_inputs/INPUT_OSCAR.json"
+
         await Apify.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
     }
 
@@ -74,7 +75,12 @@ Apify.main(async () => {
     }
     output.analysisEnded = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
     await Apify.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
-    writeFileSync("../analyzer-ui/public/OUTPUT", JSON.stringify(output!, null, 2));
+ // if running in dev mode, cope the output to analyzer-ui public dir
+    if (process.env.NODE_ENV != "production") {
+
+        copyOutput();
+
+    }
 
 
 });

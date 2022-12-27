@@ -1,15 +1,13 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="utf-8">
     <title>Oscar Winning Films: AJAX and Javascript | Scrape This Site | A public sandbox for learning web scraping</title>
-    <link rel="icon" type="image/png" href="/static/images/scraper-icon.png" />
+    <link rel="icon" type="image/png" href="/static/images/scraper-icon.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it.">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
 
     
@@ -17,7 +15,7 @@
 <link href="https://lipis.github.io/flag-icon-css/css/flag-icon.css" rel="stylesheet">
 
 
-  </head>
+  <meta http-equiv="origin-trial" content="A751Xsk4ZW3DVQ8WZng2Dk5s3YzAyqncTzgv+VaE6wavgTY0QHkDvUTET1o7HanhuJO8lgv1Vvc88Ij78W1FIAAAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A751Xsk4ZW3DVQ8WZng2Dk5s3YzAyqncTzgv+VaE6wavgTY0QHkDvUTET1o7HanhuJO8lgv1Vvc88Ij78W1FIAAAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
 
   <body>
     <nav id="site-nav">
@@ -30,7 +28,7 @@
                                 Scrape This Site
                             </a>
                         </li>
-                        <li id="nav-sandbox">
+                        <li id="nav-sandbox" class="">
                             <a href="/pages/" class="nav-link">
                                 <i class="glyphicon glyphicon-console hidden-sm hidden-xs"></i>
                                 Sandbox
@@ -60,7 +58,7 @@
             </div>
         </nav>
 
-        <script type="text/javascript">
+        <script src="https://connect.facebook.net/signals/config/764287443701341?v=2.9.90&amp;r=stable" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript">
             var path = document.location.pathname;
             var tab = undefined;
             if (path === "/"){
@@ -90,7 +88,7 @@
                             Oscar Winning Films: AJAX and Javascript
                             <small>87 items</small>
                         </h1>
-                        <hr />
+                        <hr>
                     </div>
                 </div>
                 <div class="row">
@@ -99,7 +97,7 @@
                             Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it.
                             Look for ways that you can tell visually when a site is loading content with AJAX. Then, browse through your network tab to see those AJAX requests and scrape them.
                         </p>
-                        <hr />
+                        <hr>
                     </div>
                 </div>
                 <div class="row">
@@ -107,7 +105,7 @@
                         <p>
                             <i class="glyphicon glyphicon-education"></i> There are <a href="/lessons/">3 video lessons</a> that show you how to scrape this page.
                         </p>
-                        <hr />
+                        <hr>
                     </div>
                     <div class="col-md-6 text-right">
                         <p>
@@ -116,7 +114,7 @@
                                 <a href="https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films" class="data-attribution" target="_blank">https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films</a>
                             
                         </p>
-                        <hr />
+                        <hr>
                     </div>
                 </div>
 
@@ -125,7 +123,7 @@
                         <h3>
                             Choose a Year to View Films
                         </h3>
-                        <a href="#" class="year-link" id="2015">2015</a>
+                        <a href="#" class="year-link active" id="2015">2015</a>
                         <a href="#" class="year-link" id="2014">2014</a>
                         <a href="#" class="year-link" id="2013">2013</a>
                         <a href="#" class="year-link" id="2012">2012</a>
@@ -136,10 +134,10 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="loading" style="display:none">
-                            <img src="/static/images/ajax-loader.gif" class="center-block"/>
+                        <div id="loading" style="display: none;">
+                            <img src="/static/images/ajax-loader.gif" class="center-block">
                         </div>
-                        <table class="table" style="display:none">
+                        <table class="table" style="">
                             <thead>
                                 <tr>
                                     <th>Title</th>
@@ -148,9 +146,7 @@
                                     <th>Best Picture</th>
                                 </tr>
                             </thead>
-                            <tbody id="table-body">
-
-                            </tbody>
+                            <tbody id="table-body"><tr class="film"><td class="film-title">Spotlight  </td><td class="film-nominations">6</td><td class="film-awards">2</td><td class="film-best-picture"><i class="glyphicon glyphicon-flag"></i></td></tr><tr class="film"><td class="film-title">Mad Max: Fury Road </td><td class="film-nominations">10</td><td class="film-awards">6</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Revenant   </td><td class="film-nominations">12</td><td class="film-awards">3</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Bridge of Spies</td><td class="film-nominations">6</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Big Short  </td><td class="film-nominations">5</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Danish Girl</td><td class="film-nominations">4</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Room   </td><td class="film-nominations">4</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Ex Machina </td><td class="film-nominations">2</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Hateful Eight  </td><td class="film-nominations">2</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Inside Out </td><td class="film-nominations">2</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Amy</td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Bear Story </td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">A Girl in the River: The Price of Forgiveness  </td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Son of Saul</td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Spectre</td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Stutterer  </td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr></tbody>
                         </table>
                     </div><!--.col-->
                 </div><!--.row-->
@@ -165,12 +161,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center text-muted">
-                    Lessons and Videos &copy; Hartley Brody 2018
+                    Lessons and Videos © Hartley Brody 2018
                 </div><!--.col-->
             </div><!--.row-->
         </div><!--.container-->
     </section>
-  </body>
+  
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
@@ -313,7 +309,7 @@
     /* ]]> */
     </script>
     <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-    </script>
+    </script><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?random=1672148626457&amp;cv=9&amp;fst=1672148626457&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603260&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_his=5&amp;u_tz=60&amp;u_java=false&amp;u_nplug=5&amp;u_nmime=2&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=https%3A%2F%2Fwww.scrapethissite.com%2Fpages%2Fajax-javascript%2F&amp;tiba=Oscar%20Winning%20Films%3A%20AJAX%20and%20Javascript%20%7C%20Scrape%20This%20Site%20%7C%20A%20public%20sandbox%20for%20learning%20web%20scraping&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
     <noscript>
     <div style="display:inline;">
     <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?guid=ON&amp;script=0"/>
@@ -321,7 +317,7 @@
   </noscript>
 
   <!-- Global site tag (gtag.js) - Google AdWords: 950945448 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-950945448"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=AW-950945448"></script>
   <script>
    window.dataLayer = window.dataLayer || [];
    function gtag(){dataLayer.push(arguments);}
@@ -330,4 +326,4 @@
    gtag('config', 'AW-950945448');
   </script>
 
-</html>
+<script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?random=1672148626544&amp;cv=11&amp;fst=1672148626544&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=2oabu0&amp;u_w=1920&amp;u_h=1080&amp;hn=www.googleadservices.com&amp;frm=0&amp;url=https%3A%2F%2Fwww.scrapethissite.com%2Fpages%2Fajax-javascript%2F&amp;tiba=Oscar%20Winning%20Films%3A%20AJAX%20and%20Javascript%20%7C%20Scrape%20This%20Site%20%7C%20A%20public%20sandbox%20for%20learning%20web%20scraping&amp;auid=2009742441.1672148627&amp;uaa=x86&amp;uab=64&amp;uafvl=Google%2520Chrome%3B105.0.5195.127%7CNot)A%253BBrand%3B8.0.0.0%7CChromium%3B105.0.5195.127&amp;uapv=15.0.0&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script></body></html>

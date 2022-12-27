@@ -52,7 +52,7 @@ export class Validator {
 
             // validate XHR requests    
             xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            await Apify.setValue("XHR", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
+            await Apify.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
@@ -104,7 +104,7 @@ export class Validator {
                 this.$body = $("body").get(0);
                 this.body = body.toString();
                 log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
-                await Apify.setValue("cheerioInitial", this.body, { contentType: 'text/html; charset=utf-8' });
+                await Apify.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
 
 
             },

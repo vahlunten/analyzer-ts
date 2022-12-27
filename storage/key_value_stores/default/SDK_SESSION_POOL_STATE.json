@@ -3,7 +3,7 @@
   "retiredSessionsCount": 0,
   "sessions": [
     {
-      "id": "session_E9NNdbnRvZ",
+      "id": "session_hetoqeYIEW",
       "cookieJar": {
         "version": "tough-cookie@4.1.2",
         "storeType": "MemoryCookieStore",
@@ -16,8 +16,8 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2022-12-25T21:22:18.353Z",
-      "createdAt": "2022-12-25T20:32:18.353Z",
+      "expiresAt": "2022-12-27T14:33:58.433Z",
+      "createdAt": "2022-12-27T13:43:58.433Z",
       "usageCount": 1,
       "maxUsageCount": 50,
       "errorScore": 0

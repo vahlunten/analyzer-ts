@@ -7,6 +7,7 @@ import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../ty
 import { scrapeWindowProperties } from "../parsing/window-properties";
 
 import Apify from 'apify';
+import { writeFileSync } from 'fs';
 const { log } = Apify.utils;
 
 
@@ -128,8 +129,8 @@ export class PlaywrightScraper {
         });
 
         const fingerprint = fingerprintGenerator.getFingerprint();
-        const headers  = fingerprint.headers as {[key:string] : string};
-        Object.keys(headers).forEach(h => {console.log(`Header: ${h}, value: ${headers[h]}`)});
+        const headers = fingerprint.headers as { [key: string]: string };
+        Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
 
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,
@@ -159,16 +160,16 @@ export class PlaywrightScraper {
 
         // page.on('domcontentloaded', (page: Page) => this.onDomContentLoaded(page));
     }
-   
-   
-    
 
-    async getContent(page:Page) {
+
+
+
+    async getContent(page: Page) {
         const domContent = await page.content();
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
 
-        await Apify.setValue("domContent", domContent!, { contentType: 'text/html; charset=utf-8' });
+        await Apify.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 
         // it is good for quick visual check, whether the analysis was sucessful

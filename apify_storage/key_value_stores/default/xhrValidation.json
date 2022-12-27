@@ -7,12 +7,12 @@
         "headers": {
           "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
           "cf-cache-status": "DYNAMIC",
-          "cf-ray": "780271a5db91b380-PRG",
+          "cf-ray": "78027cbb1f9c4138-PRG",
           "content-encoding": "br",
           "content-type": "application/json",
-          "date": "Tue, 27 Dec 2022 13:36:14 GMT",
+          "date": "Tue, 27 Dec 2022 13:43:47 GMT",
           "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
-          "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=ibLVGrnDzAZrRX97tbbCkSMQkHGypZ3hxA9vyY5QtWfQO1%2BYiRCvSDf6EizG%2FRv00vi2%2F6OLFmNo7SC3bgRdFRv%2Fgf8oW8rjXCUrZu8QJiDU8eHVQTBKzBqxRwhgH5t1Vk7qT2UXgLyj\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+          "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=p1y0JP%2F%2FKF1oNhCVtTEC%2BkZ0UlIKwYvQLjeklmSPFRn8gl%2BlbypjOPTWRUhteoO52rat5jd5tIVuQheS3xgVI0J%2F6g3qhpONWCXWWm4ujyO3KgyptdaP05j5GDKfrthCEncjuw8dI3Xr\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
           "server": "cloudflare",
           "via": "1.1 vegur"
         }
@@ -54,16 +54,16 @@
             "body": "[\n  {\n    \"title\": \"Spotlight  \",\n    \"year\": 2015,\n    \"awards\": 2,\n    \"nominations\": 6,\n    \"best_picture\": true\n  },\n  {\n    \"title\": \"Mad Max: Fury Road \",\n    \"year\": 2015,\n    \"awards\": 6,\n    \"nominations\": 10\n  },\n  {\n    \"title\": \"The Revenant   \",\n    \"year\": 2015,\n    \"awards\": 3,\n    \"nominations\": 12\n  },\n  {\n    \"title\": \"Bridge of Spies\",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 6\n  },\n  {\n    \"title\": \"The Big Short  \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 5\n  },\n  {\n    \"title\": \"The Danish Girl\",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 4\n  },\n  {\n    \"title\": \"Room   \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 4\n  },\n  {\n    \"title\": \"Ex Machina \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 2\n  },\n  {\n    \"title\": \"The Hateful Eight  \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 2\n  },\n  {\n    \"title\": \"Inside Out \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 2\n  },\n  {\n    \"title\": \"Amy\",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 1\n  },\n  {\n    \"title\": \"Bear Story \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 1\n  },\n  {\n    \"title\": \"A Girl in the River: The Price of Forgiveness  \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 1\n  },\n  {\n    \"title\": \"Son of Saul\",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 1\n  },\n  {\n    \"title\": \"Spectre\",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 1\n  },\n  {\n    \"title\": \"Stutterer  \",\n    \"year\": 2015,\n    \"awards\": 1,\n    \"nominations\": 1\n  }\n]",
             "status": 200,
             "headers": {
-              "date": "Tue, 27 Dec 2022 13:36:26 GMT",
+              "date": "Tue, 27 Dec 2022 13:44:00 GMT",
               "content-type": "application/json",
               "transfer-encoding": "chunked",
               "connection": "close",
               "via": "1.1 vegur",
               "cf-cache-status": "DYNAMIC",
-              "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=0gAF7NSROJaszkCHggvhh4VIpK%2Fn%2B9xpolcFHyW9cSMEcfh7c8tXY3OBtcTnYGnuz2A%2FiMskteQ4hlrOUee8c3ObBB0UJKgvGyGPk3e%2BDLiR159H%2FQKu7vMo2ubla8aVHxwyiJljOu1J\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+              "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=csF9y%2ByjR3XUT1REmtJn4gHVfOxpBSkIIrVomTK%2FvoJEJqXiEZTTj%2BxcNsFd5UgvVdxplicQW2bob3%2FooPQ99wlm9u7zS%2BomajSAE0r9zMa%2BRRdQSuX4kkoMMhq96TGoGcj%2BAv%2BpAb2m\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
               "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
               "server": "cloudflare",
-              "cf-ray": "780271f249d7b385-PRG",
+              "cf-ray": "78027d092998f9d2-PRG",
               "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
             }
           },
