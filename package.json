@@ -1,13 +1,14 @@
 {
 	"name": "analyzer-ts",
 	"version": "0.0.1",
+	"type": "module",
 	"description": "This is an example of an Apify actor.",
 	"dependencies": {
 		"@types/cheerio": "^0.22.31",
 		"@types/node": "^18.0.6",
-		"apify": "^2.3.0",
+		"apify": "^3.1.1",
 		"cheerio": "^1.0.0-rc.12",
-		"crawlee": "^3.1.0",
+		"crawlee": "^3.1.4",
 		"dotenv": "^16.0.3",
 		"fingerprint-generator": "^2.0.1",
 		"fingerprint-injector": "^2.0.1",
@@ -31,7 +32,7 @@
 	"scripts": {
 		"start": "npm run start:dev",
 		"start:prod": "node dist/src/main.js",
-		"start:dev": "ts-node -T src/main.ts",
+		"start:dev": "ts-node --esm -T src/main.ts",
 		"build": "tsc -p tsconfig.json",
 		"test": "jest",
 		"apifyrun": "apify run"

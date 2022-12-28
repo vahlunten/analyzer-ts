@@ -1,5 +1,4 @@
 import cheerio from 'cheerio';
-import { log } from 'crawlee';
 import { normalizeString } from '../helpers/normalize';
 import { DataSource, NormalizedKeywordPair, SearchResult } from '../types';
 

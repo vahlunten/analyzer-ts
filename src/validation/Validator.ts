@@ -1,10 +1,8 @@
 import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation } from "../types";
-import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
+import { KeyValueStore, CheerioCrawler, log, CheerioCrawlerOptions} from 'crawlee';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
-import Apify from "apify";
-// import {  } from "@frontend/scripts";
 
 
 export class Validator {
@@ -55,7 +53,7 @@ export class Validator {
 
             // validate XHR requests    
             xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            await Apify.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
+            await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
@@ -109,11 +107,12 @@ export class Validator {
                 this.$body = $("body").get(0);
                 this.body = body.toString();
                 log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
-                await Apify.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
+                await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
 
 
             },
             maxRequestRetries: 10,
+
             
 
         }

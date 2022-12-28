@@ -2,17 +2,14 @@
     "extends": "@apify/tsconfig",
     "compilerOptions": {
         "skipLibCheck": true,
+        "module": "ES2022",
+        "target": "ES2022",
         "outDir": "dist",
         "noUnusedLocals": false,
         "noUnusedParameters": false,
-        "paths": { "@frontend/*": ["../analyzer-ui"]},
+        "moduleResolution": "Node"
     },
     "include": [
-        "./src/**/*",
-        "tests"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist"
+        "./src/**/*"
     ]
 }
