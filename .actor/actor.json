@@ -6,6 +6,6 @@
 	"environmentVariables": {
 		"APIFY_LOCAL_STORAGE_DIR": "./storage",
 		"CRAWLEE_STORAGE_DIR": "./storage",
-		"CRAWLEE_PURGE_ON_START":false
+		"CRAWLEE_PURGE_ON_START":"false"
 	}
 }
