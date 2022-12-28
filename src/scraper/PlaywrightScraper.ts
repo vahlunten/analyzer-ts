@@ -60,27 +60,27 @@ export class PlaywrightScraper {
 
         let proxyConfiguration = null;
 
-        // TODO: Ask Lukas about proxy
-        console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
-        console.log("apify local storage: " + process.env.APIFY_LOCAL_STORAGE_DIR)
+        // // TODO: Ask Lukas about proxy
+        // console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
+        // console.log("apify local storage: " + process.env.APIFY_LOCAL_STORAGE_DIR)
 
-        if (useApifyProxy) {
+        // if (useApifyProxy) {
 
-            proxyConfiguration = {
-                server: 'http://proxy.apify.com:8000',
-                username: 'auto',
-                password: ""
-            }
-            // if (process.env.APIFY_PROXY_PASSWORD) {
-            //     proxyConfiguration = {
-            //         server: 'http://proxy.apify.com:8000',
-            //         username: 'auto',
-            //         password: ""
-            //     }
-            //     // proxyConfiguration = await createProxyConfiguration();
+        //     proxyConfiguration = {
+        //         server: 'http://proxy.apify.com:8000',
+        //         username: 'auto',
+        //         password: ""
+        //     }
+        //     // if (process.env.APIFY_PROXY_PASSWORD) {
+        //     //     proxyConfiguration = {
+        //     //         server: 'http://proxy.apify.com:8000',
+        //     //         username: 'auto',
+        //     //         password: ""
+        //     //     }
+        //     //     // proxyConfiguration = await createProxyConfiguration();
 
-            // }
-        }
+        //     // }
+        // }
         // open chromium browser
         const browser = await chromium.launch({
             headless: false,
