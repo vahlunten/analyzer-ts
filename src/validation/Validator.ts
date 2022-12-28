@@ -25,8 +25,11 @@ export class Validator {
     public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{conclusion: KeywordConclusion[], xhrValidated: XhrValidation[]}> {
         let validatedData: KeywordConclusion[];
         let xhrValidated:XhrValidation[] = [];
+        // load initial html
+        const cheerioCrawlerLoaded = await this.loadHtml(url);
+
         // if we failed to load initial response of
-        if (await this.loadHtml(url) == false) {
+        if (cheerioCrawlerLoaded == false) {
             // fill keyword conclusion with unvalidated data
             validatedData =  this.createConclusion(searchResults,[], keywords);
         } else {
@@ -94,6 +97,8 @@ export class Validator {
      * @returns 
      */
     public async loadHtml(url: string): Promise<boolean> {
+        log.info("CheerioCrawler: loading input");
+
         const options: CheerioCrawlerOptions = {
             async errorHandler({ request }) {
                 log.info(`Request ${request.url} failed 15 times. Data found can not be validated.`);
