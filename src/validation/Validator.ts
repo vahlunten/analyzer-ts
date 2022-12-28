@@ -1,9 +1,10 @@
 import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation } from "../types";
-import { KeyValueStore, log } from '@crawlee/core';
+import { KeyValueStore, log, Request } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
-import { CheerioCrawler } from "crawlee";
+import { CheerioCrawler, createCheerioRouter } from "crawlee";
+import { Actor } from "apify";
 // import {  } from "@frontend/scripts";
 
 
@@ -22,16 +23,16 @@ export class Validator {
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{conclusion: KeywordConclusion[], xhrValidated: XhrValidation[]}> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[] }> {
         let validatedData: KeywordConclusion[];
-        let xhrValidated:XhrValidation[] = [];
+        let xhrValidated: XhrValidation[] = [];
         // load initial html
         const cheerioCrawlerLoaded = await this.loadHtml(url);
 
         // if we failed to load initial response of
         if (cheerioCrawlerLoaded == false) {
             // fill keyword conclusion with unvalidated data
-            validatedData =  this.createConclusion(searchResults,[], keywords);
+            validatedData = this.createConclusion(searchResults, [], keywords);
         } else {
 
             const validatedSearchResults = new SearchResults();
@@ -61,7 +62,7 @@ export class Validator {
         }
 
 
-        return {conclusion: validatedData,xhrValidated: xhrValidated};
+        return { conclusion: validatedData, xhrValidated: xhrValidated };
 
     }
 
@@ -72,7 +73,7 @@ export class Validator {
      * @param keywords 
      * @returns 
      */
-    public createConclusion(searchResults: SearchResults,xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
+    public createConclusion(searchResults: SearchResults, xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 
@@ -99,26 +100,32 @@ export class Validator {
     public async loadHtml(url: string): Promise<boolean> {
         log.info("CheerioCrawler: loading input");
 
-        // const options: CheerioCrawlerOptions = {
-        //     async errorHandler({ request }) {
-        //         log.info(`Request ${request.url} failed 15 times. Data found can not be validated.`);
+                // console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
 
-        //     },
-        //     requestHandler: async ({ request, response, body, contentType, $ }) => {
-        //         this.$ = $;
-        //         this.$body = $("body").get(0);
-        //         this.body = body.toString();
-        //         log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
-        //         await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
+        let proxyConfiguration;
+        if (process.env.APIFY_PROXY_PASSWORD) {
+            proxyConfiguration = await Actor.createProxyConfiguration({
+                useApifyProxy: true
+            });
+        }
+        const router = createCheerioRouter();
+
+        router.addDefaultHandler(async ({ request, response, body, $, log }) => {
+            this.$ = $;
+            this.$body = $("body").get(0);
+            this.body = body.toString();
+            log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
+            await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
 
 
-        //     },
-        //     maxRequestRetries: 10,
+
+        });
+
+        const crawler = new CheerioCrawler({
+            proxyConfiguration: proxyConfiguration ?? undefined,
+            requestHandler: router
             
-
-        // }
-        // // TODO: Ask Lukas about env variables to define APIFY_LOCAL_STORAGE_DIR
-        const crawler = new CheerioCrawler();
+        });
 
         await crawler.run([
             url
@@ -141,14 +148,14 @@ export class Validator {
                 const textFound = this.$!(searchResult.pathShort).text();
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
-                validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000 ;
+                validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000;
                 validatedSearchResult.isValid = textFound === searchResult.textFound;
                 validatedHtml.push(validatedSearchResult)
 
             })
         };
-        return validatedHtml.sort((a, b) => a.score - b.score );
-        
+        return validatedHtml.sort((a, b) => a.score - b.score);
+
     }
 
 

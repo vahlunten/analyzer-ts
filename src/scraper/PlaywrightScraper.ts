@@ -8,9 +8,6 @@ import { scrapeWindowProperties } from "../parsing/window-properties";
 import { KeyValueStore, log } from '@crawlee/core';
 
 
-import { writeFileSync } from 'fs';
-
-
 export class PlaywrightScraper {
 
     requests: ParsedRequestResponse[] = [];
@@ -57,34 +54,29 @@ export class PlaywrightScraper {
      * @returns 
      */
     async openBrowser(useApifyProxy: boolean, generateFingeprint: boolean): Promise<BrowserContext> {
+        let proxyConfiguration: {
+            server: string;
+            bypass?: string | undefined;
+            username?: string | undefined;
+            password?: string | undefined;
+        } | undefined;
 
-        let proxyConfiguration = null;
+        if (useApifyProxy && process.env.APIFY_PROXY_PASSWORD) {
+            // const apifyProxy = await Actor.createProxyConfiguration({
+            //     useApifyProxy: true
+            // });
 
-        // // TODO: Ask Lukas about proxy
-        // console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
-        // console.log("apify local storage: " + process.env.APIFY_LOCAL_STORAGE_DIR)
+            proxyConfiguration = {
+                server: "proxy.apify.com:8000",
+                username: "auto",
+                password: process.env.APIFY_PROXY_PASSWORD
 
-        // if (useApifyProxy) {
-
-        //     proxyConfiguration = {
-        //         server: 'http://proxy.apify.com:8000',
-        //         username: 'auto',
-        //         password: ""
-        //     }
-        //     // if (process.env.APIFY_PROXY_PASSWORD) {
-        //     //     proxyConfiguration = {
-        //     //         server: 'http://proxy.apify.com:8000',
-        //     //         username: 'auto',
-        //     //         password: ""
-        //     //     }
-        //     //     // proxyConfiguration = await createProxyConfiguration();
-
-        //     // }
-        // }
+            }
+        }
         // open chromium browser
         const browser = await chromium.launch({
             headless: false,
-            proxy: undefined,
+            proxy: proxyConfiguration ?? undefined,
             devtools: true
 
         });
@@ -111,7 +103,7 @@ export class PlaywrightScraper {
         const initialResponse = await page.goto(url, { waitUntil: 'networkidle', timeout: 50000 });
         const bodyBuffer = await initialResponse?.body();
         const responseBody = bodyBuffer?.toString() ?? '';
-        await page.waitForTimeout(10000);
+        await page.waitForTimeout(3000);
         await this.getContent(page);
         // save the value of initial response
         // TODO: handle redirects
