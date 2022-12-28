@@ -5,10 +5,10 @@ import { interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
 import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";
+import { KeyValueStore, log } from '@crawlee/core';
 
-import Apify, { createProxyConfiguration } from 'apify';
+
 import { writeFileSync } from 'fs';
-const { log } = Apify.utils;
 
 
 export class PlaywrightScraper {
@@ -115,7 +115,7 @@ export class PlaywrightScraper {
         await this.getContent(page);
         // save the value of initial response
         // TODO: handle redirects
-        await Apify.setValue("initial", responseBody, { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("initial", responseBody, { contentType: 'text/html; charset=utf-8' });
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
@@ -144,7 +144,7 @@ export class PlaywrightScraper {
 
         const fingerprint = fingerprintGenerator.getFingerprint();
         const headers = fingerprint.headers as { [key: string]: string };
-        Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
+        // Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
 
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,
@@ -183,14 +183,14 @@ export class PlaywrightScraper {
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
 
-        await Apify.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 
         // it is good for quick visual check, whether the analysis was sucessful
         // often, we can get blocked by for example cloudflare bot protection
         // it is easy for a human to visually tell, wether the page was navigated sucessfully
         const screenshot = await page.screenshot();
-        await Apify.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
+        await KeyValueStore.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
 
         // this will execute javascript **in the browser** and parse window properties
         const windowObject = await scrapeWindowProperties(page);

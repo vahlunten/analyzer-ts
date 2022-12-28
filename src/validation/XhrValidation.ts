@@ -1,11 +1,9 @@
 import { gotScraping, Method, Options, Response, CancelableRequest } from "got-scraping";
 import { isEqual } from "lodash";
-import Apify  from "apify";
 import { DOMSearch } from "../search/DOMSearch";
 import { JsonSearcher } from "../search/JsonSearch";
 import { DataSource, GotCall, NormalizedKeywordPair, ParsedRequestResponse, SearchResult, XhrSearchResult, XhrValidation } from "../types";
-
-const { log } = Apify.utils;
+import {  log } from '@crawlee/core';
 
 
 export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywords: NormalizedKeywordPair[], proxyUrl = ''): Promise<XhrValidation[]> {

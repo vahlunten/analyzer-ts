@@ -1,5 +1,4 @@
 import cheerio from 'cheerio';
-import { log } from 'crawlee';
 import { normalizeString } from '../helpers/normalize';
 import { DataSource, NormalizedKeywordPair, SearchResult } from '../types';
 
@@ -177,7 +176,7 @@ export class DOMSearch {
     // TODO: more sophisticated scoring system 
     getScore(keywordNormalized: string, textNormalized:string, selector: string ): number {
         const score = textNormalized.length - keywordNormalized.length;
-        console.log(score + selector.length);
+        // console.log(score + selector.length);
         return score;
     }
 

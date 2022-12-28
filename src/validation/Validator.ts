@@ -1,9 +1,9 @@
 import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation } from "../types";
-import { RequestList, CheerioCrawler, log, LogLevel, CheerioCrawlerOptions, Configuration } from 'crawlee';
+import { KeyValueStore, log } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
-import Apify from "apify";
+import { CheerioCrawler } from "crawlee";
 // import {  } from "@frontend/scripts";
 
 
@@ -55,7 +55,7 @@ export class Validator {
 
             // validate XHR requests    
             xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            await Apify.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
+            await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
@@ -99,26 +99,26 @@ export class Validator {
     public async loadHtml(url: string): Promise<boolean> {
         log.info("CheerioCrawler: loading input");
 
-        const options: CheerioCrawlerOptions = {
-            async errorHandler({ request }) {
-                log.info(`Request ${request.url} failed 15 times. Data found can not be validated.`);
+        // const options: CheerioCrawlerOptions = {
+        //     async errorHandler({ request }) {
+        //         log.info(`Request ${request.url} failed 15 times. Data found can not be validated.`);
 
-            },
-            requestHandler: async ({ request, response, body, contentType, $ }) => {
-                this.$ = $;
-                this.$body = $("body").get(0);
-                this.body = body.toString();
-                log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
-                await Apify.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
+        //     },
+        //     requestHandler: async ({ request, response, body, contentType, $ }) => {
+        //         this.$ = $;
+        //         this.$body = $("body").get(0);
+        //         this.body = body.toString();
+        //         log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
+        //         await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
 
 
-            },
-            maxRequestRetries: 10,
+        //     },
+        //     maxRequestRetries: 10,
             
 
-        }
-        // TODO: Ask Lukas about env variables to define APIFY_LOCAL_STORAGE_DIR
-        const crawler = new CheerioCrawler(options);
+        // }
+        // // TODO: Ask Lukas about env variables to define APIFY_LOCAL_STORAGE_DIR
+        const crawler = new CheerioCrawler();
 
         await crawler.run([
             url
