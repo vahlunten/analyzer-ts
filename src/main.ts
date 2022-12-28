@@ -1,4 +1,4 @@
-import Apify from 'apify';
+import Apify, {Configuration} from 'apify';
 import { normalizeArray } from './helpers/normalize';
 import { PlaywrightScraper } from "./scraper/PlaywrightScraper";
 import { Input, Output } from "../src/types";
@@ -8,20 +8,21 @@ import { copyFile, readFileSync, writeFileSync } from "fs";
 import { copyOutput } from './helpers/copy';
 
 const { log } = Apify.utils;
+
+(async () => {
+    if (process.env.NODE_ENV != "production") {
+        require('dotenv').config();
+    
+        // Copy input from input examples
+        const inputFile = "./src/static/example_inputs/PROXY.json"
+        await Apify.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
+    }
+})();
+
 /**
  * Actor's entry point. 
  */
 Apify.main(async () => {
-
-
-    if (process.env.NODE_ENV != "production") {
-        // Copy input from input examples
-        const inputFile = "./src/static/example_inputs/INPUT_OSCAR.json"
-
-        await Apify.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
-    }
-
-
 
     // Structure of the input is defined in /INPUT_SCHEMA.json.
     // This function expects INPUT.json file in the key-value storage
@@ -48,7 +49,7 @@ Apify.main(async () => {
     // TODO: implement multiple retries 
     try {
         // navigate to the website, scrape and parse the data 
-        const scrapedData = await scraper.scrapePage(false, true);
+        const scrapedData = await scraper.scrapePage(true, true);
 
         // after the browser is closed, search the data 
         const searchResults = searchData(scrapedData, normalizedKeywords);

@@ -1,7 +1,0 @@
-{
-	"name": "analyzer-ts",
-	"version": "0.0",
-	"buildTag": "latest",
-	"env": null,
-	"template": "getting_started_typescript"
-}

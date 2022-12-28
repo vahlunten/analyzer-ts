@@ -109,9 +109,10 @@ export class Validator {
 
             },
             maxRequestRetries: 10,
+            
 
         }
-
+        // TODO: Ask Lukas about env variables to define APIFY_LOCAL_STORAGE_DIR
         const crawler = new CheerioCrawler(options);
 
         await crawler.run([
@@ -132,7 +133,7 @@ export class Validator {
 
         if (this.$body != null) {
             searchResult.forEach(searchResult => {
-                const textFound = this.$!(searchResult.path).text();
+                const textFound = this.$!(searchResult.pathShort).text();
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
                 validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000 ;

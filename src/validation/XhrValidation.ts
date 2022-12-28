@@ -154,8 +154,8 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                 searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataSource.xhr);
             } else if (response.headers["content-type"].indexOf("html") != 1) {
                 searchResults = (new DOMSearch(response.body, DataSource.xhr)).find(keywords);
-            }
-            result.searchResults = searchResults;
+                }
+                result.searchResults = searchResults;
 
             if (searchResults.length > 0) {
                 // if the search results of the response body are the same as search results obtained during analysis

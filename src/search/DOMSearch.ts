@@ -65,6 +65,7 @@ export class DOMSearch {
             return true;
         }
     }
+    // TODO: Ask Lukas about CSS selector generation 
     getUniqueSelector(el: cheerio.Cheerio): string {
         var parents = el.parents();
         if (!parents[0]) {
@@ -157,13 +158,13 @@ export class DOMSearch {
             this.keywords.forEach(keyword => {
                 if (normalizedText.indexOf(keyword.normalized) != -1) {
                     searchResults.push(new SearchResult(path.join(" > "), keyword, root.text(), this.source, this.getUniqueSelector(root), this.getScore(keyword.normalized, text, "")));
-                    console.log("----------");
-                    // console.log("Root tagname: " + this.$(root).get(0).tagName);
-                    console.log("Old path: " + path.join(" > "));
-                    console.log("New path: " + this.getUniqueSelector(root));
-                    console.log("Root text: " + root.text());
-                    console.log("Short selector text: " + this.$(this.getUniqueSelector(root)).text())
-                    console.log("Long selector text: " + this.$(path.join(" > ")).text());
+                    // console.log("----------");
+                    // // console.log("Root tagname: " + this.$(root).get(0).tagName);
+                    // console.log("Old path: " + path.join(" > "));
+                    // console.log("New path: " + this.getUniqueSelector(root));
+                    // console.log("Root text: " + root.text());
+                    // console.log("Short selector text: " + this.$(this.getUniqueSelector(root)).text())
+                    // console.log("Long selector text: " + this.$(path.join(" > ")).text());
 
                 }
                 // console.log("Selectoros:     " + finder(this.$(root).ch, {}));

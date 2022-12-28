@@ -6,7 +6,7 @@ import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";
 
-import Apify from 'apify';
+import Apify, { createProxyConfiguration } from 'apify';
 import { writeFileSync } from 'fs';
 const { log } = Apify.utils;
 
@@ -59,22 +59,36 @@ export class PlaywrightScraper {
     async openBrowser(useApifyProxy: boolean, generateFingeprint: boolean): Promise<BrowserContext> {
 
         let proxyConfiguration = null;
+
+        // TODO: Ask Lukas about proxy
+        console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
+        console.log("apify local storage: " + process.env.APIFY_LOCAL_STORAGE_DIR)
+
         if (useApifyProxy) {
-            if (process.env.APIFY_PROXY_PASSWORD) {
-                proxyConfiguration = {
-                    server: 'http://proxy.apify.com:8000',
-                    username: 'auto',
-                    password: process.env.APIFY_PROXY_PASSWORD
-                }
+
+            proxyConfiguration = {
+                server: 'http://proxy.apify.com:8000',
+                username: 'auto',
+                password: ""
             }
+            // if (process.env.APIFY_PROXY_PASSWORD) {
+            //     proxyConfiguration = {
+            //         server: 'http://proxy.apify.com:8000',
+            //         username: 'auto',
+            //         password: ""
+            //     }
+            //     // proxyConfiguration = await createProxyConfiguration();
+
+            // }
         }
         // open chromium browser
         const browser = await chromium.launch({
             headless: false,
-            proxy: proxyConfiguration ?? undefined,
+            proxy: undefined,
             devtools: true
 
         });
+
 
         // open new tab
         const browserContext = this.createLaunchContext(browser, generateFingeprint);
