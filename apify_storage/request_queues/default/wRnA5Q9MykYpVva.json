@@ -1,9 +1,0 @@
-{
-	"id": "wRnA5Q9MykYpVva",
-	"json": "{\"id\":\"wRnA5Q9MykYpVva\",\"url\":\"http://proxy.apify.com/\",\"loadedUrl\":\"http://proxy.apify.com/\",\"uniqueKey\":\"http://proxy.apify.com\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{},\"handledAt\":\"2022-12-28T14:14:02.335Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "http://proxy.apify.com",
-	"url": "http://proxy.apify.com/"
-}

@@ -4,8 +4,8 @@
 	"version": "0.0",
 	"buildTag": "latest",
 	"environmentVariables": {
-		"APIFY_LOCAL_STORAGE_DIR": "./apify_storage",
-		"CRAWLEE_STORAGE_DIR": "./apify_storage",
+		"APIFY_LOCAL_STORAGE_DIR": "./storage",
+		"CRAWLEE_STORAGE_DIR": "./storage",
 		"CRAWLEE_PURGE_ON_START":false
 	}
 }
