@@ -48,7 +48,8 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     const options: Options = new Options({
         method: xhr.parsedRequestResponse.request.method as Method,
         body: xhr.parsedRequestResponse.request.body ?? undefined,
-        url: xhr.parsedRequestResponse.request.url
+        url: xhr.parsedRequestResponse.request.url,
+        timeout: {response: 5000}
     });
 
     let succeeded = false; 
@@ -116,7 +117,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
 }
 
 async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: Options): Promise<GotCall> {
-    const request = gotScraping(undefined, undefined, options, );
+    const request = gotScraping(undefined, undefined, options );
     let response: Response<string>;
     let searchResults: SearchResult[] = [];
     let result: GotCall = {

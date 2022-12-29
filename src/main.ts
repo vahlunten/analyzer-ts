@@ -4,7 +4,6 @@ import { Input, Output } from "../src/types";
 import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 import { readFileSync} from "fs";
-import { }  from 'crawlee';
 import { KeyValueStore, log } from '@crawlee/core';
 import { Actor } from 'apify';
 
@@ -13,7 +12,7 @@ import { Actor } from 'apify';
     if (process.env.NODE_ENV != "production") {
        
         // Copy input from input examples
-        const inputFile = "./src/static/example_inputs/PROXY.json"
+        const inputFile = "./src/static/example_inputs/INPUT_MALL.json"
         await KeyValueStore.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
         log.debug("Running in dev mode");
     }
@@ -45,7 +44,6 @@ import { Actor } from 'apify';
 
     const output = new Output(input.url, normalizedKeywords);
     output.analysisStarted = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    const validator = new Validator();
 
     // TODO: implement multiple retries 
     try {
@@ -54,6 +52,8 @@ import { Actor } from 'apify';
 
         // after the browser is closed, search the data 
         const searchResults = searchData(scrapedData, normalizedKeywords);
+
+        const validator = new Validator();
 
         // retrieve initial responses by cheeriocrawler and 
         // validate search results against it
@@ -67,7 +67,6 @@ import { Actor } from 'apify';
 
     } catch (e: any) {
 
-        // TODO: proper error handling
         log.error('Top lever error inside main:');
         log.error(e.message);
         console.error(e);

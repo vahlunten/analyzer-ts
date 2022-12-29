@@ -51,12 +51,21 @@ function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeyword
 // TODO: Use this inside XHR validation 
 export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: NormalizedKeywordPair[]):XhrSearchResult[] {
     let xhrFound: XhrSearchResult[] = [];
-    const jsonSearcher = new JsonSearcher();
 
     xhrParsed?.forEach(xhr => {
         if (xhr.response.headers["content-type"] != null) {
             if (xhr.response.headers["content-type"].indexOf('json') != -1 && xhr.response.body?.length > 0) {
+
+                const jsonSearcher = new JsonSearcher();
                 const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.xhr));
+                if (xhrSearchResult.length > 0) {
+                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
+                }
+            }
+
+            if (xhr.response.headers["content-type"].indexOf('html') != -1 && xhr.response.body?.length > 0) {
+                const domSearcher = new DOMSearch(xhr.response.body, DataSource.xhr)
+                const xhrSearchResult = (domSearcher.find(keywords));
                 if (xhrSearchResult.length > 0) {
                     xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
                 }

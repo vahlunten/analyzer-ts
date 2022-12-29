@@ -62,10 +62,6 @@ export class PlaywrightScraper {
         } | undefined;
 
         if (useApifyProxy && process.env.APIFY_PROXY_PASSWORD) {
-            // const apifyProxy = await Actor.createProxyConfiguration({
-            //     useApifyProxy: true
-            // });
-
             proxyConfiguration = {
                 server: "proxy.apify.com:8000",
                 username: "auto",

@@ -17,7 +17,6 @@ export async function scrapeWindowProperties(page: Page): Promise<{ [key: string
         const out: { [key: string]: any } = {}
         for (let index = 0; index < keys.length; index++) {
             const element = keys[index];
-            // TODO: maybe cast window to { [key: string]: any }?
             // @ts-ignore
             const value = window[element];
             let parsedValue: any;

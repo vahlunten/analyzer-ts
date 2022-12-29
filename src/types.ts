@@ -91,21 +91,28 @@ export class SearchResult
     pathShort: string | null;
     keyword: NormalizedKeywordPair;
     textFound: string;
+    textFoundShort: string;
     source: DataSource[] = [];
     score: number;
     textFoundValidation: string | null;
+    textFoundValidationShort: string | null;
     isValid: boolean;
 
 
-    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", score = 0, isValid = false) {
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
         this.path = path;
         this.keyword = keyword;
+        // text found in i
+
         this.textFound = textFound;
+        this.textFoundShort = textFoundShort;
+
         this.source.push(source);
-        this.textFoundValidation = null;
         this.pathShort = pathShort;
         this.score = score;
         this.isValid = isValid;
+        this.textFoundValidation = null;
+        this.textFoundValidationShort = textFoundValidationShort
     }
 }
 export class XhrSearchResult {

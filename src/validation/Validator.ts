@@ -5,12 +5,13 @@ import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
 import { CheerioCrawler, createCheerioRouter } from "crawlee";
 import { Actor } from "apify";
+import cheerio from "cheerio";
 // import {  } from "@frontend/scripts";
 
 
 export class Validator {
 
-    private $: cheerio.Root | null = null;
+    private $: any;;
     private body: string | null = null;
     private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
@@ -55,8 +56,8 @@ export class Validator {
             validatedSearchResults.schemaFound = schemaOrgValidated;
 
             // validate XHR requests    
-            xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
+            // xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+            // await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
@@ -109,9 +110,12 @@ export class Validator {
             });
         }
         const router = createCheerioRouter();
-
+        // TODO: Ask Lukas about error handler
         router.addDefaultHandler(async ({ request, response, body, $, log }) => {
-            this.$ = $;
+
+            // TODO: wtf?
+            this.$ = cheerio.load($.html());
+            // console.log(this.$.html());
             this.$body = $("body").get(0);
             this.body = body.toString();
             log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
@@ -121,9 +125,12 @@ export class Validator {
 
         });
 
+
         const crawler = new CheerioCrawler({
             proxyConfiguration: proxyConfiguration ?? undefined,
-            requestHandler: router
+            requestHandler: router,
+            requestHandlerTimeoutSecs: 30,
+            maxRequestRetries: 10,            
             
         });
 
@@ -143,13 +150,33 @@ export class Validator {
         let validatedHtml: SearchResult[] = [];
 
 
-        if (this.$body != null) {
+        if (this.$ != null) {
             searchResult.forEach(searchResult => {
-                const textFound = this.$!(searchResult.pathShort).text();
+                const textFound = this.$!(searchResult.path).text();
+                const textFoundValidationShort =  this.$!(searchResult.pathShort).text();
+
+
+                // firefox selector
+                // body > main:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(7) > td:nth-child(2) > code:nth-child(1)
+                // chromium selector
+                // body > main > table > tbody > tr:nth-child(7) > td > code
+
+
+                // const cheerios = this.$!(searchResult.pathShort);
+                // let textFound;
+                // if (cheerios) {
+                //     //this.$(this.getUniqueSelector(root)).text()
+                //     textFound = this.$!(searchResult.path).text()
+                //     cheerios.get().forEach(element => {
+                //         console.log("Cheerio length: " + cheerios.length +" "+ element.text());
+
+                //     });
+                // }
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
                 validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000;
                 validatedSearchResult.isValid = textFound === searchResult.textFound;
+                validatedSearchResult.textFoundValidationShort = textFoundValidationShort;
                 validatedHtml.push(validatedSearchResult)
 
             })

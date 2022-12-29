@@ -14,6 +14,7 @@ export class DOMSearch {
 
 
     public find(keywords: NormalizedKeywordPair[]): SearchResult[] {
+        // console.log(this.$.html());
 
         this.keywords = keywords;
 
@@ -55,14 +56,11 @@ export class DOMSearch {
     //     return newPath;
     // }
     isUniqueAndMatching(selector: string, text: string) {
-        const elements = this.$(selector).get();
-        if (elements.length = 0) {
-            return false;
-        } else if (elements.length > 1) {
-            return false;
-        } else {
+        const elements = this.$(selector);
+        if (elements.length == 1) {
             return true;
         }
+        return false;
     }
     // TODO: Ask Lukas about CSS selector generation 
     getUniqueSelector(el: cheerio.Cheerio): string {
@@ -126,6 +124,10 @@ export class DOMSearch {
     
     searchElement(root: cheerio.Cheerio, depth: number, tagName: string, path: string[]): SearchResult[] {
         // console.log("  ".repeat(depth), this.$(root).attr("class"));
+        // if (this.$(root).attr("id") == "iframe") {
+        //     console.log("found the iframe thingy");
+        //     console.log(root.html());
+        // }
 
 
         // if (this.$(root).attr("class") == "stcTitle") {
@@ -147,23 +149,29 @@ export class DOMSearch {
         } else {
             // console.log("Found element with no children: " + root.text() + "and class: " + this.$(root).attr("class") );
 
-            if (this.$(root).attr("class") == "commodityAvailabilityText avl") {
-                console.log("found the commodity thingy");
-            }
+            
             const text = root.text();
             const normalizedText = normalizeString(text)
 
 
             this.keywords.forEach(keyword => {
                 if (normalizedText.indexOf(keyword.normalized) != -1) {
-                    searchResults.push(new SearchResult(path.join(" > "), keyword, root.text(), this.source, this.getUniqueSelector(root), this.getScore(keyword.normalized, text, "")));
-                    // console.log("----------");
-                    // // console.log("Root tagname: " + this.$(root).get(0).tagName);
-                    // console.log("Old path: " + path.join(" > "));
-                    // console.log("New path: " + this.getUniqueSelector(root));
-                    // console.log("Root text: " + root.text());
-                    // console.log("Short selector text: " + this.$(this.getUniqueSelector(root)).text())
-                    // console.log("Long selector text: " + this.$(path.join(" > ")).text());
+                    console.log("----------");
+                    // console.log("Root tagname: " + this.$(root).get(0).tagName);
+                    const longPath = path.join(" > ");
+                    console.log("Long path: " + longPath);
+                    const shortPath = this.getUniqueSelector(root);
+                    console.log("Short path: " + shortPath);
+
+                    console.log("Root text: " + root.text());
+                    const longPathText = this.$(longPath).text();
+                    console.log("Long path text: " + longPathText);
+                    const shortPathText = this.$(shortPath).text();
+                    console.log("Short path text: " + shortPathText);
+                    // constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
+
+                    searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath ,"",shortPathText , this.getScore(keyword.normalized, text, "")));
+
 
                 }
                 // console.log("Selectoros:     " + finder(this.$(root).ch, {}));
