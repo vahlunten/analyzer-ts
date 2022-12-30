@@ -3,7 +3,7 @@
   "retiredSessionsCount": 0,
   "sessions": [
     {
-      "id": "session_grDGvdsw03",
+      "id": "session_WDay5atcLG",
       "cookieJar": {
         "version": "tough-cookie@4.1.2",
         "storeType": "MemoryCookieStore",
@@ -11,102 +11,13 @@
         "enableLooseMode": false,
         "allowSpecialUseDomain": true,
         "prefixSecurity": "silent",
-        "cookies": [
-          {
-            "key": "asid",
-            "value": "8biblorfm8kej94jvsgb5v69sr",
-            "expires": "2023-01-28T22:23:26.000Z",
-            "maxAge": 2592000,
-            "domain": "www.mall.cz",
-            "path": "/",
-            "secure": true,
-            "httpOnly": true,
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.750Z",
-            "lastAccessed": "2022-12-29T22:23:25.750Z",
-            "sameSite": "none"
-          },
-          {
-            "key": "uaid",
-            "value": "deleted",
-            "expires": "1970-01-01T00:00:01.000Z",
-            "maxAge": 0,
-            "domain": "www.mall.cz",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.750Z",
-            "lastAccessed": "2022-12-29T22:23:25.750Z"
-          },
-          {
-            "key": "unid",
-            "value": "546494361.1672352606",
-            "expires": "2024-12-29T22:23:26.000Z",
-            "maxAge": 63158400,
-            "domain": "www.mall.cz",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.751Z",
-            "lastAccessed": "2022-12-29T22:23:25.751Z"
-          },
-          {
-            "key": "_mgPrivacy",
-            "value": "000",
-            "domain": "www.mall.cz",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.751Z",
-            "lastAccessed": "2022-12-29T22:23:25.751Z"
-          },
-          {
-            "key": "_mgExp-114",
-            "value": "a",
-            "expires": "2023-02-27T22:23:26.000Z",
-            "domain": "www.mall.cz",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.751Z",
-            "lastAccessed": "2022-12-29T22:23:25.751Z"
-          },
-          {
-            "key": "_mgExp-138",
-            "value": "a",
-            "expires": "2023-02-27T22:23:26.000Z",
-            "domain": "www.mall.cz",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.751Z",
-            "lastAccessed": "2022-12-29T22:23:25.751Z"
-          },
-          {
-            "key": "_mgExp-0",
-            "value": "a",
-            "expires": "2023-03-29T22:23:26.000Z",
-            "domain": "www.mall.cz",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2022-12-29T22:23:25.751Z",
-            "lastAccessed": "2022-12-29T22:23:25.751Z"
-          },
-          {
-            "key": "__cf_bm",
-            "value": ".rn_GIOgPyp6Fwdm7SMMPH3VpTGKtQ_Jr.JfoEo08Ow-1672352606-0-AbFNc4rC5rwQezv2iun8VqzgqOjwF1HtelnNicggdQcPYiMqbnRhe0gTmMak88DY08fl+FUG5CZ61ZjG7HBONFCcYw4Ya0kF/hgoy42thKdJ",
-            "expires": "2022-12-29T22:53:26.000Z",
-            "domain": "mall.cz",
-            "path": "/",
-            "secure": true,
-            "httpOnly": true,
-            "hostOnly": false,
-            "creation": "2022-12-29T22:23:25.751Z",
-            "lastAccessed": "2022-12-29T22:23:25.751Z",
-            "sameSite": "none"
-          }
-        ]
+        "cookies": []
       },
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2022-12-29T23:13:25.189Z",
-      "createdAt": "2022-12-29T22:23:25.189Z",
+      "expiresAt": "2022-12-30T20:08:02.778Z",
+      "createdAt": "2022-12-30T19:18:02.778Z",
       "usageCount": 1,
       "maxUsageCount": 50,
       "errorScore": 0

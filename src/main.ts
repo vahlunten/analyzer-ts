@@ -12,7 +12,7 @@ import { Actor } from 'apify';
     if (process.env.NODE_ENV != "production") {
        
         // Copy input from input examples
-        const inputFile = "./src/static/example_inputs/INPUT_MALL.json"
+        const inputFile = "./src/static/example_inputs/INPUT_MICRODATA.json"
         await KeyValueStore.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
         log.debug("Running in dev mode");
     }

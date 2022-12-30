@@ -90,6 +90,9 @@ export class Validator {
         for (const searchResult of searchResults.htmlFound) {
             conclusion.get(searchResult.keyword.index)?.SearchResults.htmlFound.push(searchResult);
         }
+        for (const searchResult of searchResults.schemaFound) {
+            conclusion.get(searchResult.keyword.index)?.SearchResults.schemaFound.push(searchResult);
+        }
         return Array.from(conclusion.values());
     }
 
@@ -130,7 +133,8 @@ export class Validator {
             proxyConfiguration: proxyConfiguration ?? undefined,
             requestHandler: router,
             requestHandlerTimeoutSecs: 30,
-            maxRequestRetries: 10,            
+            maxRequestRetries: 10,
+
             
         });
 
@@ -153,6 +157,7 @@ export class Validator {
         if (this.$ != null) {
             searchResult.forEach(searchResult => {
                 const textFound = this.$!(searchResult.path).text();
+                // TODO : check if .get(0)
                 const textFoundValidationShort =  this.$!(searchResult.pathShort).text();
 
 
@@ -201,10 +206,13 @@ export class Validator {
 
             try {
                 // TODO: implement own JPath or try to disable @type matching 
-                const textFoundValidation = JSONPath({ path: jsonSearchResult.path, json: source });
+                const textFoundValidation = JSONPath({ path: "$." + jsonSearchResult.path, json: source });
                 const validatedSearchResult = jsonSearchResult;
                 validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
-                validatedSearchResult.isValid = textFoundValidation === jsonSearchResult.textFound;
+                // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
+                // console.log("Analysis text:" + jsonSearchResult.textFound);
+
+                validatedSearchResult.isValid = validatedSearchResult.textFoundValidation === jsonSearchResult.textFound;
                 validatedJson.push(validatedSearchResult);
             } catch (e) {
                 console.error(e);

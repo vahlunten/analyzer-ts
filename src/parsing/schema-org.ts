@@ -8,7 +8,7 @@ function extractValue($elem:cheerio.Cheerio) {
 
 function extractItemScope($: cheerio.Root, $itemScope: cheerio.Cheerio) {
     const item:any= {
-        _type: $itemScope.attr('itemtype'),
+        type: $itemScope.attr('itemtype'),
     };
     let count = 0;
     // iterate itemprops not nested in another itemscope
@@ -49,7 +49,7 @@ export function parseSchemaOrgData($: cheerio.Root) {
         return $(element).parents('[itemscope]').length === 0;
     }).each((_, element) => {
         result.push(extractItemScope($, $(element)));
-        result.push($(element));
+        // result.push($(element));
     });
 
     // remove circular references

@@ -1,4 +1,3 @@
-import log from "@apify/log";
 import { DataSource, NormalizedKeywordPair, SearchResult, ScrapedData, SearchResults, ParsedRequestResponse, XhrSearchResult } from "../types";
 import { DOMSearch } from "./DOMSearch";
 
@@ -137,3 +136,11 @@ export function removeDuplicates(initial: SearchResult[], dom: SearchResult[]): 
 
     return filtered;
 }
+
+//my JPATH
+// export function getValue(selector: string, json: any): any {
+//     const tokens = selector.split('.');
+//     if (condition) {
+        
+//     }
+// }

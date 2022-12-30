@@ -1,0 +1,9 @@
+{
+	"id": "upBUJuycw6xMPva",
+	"json": "{\"id\":\"upBUJuycw6xMPva\",\"url\":\"http://quotes.toscrape.com/\",\"loadedUrl\":\"http://quotes.toscrape.com/\",\"uniqueKey\":\"http://quotes.toscrape.com\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{},\"handledAt\":\"2022-12-30T19:18:03.107Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "http://quotes.toscrape.com",
+	"url": "http://quotes.toscrape.com/"
+}
