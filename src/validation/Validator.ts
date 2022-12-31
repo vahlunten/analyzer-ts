@@ -56,8 +56,8 @@ export class Validator {
             validatedSearchResults.schemaFound = schemaOrgValidated;
 
             // validate XHR requests    
-            // xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            // await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
+            xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+            await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }

@@ -49,7 +49,16 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
         method: xhr.parsedRequestResponse.request.method as Method,
         body: xhr.parsedRequestResponse.request.body ?? undefined,
         url: xhr.parsedRequestResponse.request.url,
-        timeout: {response: 5000}
+        timeout: {
+            connect: 2000,
+            response: 5000,
+            lookup: 2000,
+            read: 2000,
+            request: 2000,
+            secureConnect: 2000,
+            send: 2000,
+            socket: 2000
+        }
     });
 
     let succeeded = false; 

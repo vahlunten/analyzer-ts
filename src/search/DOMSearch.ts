@@ -69,14 +69,14 @@ export class DOMSearch {
             // Element doesn't have any parents
             return ':root';
         }
-        const elementSelector = this.getElementSelector(el);      
+        const elementSelector = this.getElementSelector(el);
 
         if (elementSelector[0] === '#' || elementSelector[0] === '.') {
             return elementSelector;
         }
 
-        let parentSelector:string;
-        let result:string = elementSelector;
+        let parentSelector: string;
+        let result: string = elementSelector;
 
         for (let i = 0; i < parents.length; i++) {
             const parent = this.$(parents[i]);
@@ -85,9 +85,9 @@ export class DOMSearch {
             if (this.isUniqueAndMatching(result, "")) {
                 break;
             }
-            
+
         }
-        
+
         return result;
     };
 
@@ -121,7 +121,7 @@ export class DOMSearch {
 
     }
 
-    
+
     searchElement(root: cheerio.Cheerio, depth: number, tagName: string, path: string[]): SearchResult[] {
         // console.log("  ".repeat(depth), this.$(root).attr("class"));
         // if (this.$(root).attr("id") == "iframe") {
@@ -135,10 +135,47 @@ export class DOMSearch {
         // }
         let searchResults: SearchResult[] = [];
         // console.log("Id: " + this.$(root).attr("id"));
+
+        const textttt = this.$(root).first().contents().filter(function(index, element) {
+            return element.type === 'text';
+        }).text();
+        if (textttt) {
+            const text = root.text();
+            const normalizedText = normalizeString(textttt)
+            this.keywords.forEach(keyword => {
+                if (normalizedText.indexOf(keyword.normalized) != -1) {
+                    // console.log("------TEXT NOT IN A ROOT ELEMENT----");
+                    // console.log("Root tagname: " + this.$(root).get(0).tagName);
+                    const longPath = path.join(" > ");
+                    const longPathText = this.$(longPath).text();
+                    const shortPath = this.getUniqueSelector(root);
+                    const shortPathText = this.$(shortPath).text();
+
+                    // console.log("Long path: " + longPath);
+                    // console.log("Short path: " + shortPath);
+                    // console.log("Root text: " + root.text());
+                    // console.log("Clean text:" +textttt);
+
+                    // console.log("Long path text: " + longPathText);
+                    // console.log("Short path text: " + shortPathText);
+                    // constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
+
+                    searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath, "", shortPathText, this.getScore(keyword.normalized, text, "")));
+
+                }
+            });
+        }
         if (root.children().length > 0) {
 
-            // console.log("Found parent with id: " + this.$(root).attr("id") + "and text: " + this.$(root).text());
+            // console.log("Found parent with class: " + this.$(root).attr("class") + "and text: " + this.$(root).text());
+            if (root.attr("class") == "availability-row__delivery--redesign") {
+                // console.log("gotcha");
+                // root.attr("class");
+                // console.log("Text: " + root.text());
+                // console.log("html: " + root.html());
 
+                // console.log("Children count : " + root.children().length);
+            }
             root.children().each((index, element) => {
 
                 const search = this.searchElement(this.$(element), depth + 1, this.$(element).get(0).tagName, [...path, `${this.$(element).get(0).tagName}:nth-child(${index + 1})`]);
@@ -149,28 +186,28 @@ export class DOMSearch {
         } else {
             // console.log("Found element with no children: " + root.text() + "and class: " + this.$(root).attr("class") );
 
-            
+
             const text = root.text();
             const normalizedText = normalizeString(text)
 
 
             this.keywords.forEach(keyword => {
                 if (normalizedText.indexOf(keyword.normalized) != -1) {
-                    console.log("----------");
+                    // console.log("----------");
                     // console.log("Root tagname: " + this.$(root).get(0).tagName);
                     const longPath = path.join(" > ");
-                    console.log("Long path: " + longPath);
-                    const shortPath = this.getUniqueSelector(root);
-                    console.log("Short path: " + shortPath);
-
-                    console.log("Root text: " + root.text());
                     const longPathText = this.$(longPath).text();
-                    console.log("Long path text: " + longPathText);
+                    const shortPath = this.getUniqueSelector(root);
                     const shortPathText = this.$(shortPath).text();
-                    console.log("Short path text: " + shortPathText);
+
+                    // console.log("Long path: " + longPath);
+                    // console.log("Short path: " + shortPath);
+                    // console.log("Root text: " + root.text());
+                    // console.log("Long path text: " + longPathText);
+                    // console.log("Short path text: " + shortPathText);
                     // constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
 
-                    searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath ,"",shortPathText , this.getScore(keyword.normalized, text, "")));
+                    searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath, "", shortPathText, this.getScore(keyword.normalized, text, "")));
 
 
                 }
@@ -182,7 +219,7 @@ export class DOMSearch {
     }
 
     // TODO: more sophisticated scoring system 
-    getScore(keywordNormalized: string, textNormalized:string, selector: string ): number {
+    getScore(keywordNormalized: string, textNormalized: string, selector: string): number {
         const score = textNormalized.length - keywordNormalized.length;
         // console.log(score + selector.length);
         return score;
