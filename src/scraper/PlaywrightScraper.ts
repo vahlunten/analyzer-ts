@@ -6,6 +6,8 @@ import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";
 import { KeyValueStore, log } from '@crawlee/core';
+import {prettyPrint}  from "html";
+
 
 
 export class PlaywrightScraper {
@@ -103,7 +105,7 @@ export class PlaywrightScraper {
         await this.getContent(page);
         // save the value of initial response
         // TODO: handle redirects
-        await KeyValueStore.setValue("initial", responseBody, { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("initial", prettyPrint(responseBody, {indent_size: 2}), { contentType: 'text/html; charset=utf-8' });
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
@@ -188,3 +190,5 @@ export class PlaywrightScraper {
         this.scrapedData.scrapingFinished = true;
     }
 }
+
+

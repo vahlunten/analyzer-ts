@@ -25,36 +25,6 @@ export class DOMSearch {
 
         return htmlSearchResults;
     }
-
-    // traverseBack(root: cheerio.Cheerio, path: string[]): string {
-    //     let newPath: string = "";
-
-    //     const parents = this.$(root).parents().each((index, element) => {
-    //         console.log("Parent: " + this.$(element).get(0).tagName);
-    //         let id = this.$(element).attr("id");
-    //         if (id != "") {
-    //             if (id == "h1c") {
-    //                 console.log("H1c found.")
-    //             }
-    //             // #h1c > h1:nth-child(1)
-    //             let newPathArray: string[] = [];
-    //             this.$(root).parentsUntil(`#${id}`).each((i, e) => { newPathArray.push(this.$(e).get(0).tagName) });
-    //             newPath = [`#${id}`, " > ", this.$(element).get(0).tagName, ":", newPathArray.join(" > ")].join("");
-    //             console.log("Id:" + id);
-    //         }
-    //         // console.log("Tagname" + this.$(element).);
-    //         // console.log("Old path: " + path.join(" > "));
-    //     });
-
-    //     // parents.forEach(parent => {
-    //     //     if (parent) {
-
-    //     //     }
-    //     //     depth++;
-    //     //     console.log()
-    //     // });
-    //     return newPath;
-    // }
     isUniqueAndMatching(selector: string, text: string) {
         const elements = this.$(selector);
         if (elements.length == 1) {
@@ -177,10 +147,9 @@ export class DOMSearch {
                 // console.log("Children count : " + root.children().length);
             }
             root.children().each((index, element) => {
-
-                const search = this.searchElement(this.$(element), depth + 1, this.$(element).get(0).tagName, [...path, `${this.$(element).get(0).tagName}:nth-child(${index + 1})`]);
-                search.forEach(element => {
-                    searchResults.push(element);
+                const elementSearchResults = this.searchElement(this.$(element), depth + 1, this.$(element).get(0).tagName, [...path, `${this.$(element).get(0).tagName}:nth-child(${index + 1})`]);
+                elementSearchResults.forEach(elementSearchResult => {
+                    searchResults.push(elementSearchResult);
                 });
             });
         } else {

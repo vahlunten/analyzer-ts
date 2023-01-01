@@ -11,7 +11,7 @@ import { Actor } from 'apify';
 (async () => {
     if (process.env.NODE_ENV != "production") {
        
-        // Copy input from input examples
+        // Copy input from input examples   
         const inputFile = "./src/static/example_inputs/INPUT_MALL.json"
         await KeyValueStore.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
         log.debug("Running in dev mode");

@@ -89,7 +89,8 @@ function searchWIndowObject(windowFound: any, keywords: NormalizedKeywordPair[])
 // Only removes entries with matching selectors and matching text found value. 
 // TODO: Make this work and more efficient 
 export function removeDuplicates(initial: SearchResult[], dom: SearchResult[]): SearchResult[] {
-    const filtered: SearchResult[] = initial.concat(dom);
+    const filtered: SearchResult[] = [];
+    // const filtered: SearchResult[] = initial.concat(dom);
     // const filtered: SearchResult[] = [];
 
     // initial.map(value => {
@@ -133,6 +134,72 @@ export function removeDuplicates(initial: SearchResult[], dom: SearchResult[]): 
     //         filtered.push(domValue);
     //     }
     // })
+    // console.log("Keyword: " + initial.length > 0 ? initial[0].keyword.original : "empty");
+    // initial.forEach(initialElement => {
+
+    //     let duplicate = false;
+    //     dom.forEach(domElement => {
+    //         if (initialElement.pathShort === domElement.pathShort && initialElement.textFound === domElement.textFound) {
+    //             const newElement = {...initialElement};
+    //             newElement.source = initialElement.source.concat(domElement.source);     
+    //             filtered.push(newElement);      
+    //             duplicate = true; 
+    //             // if (initialElement.textFound === domElement.textFound) {
+    //             //     const newElement = {...initialElement};
+    //             //     newElement.source = initialElement.source.concat(domElement.source);     
+    //             //     filtered.push(newElement);      
+    //             //     duplicate = true; 
+
+    //             // } else {
+    //             // // filtered.push(initialElement);
+    //             // // filtered.push(domElement);
+                    
+    //             // }
+                
+    //         }
+
+    //     })
+
+    //     if (!duplicate) {
+    //         filtered.push(initialElement);
+    //     }
+
+    // });
+
+
+    for (const initialElement of initial) {
+        let foudDuplicate = false;
+        for (const domElement of dom) {
+            if (initialElement.pathShort === domElement.pathShort) {
+                // found duplicate selector
+                if (initialElement.textFound === domElement.textFound) {
+                    // found duplicate selector with matching text
+                    const duplicateElement = {...initialElement};
+                    duplicateElement.source = initialElement.source.concat(domElement.source);     
+                    filtered.push(duplicateElement);
+                    foudDuplicate = true;
+                    break;
+                    
+                }
+            } 
+
+        }
+        if (!foudDuplicate) {
+            filtered.push(initialElement);
+        }
+    }
+
+    for (const domElement of dom) {
+        if (filtered.filter( filteredElement => { return filteredElement.pathShort === domElement.pathShort}).length == 0) {
+            filtered.push(domElement);
+        }
+    }
+    // console.log("Filtered length" + filtered.length);
+    // dom.forEach(domElement => {
+    //     if (filtered.filter(filteredValue => {return domElement.pathShort === filteredValue.pathShort}).length == 0) {
+    //         filtered.push(domElement);
+    //     }
+    // });
 
     return filtered;
 }

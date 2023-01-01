@@ -43,7 +43,7 @@ export class JsonSearcher {
             const textNormalized = normalizeString(text);
             this.normalizedKeywordsPair.forEach((keyword) => {
                 if (textNormalized.indexOf(keyword.normalized) != -1) {
-                    searchResults.push(new SearchResult(path.join('.'), keyword, text, this.source!));
+                    searchResults.push(new SearchResult(path.join('.'), keyword, text, this.source!, path.join('.')));
                 }
             });
             // TODO: Calculate scores

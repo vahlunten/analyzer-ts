@@ -22,6 +22,10 @@ export function interceptRequests(route: Route, request: Request, saveBandwith: 
 }
 
 export async function onResponse(xhrParsed: ParsedRequestResponse[], response: Response) {
+    // if (response.url() === " 	https://www.mall.cz/pracky/samsung-ww90t654dlhs7") {
+    //     return;
+    // }
+    // console.log(response.url())
     // if reponse is NOT a redirect, parse its content
     // new request will be issued
     if (!(response.status() >= 300 && response.status() <= 399)) {
