@@ -104,7 +104,6 @@ export class PlaywrightScraper {
         await page.waitForTimeout(3000);
         await this.getContent(page);
         // save the value of initial response
-        // TODO: handle redirects
         await KeyValueStore.setValue("initial", prettyPrint(responseBody, {indent_size: 2}), { contentType: 'text/html; charset=utf-8' });
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
@@ -160,9 +159,7 @@ export class PlaywrightScraper {
             page.route("**", (route, request) => interceptRequests(route, request, saveBandwith));
         }
 
-        page.on("response", async (response: Response) => await onResponse(this.requests, response));
-
-        // page.on('domcontentloaded', (page: Page) => this.onDomContentLoaded(page));
+        page.on("response", async (response: Response) => await onResponse(this.requests, response, this.url));
     }
 
 

@@ -32,7 +32,6 @@ export class DOMSearch {
         }
         return false;
     }
-    // TODO: Ask Lukas about CSS selector generation 
     getUniqueSelector(el: cheerio.Cheerio): string {
         var parents = el.parents();
         if (!parents[0]) {
@@ -70,7 +69,6 @@ export class DOMSearch {
             }
         }
         if (el.attr('class')) {
-            // TODO: check unique class
             const classSelector = '.' + el.attr('class');
             if (this.isUniqueAndMatching(classSelector, this.$(classSelector).text())) {
                 return classSelector;
@@ -106,35 +104,48 @@ export class DOMSearch {
         let searchResults: SearchResult[] = [];
         // console.log("Id: " + this.$(root).attr("id"));
 
-        const textttt = this.$(root).first().contents().filter(function(index, element) {
+    
+        
+        const rootElementText = this.$(root).first().contents().filter(function(index, element) {
             return element.type === 'text';
         }).text();
-        if (textttt) {
-            const text = root.text();
-            const normalizedText = normalizeString(textttt)
-            this.keywords.forEach(keyword => {
-                if (normalizedText.indexOf(keyword.normalized) != -1) {
-                    // console.log("------TEXT NOT IN A ROOT ELEMENT----");
-                    // console.log("Root tagname: " + this.$(root).get(0).tagName);
-                    const longPath = path.join(" > ");
-                    const longPathText = this.$(longPath).text();
-                    const shortPath = this.getUniqueSelector(root);
-                    const shortPathText = this.$(shortPath).text();
+        // TODO: chekc this out one more time
+        // console.log("Root element text:" + rootElementText);
 
-                    // console.log("Long path: " + longPath);
-                    // console.log("Short path: " + shortPath);
-                    // console.log("Root text: " + root.text());
-                    // console.log("Clean text:" +textttt);
+        // if (rootElementText === "326,63 €") {
+        //     console.log("here");
+        // }
+        // let rootElementCHildrenText: string;
+        // root.children().each((index, element) => {
+        //     // console.log("Children element text: " + this.$(element).first().text());
+        //     rootElementCHildrenText += this.$(element).first().text();
+        // })
+        // if (rootElementText) {
+        //     const text = root.text();
+        //     const normalizedText = normalizeString(rootElementText)
+        //     this.keywords.forEach(keyword => {
+        //         if (normalizedText.indexOf(keyword.normalized) != -1) {
+        //             // console.log("------TEXT NOT IN A ROOT ELEMENT----");
+        //             // console.log("Root tagname: " + this.$(root).get(0).tagName);
+        //             const longPath = path.join(" > ");
+        //             const longPathText = this.$(longPath).text();
+        //             const shortPath = this.getUniqueSelector(root);
+        //             const shortPathText = this.$(shortPath).text();
 
-                    // console.log("Long path text: " + longPathText);
-                    // console.log("Short path text: " + shortPathText);
-                    // constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
+        //             // console.log("Long path: " + longPath);
+        //             // console.log("Short path: " + shortPath);
+        //             // console.log("Root text: " + root.text());
+        //             // console.log("Clean text:" +textttt);
 
-                    searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath, "", shortPathText, this.getScore(keyword.normalized, text, "")));
+        //             // console.log("Long path text: " + longPathText);
+        //             // console.log("Short path text: " + shortPathText);
+        //             // constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
 
-                }
-            });
-        }
+        //             searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath, "", shortPathText, this.getScore(keyword.normalized, text, "")));
+
+        //         }
+        //     });
+        // }
         if (root.children().length > 0) {
 
             // console.log("Found parent with class: " + this.$(root).attr("class") + "and text: " + this.$(root).text());

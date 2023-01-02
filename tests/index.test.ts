@@ -66,28 +66,6 @@ describe('Html search test', () => {
 
 });
 
-// //TODO: fix this 
-// describe("Search tests", () => { 
-//   test('Should return 0 results', () => {
-//     const filtered = removeDuplicates(searchResultInitial, searchResultDom);
-//     for (const iterator of filtered) {
-//       console.log(iterator);
-//     }
-//     expect(filtered.length).toBe(5);
-//   });
-
-// })
-
-
-// describe("Chereriocrawler test", () => {
-
-//   test("Should get titles of example.org /1 /2", async () => {
-//     const data = await Validator.loadHtml();   
-
-//     expect(data).toHaveLength(2);
-
-//   })
-// })
 const testJson = {
   object: {
     objectChild: {

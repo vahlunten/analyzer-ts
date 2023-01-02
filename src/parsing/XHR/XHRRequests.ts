@@ -21,11 +21,13 @@ export function interceptRequests(route: Route, request: Request, saveBandwith: 
     route.continue();
 }
 
-export async function onResponse(xhrParsed: ParsedRequestResponse[], response: Response) {
-    // if (response.url() === " 	https://www.mall.cz/pracky/samsung-ww90t654dlhs7") {
-    //     return;
-    // }
+export async function onResponse(xhrParsed: ParsedRequestResponse[], response: Response, url: string) {
+    // do not save the initial repsonse as it is saved in the PlaywrightScraper
+    if (response.url() === url) {
+        return;
+    }
     // console.log(response.url())
+
     // if reponse is NOT a redirect, parse its content
     // new request will be issued
     if (!(response.status() >= 300 && response.status() <= 399)) {

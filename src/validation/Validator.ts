@@ -51,10 +51,13 @@ export class Validator {
             const metaValidated = this.validateJsonSearchResults(this.parsedCheerio.metadata, searchResults.metaFound);
             validatedSearchResults.metaFound = metaValidated;
 
-            // TODO: validate schama.org data
+            // Validate microdata
             const schemaOrgValidated = this.validateJsonSearchResults(this.parsedCheerio.schemaOrgData, searchResults.schemaFound);
             validatedSearchResults.schemaFound = schemaOrgValidated;
 
+            // copy window properties
+            validatedSearchResults.windowFound = searchResults.windowFound;
+            
             // validate XHR requests    
             xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
             await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
@@ -92,6 +95,9 @@ export class Validator {
         }
         for (const searchResult of searchResults.schemaFound) {
             conclusion.get(searchResult.keyword.index)?.SearchResults.schemaFound.push(searchResult);
+        }
+        for (const searchResult of searchResults.windowFound) {
+            conclusion.get(searchResult.keyword.index)?.SearchResults.windowFound.push(searchResult);
         }
         return Array.from(conclusion.values());
     }

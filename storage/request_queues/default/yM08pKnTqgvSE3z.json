@@ -1,9 +1,0 @@
-{
-	"id": "yM08pKnTqgvSE3z",
-	"json": "{\"id\":\"yM08pKnTqgvSE3z\",\"url\":\"https://www.scrapethissite.com/pages/frames/\",\"loadedUrl\":\"https://www.scrapethissite.com/pages/frames/\",\"uniqueKey\":\"https://www.scrapethissite.com/pages/frames\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{},\"handledAt\":\"2023-01-01T21:53:03.982Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.scrapethissite.com/pages/frames",
-	"url": "https://www.scrapethissite.com/pages/frames/"
-}

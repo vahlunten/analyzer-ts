@@ -20,7 +20,7 @@ export function searchData(scraped: ScrapedData, keywords: NormalizedKeywordPair
     const xhrFound = searchXHR(scraped.xhrParsed!, keywords);
     searchResults.xhrFound = xhrFound;
     // search window
-    const windowSearchResults = searchWIndowObject(scraped.windowFound, keywords);
+    const windowSearchResults = SearchJsonData([], scraped.allWindowProperties,keywords);
     searchResults.windowFound = windowSearchResults;
 
     return searchResults;
@@ -87,85 +87,8 @@ function searchWIndowObject(windowFound: any, keywords: NormalizedKeywordPair[])
 
 // Filter duplicates obtained from initial response and those from loaded content.
 // Only removes entries with matching selectors and matching text found value. 
-// TODO: Make this work and more efficient 
 export function removeDuplicates(initial: SearchResult[], dom: SearchResult[]): SearchResult[] {
     const filtered: SearchResult[] = [];
-    // const filtered: SearchResult[] = initial.concat(dom);
-    // const filtered: SearchResult[] = [];
-
-    // initial.map(value => {
-
-    //     let duplicate = false;
-    //     for (const domResult of dom) {
-    //         if (domResult.path === value.path) {
-    //             duplicate = true;
-    //             // paths and text values are the same, we want to store one entry with both data sources set
-    //             if (domResult.textFound === value.textFound) {
-    //                 const copy = value;
-    //                 // value already has "initial" data source set
-    //                 value.source.push(DataSource.rendered);
-    //                 filtered.push(copy);
-    //             } else {
-    //                 filtered.push(value);
-    //                 filtered.push(domResult);
-    //             }
-    //             break;
-    //         }
-
-    //     }
-    //     if(!duplicate) {
-    //         filtered.push(value);
-    //     }
-
-
-    // });
-
-    // dom.map(domValue => {
-    //     let duplicate = false;
-    //     for (const filteredValue of filtered) {
-    //         if (domValue.path == filteredValue.path) {
-    //             duplicate = true;
-    //             break;
-    //         }
-
-    //     }
-
-    //     if(!duplicate) {
-    //         filtered.push(domValue);
-    //     }
-    // })
-    // console.log("Keyword: " + initial.length > 0 ? initial[0].keyword.original : "empty");
-    // initial.forEach(initialElement => {
-
-    //     let duplicate = false;
-    //     dom.forEach(domElement => {
-    //         if (initialElement.pathShort === domElement.pathShort && initialElement.textFound === domElement.textFound) {
-    //             const newElement = {...initialElement};
-    //             newElement.source = initialElement.source.concat(domElement.source);     
-    //             filtered.push(newElement);      
-    //             duplicate = true; 
-    //             // if (initialElement.textFound === domElement.textFound) {
-    //             //     const newElement = {...initialElement};
-    //             //     newElement.source = initialElement.source.concat(domElement.source);     
-    //             //     filtered.push(newElement);      
-    //             //     duplicate = true; 
-
-    //             // } else {
-    //             // // filtered.push(initialElement);
-    //             // // filtered.push(domElement);
-                    
-    //             // }
-                
-    //         }
-
-    //     })
-
-    //     if (!duplicate) {
-    //         filtered.push(initialElement);
-    //     }
-
-    // });
-
 
     for (const initialElement of initial) {
         let foudDuplicate = false;
