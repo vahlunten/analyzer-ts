@@ -46,8 +46,8 @@ export class ScrapedPage {
  * OUTPUT.JSON 
  */
 export class Output {
-    url: string;
-    keywords: NormalizedKeywordPair[];
+    url: string = "";
+    keywords: NormalizedKeywordPair[] = [];
 
     scrapedData?: ScrapedData;
     searchResults:SearchResults | null = null;
@@ -55,7 +55,7 @@ export class Output {
     keywordConclusions?:KeywordConclusion[];
 
     xhrValidated: XhrValidation[] = [];
-
+    cheerioCrawlerSuccess: boolean = false;
     
     analysisStarted: string | null = null;
     analysisEnded: string | null = null;
@@ -63,10 +63,11 @@ export class Output {
     actorSuccess: boolean = true;
     errorMessage: string | null = null;
 
-    constructor(url: string, keywords: NormalizedKeywordPair[]) {
+    setInput(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;
         this.keywords = keywords;
     }
+    
 }
 
 

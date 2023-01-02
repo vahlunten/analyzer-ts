@@ -24,6 +24,10 @@ export function normalizeString(keyword: string): string {
     return normalized.toLowerCase();
 }
 
+export function getCUrrentDate(): string {
+    return new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+}
+
 const removeHTMLTags = (text: string) => text.replace(/<[^>]*>?/g, '');
 const replaceHTMLEntities = (text: string) => htmlEntities.decode(text);
 const removeSpaces = (text: string) => text.replace(/\s/g, '');

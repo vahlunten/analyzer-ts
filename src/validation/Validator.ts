@@ -24,7 +24,7 @@ export class Validator {
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[] }> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean}> {
         let validatedData: KeywordConclusion[];
         let xhrValidated: XhrValidation[] = [];
         // load initial html
@@ -57,7 +57,7 @@ export class Validator {
 
             // copy window properties
             validatedSearchResults.windowFound = searchResults.windowFound;
-            
+
             // validate XHR requests    
             xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
             await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
@@ -66,7 +66,7 @@ export class Validator {
         }
 
 
-        return { conclusion: validatedData, xhrValidated: xhrValidated };
+        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded};
 
     }
 
@@ -214,7 +214,9 @@ export class Validator {
                 // TODO: implement own JPath or try to disable @type matching 
                 const textFoundValidation = JSONPath({ path: "$." + jsonSearchResult.path, json: source });
                 const validatedSearchResult = jsonSearchResult;
-                validatedSearchResult.textFoundValidation = textFoundValidation.length ? textFoundValidation[0] : null;
+                validatedSearchResult.textFoundValidation = textFoundValidation.length > 0? textFoundValidation[0] : null;
+                validatedSearchResult.textFoundValidationShort = textFoundValidation.length > 0? textFoundValidation[0] : null;
+
                 // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
                 // console.log("Analysis text:" + jsonSearchResult.textFound);
 
