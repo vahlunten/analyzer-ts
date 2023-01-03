@@ -132,6 +132,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
     let result: GotCall = {
         callSuccess: true,
         isValid: false,
+        keywordsFound: [],
         parsedRequestResponse: {
             request: {
                 body: xhr.parsedRequestResponse.request.body,
@@ -170,6 +171,18 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                 if (isEqual(searchResults, xhr.searchResults)) {
                     log.debug("Validated xhr is valid.");
                     result.isValid = true;
+                    result.searchResults.forEach(sr => {
+                        sr.source.push(DataSource.got);
+                    })
+                    const keywordsFound:NormalizedKeywordPair[] = []
+                    xhr.searchResults.forEach(searchResult => {
+                        if (!keywordsFound.includes(searchResult.keyword)) {
+                            keywordsFound.push(searchResult.keyword);
+                        }
+                        
+                    });
+                    result.keywordsFound = keywordsFound;
+                    
                 } else {
                     log.debug("Validated xhr is invalid.")
                 }

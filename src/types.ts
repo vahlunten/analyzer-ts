@@ -77,6 +77,7 @@ export interface KeywordConclusion {
 }
 
 export class SearchResults {
+    canBeScrapedWith:DataSource[] = [];
     htmlFound:SearchResult[] = [];
     jsonFound:SearchResult[] = [];
     schemaFound:SearchResult[] = [];
@@ -165,6 +166,5 @@ export interface GotCall {
     searchResults: SearchResult[],
     callSuccess: true | false;
     isValid: true | false;
+    keywordsFound:NormalizedKeywordPair[];
 }
-
-export type ResourceType = "initial"| "browser" | "xhr" | "window";

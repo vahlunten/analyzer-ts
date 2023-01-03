@@ -1,279 +1,329 @@
 <!DOCTYPE html><html lang="en"><head>
-	<meta charset="UTF-8">
-	<title>Quotes to Scrape</title>
-    <link rel="stylesheet" href="/static/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/main.css">
-</head>
-<body>
-    <div class="container">
-        <div class="row header-box">
-            <div class="col-md-8">
-                <h1>
-                    <a href="/" style="text-decoration: none">Quotes to Scrape</a>
-                </h1>
+    <meta charset="utf-8">
+    <title>Oscar Winning Films: AJAX and Javascript | Scrape This Site | A public sandbox for learning web scraping</title>
+    <link rel="icon" type="image/png" href="/static/images/scraper-icon.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it.">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+
+    
+<meta name="robots" content="noindex">
+<link href="https://lipis.github.io/flag-icon-css/css/flag-icon.css" rel="stylesheet">
+
+
+  <meta http-equiv="origin-trial" content="A751Xsk4ZW3DVQ8WZng2Dk5s3YzAyqncTzgv+VaE6wavgTY0QHkDvUTET1o7HanhuJO8lgv1Vvc88Ij78W1FIAAAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A751Xsk4ZW3DVQ8WZng2Dk5s3YzAyqncTzgv+VaE6wavgTY0QHkDvUTET1o7HanhuJO8lgv1Vvc88Ij78W1FIAAAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+
+  <body>
+    <nav id="site-nav">
+            <div class="container">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        <li id="nav-homepage">
+                            <a href="/" class="nav-link hidden-sm hidden-xs">
+                                <img src="/static/images/scraper-icon.png" id="nav-logo">
+                                Scrape This Site
+                            </a>
+                        </li>
+                        <li id="nav-sandbox" class="">
+                            <a href="/pages/" class="nav-link">
+                                <i class="glyphicon glyphicon-console hidden-sm hidden-xs"></i>
+                                Sandbox
+                            </a>
+                        </li>
+                        <li id="nav-lessons">
+                            <a href="/lessons/" class="nav-link">
+                                <i class="glyphicon glyphicon-education hidden-sm hidden-xs"></i>
+                                Lessons
+                            </a>
+                        </li>
+                        <li id="nav-faq">
+                            <a href="/faq/" class="nav-link">
+                                <i class="glyphicon glyphicon-flag hidden-sm hidden-xs"></i>
+                                FAQ
+                            </a>
+                        </li>
+                        
+                        <li id="nav-login" class="pull-right">
+                            <a href="/login/" class="nav-link">
+                                Login
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
             </div>
-            <div class="col-md-4">
-                <p>
-                
-                    <a href="/login">Login</a>
-                
-                </p>
-            </div>
-        </div>
+        </nav>
+
+        <script src="https://connect.facebook.net/signals/config/764287443701341?v=2.9.90&amp;r=stable" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript">
+            var path = document.location.pathname;
+            var tab = undefined;
+            if (path === "/"){
+                tab = document.querySelector("#nav-homepage");
+            } else if (path.indexOf("/faq/") === 0){
+                tab = document.querySelector("#nav-faq");
+            } else if (path.indexOf("/lessons/") === 0){
+                tab = document.querySelector("#nav-lessons");
+            } else if (path.indexOf("/pages/") === 0) {
+                tab = document.querySelector("#nav-sandbox");
+            } else if (path.indexOf("/login/") === 0) {
+                tab = document.querySelector("#nav-login");
+            }
+            tab.classList.add("active")
+        </script>
+
     
 
-<div class="row">
-    <div class="col-md-8">
+    <div id="page">
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”</span>
-        <span>by <small class="author" itemprop="author">Albert Einstein</small>
-        <a href="/author/Albert-Einstein">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="change,deep-thoughts,thinking,world"> 
-            
-            <a class="tag" href="/tag/change/page/1/">change</a>
-            
-            <a class="tag" href="/tag/deep-thoughts/page/1/">deep-thoughts</a>
-            
-            <a class="tag" href="/tag/thinking/page/1/">thinking</a>
-            
-            <a class="tag" href="/tag/world/page/1/">world</a>
-            
-        </div>
-    </div>
+        <section id="oscars">
+            <div class="container">
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“It is our choices, Harry, that show what we truly are, far more than our abilities.”</span>
-        <span>by <small class="author" itemprop="author">J.K. Rowling</small>
-        <a href="/author/J-K-Rowling">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="abilities,choices"> 
-            
-            <a class="tag" href="/tag/abilities/page/1/">abilities</a>
-            
-            <a class="tag" href="/tag/choices/page/1/">choices</a>
-            
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>
+                            Oscar Winning Films: AJAX and Javascript
+                            <small>87 items</small>
+                        </h1>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead">
+                            Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it.
+                            Look for ways that you can tell visually when a site is loading content with AJAX. Then, browse through your network tab to see those AJAX requests and scrape them.
+                        </p>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <i class="glyphicon glyphicon-education"></i> There are <a href="/lessons/">3 video lessons</a> that show you how to scrape this page.
+                        </p>
+                        <hr>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <p>
+                            
+                                Data via
+                                <a href="https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films" class="data-attribution" target="_blank">https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films</a>
+                            
+                        </p>
+                        <hr>
+                    </div>
+                </div>
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”</span>
-        <span>by <small class="author" itemprop="author">Albert Einstein</small>
-        <a href="/author/Albert-Einstein">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="inspirational,life,live,miracle,miracles"> 
-            
-            <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
-            
-            <a class="tag" href="/tag/life/page/1/">life</a>
-            
-            <a class="tag" href="/tag/live/page/1/">live</a>
-            
-            <a class="tag" href="/tag/miracle/page/1/">miracle</a>
-            
-            <a class="tag" href="/tag/miracles/page/1/">miracles</a>
-            
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>
+                            Choose a Year to View Films
+                        </h3>
+                        <a href="#" class="year-link active" id="2015">2015</a>
+                        <a href="#" class="year-link" id="2014">2014</a>
+                        <a href="#" class="year-link" id="2013">2013</a>
+                        <a href="#" class="year-link" id="2012">2012</a>
+                        <a href="#" class="year-link" id="2011">2011</a>
+                        <a href="#" class="year-link" id="2010">2010</a>
+                    </div><!--.col-->
+                </div><!--.row-->
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid.”</span>
-        <span>by <small class="author" itemprop="author">Jane Austen</small>
-        <a href="/author/Jane-Austen">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="aliteracy,books,classic,humor"> 
-            
-            <a class="tag" href="/tag/aliteracy/page/1/">aliteracy</a>
-            
-            <a class="tag" href="/tag/books/page/1/">books</a>
-            
-            <a class="tag" href="/tag/classic/page/1/">classic</a>
-            
-            <a class="tag" href="/tag/humor/page/1/">humor</a>
-            
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="loading" style="display: none;">
+                            <img src="/static/images/ajax-loader.gif" class="center-block">
+                        </div>
+                        <table class="table" style="">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Nominations</th>
+                                    <th>Awards</th>
+                                    <th>Best Picture</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body"><tr class="film"><td class="film-title">Spotlight  </td><td class="film-nominations">6</td><td class="film-awards">2</td><td class="film-best-picture"><i class="glyphicon glyphicon-flag"></i></td></tr><tr class="film"><td class="film-title">Mad Max: Fury Road </td><td class="film-nominations">10</td><td class="film-awards">6</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Revenant   </td><td class="film-nominations">12</td><td class="film-awards">3</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Bridge of Spies</td><td class="film-nominations">6</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Big Short  </td><td class="film-nominations">5</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Danish Girl</td><td class="film-nominations">4</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Room   </td><td class="film-nominations">4</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Ex Machina </td><td class="film-nominations">2</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">The Hateful Eight  </td><td class="film-nominations">2</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Inside Out </td><td class="film-nominations">2</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Amy</td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Bear Story </td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">A Girl in the River: The Price of Forgiveness  </td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Son of Saul</td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Spectre</td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr><tr class="film"><td class="film-title">Stutterer  </td><td class="film-nominations">1</td><td class="film-awards">1</td><td class="film-best-picture"></td></tr></tbody>
+                        </table>
+                    </div><!--.col-->
+                </div><!--.row-->
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“Imperfection is beauty, madness is genius and it's better to be absolutely ridiculous than absolutely boring.”</span>
-        <span>by <small class="author" itemprop="author">Marilyn Monroe</small>
-        <a href="/author/Marilyn-Monroe">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="be-yourself,inspirational"> 
-            
-            <a class="tag" href="/tag/be-yourself/page/1/">be-yourself</a>
-            
-            <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
-            
-        </div>
-    </div>
+            </div><!--.container-->
+        </section>
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“Try not to become a man of success. Rather become a man of value.”</span>
-        <span>by <small class="author" itemprop="author">Albert Einstein</small>
-        <a href="/author/Albert-Einstein">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="adulthood,success,value"> 
-            
-            <a class="tag" href="/tag/adulthood/page/1/">adulthood</a>
-            
-            <a class="tag" href="/tag/success/page/1/">success</a>
-            
-            <a class="tag" href="/tag/value/page/1/">value</a>
-            
-        </div>
-    </div>
+    </div><!--#page-->
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“It is better to be hated for what you are than to be loved for what you are not.”</span>
-        <span>by <small class="author" itemprop="author">André Gide</small>
-        <a href="/author/Andre-Gide">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="life,love"> 
-            
-            <a class="tag" href="/tag/life/page/1/">life</a>
-            
-            <a class="tag" href="/tag/love/page/1/">love</a>
-            
-        </div>
-    </div>
 
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“I have not failed. I've just found 10,000 ways that won't work.”</span>
-        <span>by <small class="author" itemprop="author">Thomas A. Edison</small>
-        <a href="/author/Thomas-A-Edison">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="edison,failure,inspirational,paraphrased"> 
-            
-            <a class="tag" href="/tag/edison/page/1/">edison</a>
-            
-            <a class="tag" href="/tag/failure/page/1/">failure</a>
-            
-            <a class="tag" href="/tag/inspirational/page/1/">inspirational</a>
-            
-            <a class="tag" href="/tag/paraphrased/page/1/">paraphrased</a>
-            
-        </div>
-    </div>
-
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“A woman is like a tea bag; you never know how strong it is until it's in hot water.”</span>
-        <span>by <small class="author" itemprop="author">Eleanor Roosevelt</small>
-        <a href="/author/Eleanor-Roosevelt">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="misattributed-eleanor-roosevelt"> 
-            
-            <a class="tag" href="/tag/misattributed-eleanor-roosevelt/page/1/">misattributed-eleanor-roosevelt</a>
-            
-        </div>
-    </div>
-
-    <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" itemprop="text">“A day without sunshine is like, you know, night.”</span>
-        <span>by <small class="author" itemprop="author">Steve Martin</small>
-        <a href="/author/Steve-Martin">(about)</a>
-        </span>
-        <div class="tags">
-            Tags:
-            <meta class="keywords" itemprop="keywords" content="humor,obvious,simile"> 
-            
-            <a class="tag" href="/tag/humor/page/1/">humor</a>
-            
-            <a class="tag" href="/tag/obvious/page/1/">obvious</a>
-            
-            <a class="tag" href="/tag/simile/page/1/">simile</a>
-            
-        </div>
-    </div>
-
-    <nav>
-        <ul class="pager">
-            
-            
-            <li class="next">
-                <a href="/page/2/">Next <span aria-hidden="true">→</span></a>
-            </li>
-            
-        </ul>
-    </nav>
-    </div>
-    <div class="col-md-4 tags-box">
-        
-            <h2>Top Ten tags</h2>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 28px" href="/tag/love/">love</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 26px" href="/tag/inspirational/">inspirational</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 26px" href="/tag/life/">life</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 24px" href="/tag/humor/">humor</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 22px" href="/tag/books/">books</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 14px" href="/tag/reading/">reading</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 10px" href="/tag/friendship/">friendship</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 8px" href="/tag/friends/">friends</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 8px" href="/tag/truth/">truth</a>
-            </span>
-            
-            <span class="tag-item">
-            <a class="tag" style="font-size: 6px" href="/tag/simile/">simile</a>
-            </span>
-            
-        
-    </div>
-</div>
-
-    </div>
-    <footer class="footer">
+    <section id="footer">
         <div class="container">
-            <p class="text-muted">
-                Quotes by: <a href="https://www.goodreads.com/quotes">GoodReads.com</a>
-            </p>
-            <p class="copyright">
-                Made with <span class="sh-red">❤</span> by <a href="https://scrapinghub.com">Scrapinghub</a>
-            </p>
-        </div>
-    </footer>
+            <div class="row">
+                <div class="col-md-12 text-center text-muted">
+                    Lessons and Videos © Hartley Brody 2018
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.container-->
+    </section>
+  
 
-</body></html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+  
+<script type="text/javascript">
+    $(document).ready( function(){
+        $(".year-link").click( function(e){
+            var target = $(e.target);
+            var year = target.attr("id");
+
+            document.location.hash = year;
+            fetchFilms(year);
+            return false;
+        });
+
+        if (document.location.hash){
+            var year = document.location.hash.substr(1)
+            fetchFilms(year);
+        }
+
+        function fetchFilms(year){
+            showLoadingAnimation();
+            $.ajax({
+                method: "GET",
+                url: document.location.pathname,
+                data: {
+                    ajax: true,
+                    year: year
+                },
+                success: function(data){
+                    setTimeout( function(){
+                        showFilms(data);
+                    }, 1500);  // add intentional delay to emphasize async UI
+                },
+                error: function(){
+                    alert("Error loading films :(");
+                }
+            });
+            $(".active").removeClass("active");
+            $("#"+year).addClass("active");
+        }
+
+        function showLoadingAnimation(){
+            $(".table").hide();
+            $("#loading").show();
+        }
+        function showFilms(films){
+            // console.log(films);
+            var films_html = "";
+            $.each(films, function(_, film){
+                var film_html = "";
+                film_html += "<tr class='film'>"
+                    film_html += "<td class='film-title'>" + film["title"] + "</td>"
+                    film_html += "<td class='film-nominations'>" + film["nominations"] + "</td>"
+                    film_html += "<td class='film-awards'>" + film["awards"] + "</td>"
+                    if (film["best_picture"]) {
+                        film_html += "<td class='film-best-picture'><i class='glyphicon glyphicon-flag'></i></td>"
+                    } else {
+                        film_html += "<td class='film-best-picture'></td>"
+                    }
+                film_html += "</tr>"
+                films_html += film_html;
+            })
+            $("#table-body").html(films_html);
+            $(".table").show();
+            $("#loading").hide();
+        }
+    });
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.1.0/pnotify.core.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.1.0/pnotify.core.min.css" rel="stylesheet" type="text/css">
+
+  <!-- pnotify messages -->
+  <script type="text/javascript">
+    
+    PNotify.prototype.options.styling = "bootstrap3";
+    $(function(){
+      
+    });
+    
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  <!-- golbal video controls -->
+  <script type="text/javascript">
+    $("video").hover(function() {
+        $(this).prop("controls", true);
+    }, function() {
+        $(this).prop("controls", false);
+    });
+
+    $("video").click(function() {
+        if( this.paused){
+            this.play();
+        }
+        else {
+            this.pause();
+        }
+    });
+    </script>
+
+  <!-- insert google analytics here -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-41551755-8', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '764287443701341');
+  fbq('track', "PageView");</script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=764287443701341&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Facebook Pixel Code -->
+
+  <!-- Google Code for Remarketing Tag -->
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 950945448;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?random=1672750007177&amp;cv=9&amp;fst=1672750007177&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603260&amp;u_h=864&amp;u_w=1536&amp;u_ah=816&amp;u_aw=1536&amp;u_cd=24&amp;u_his=5&amp;u_tz=60&amp;u_java=false&amp;u_nplug=5&amp;u_nmime=2&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=https%3A%2F%2Fwww.scrapethissite.com%2Fpages%2Fajax-javascript%2F&amp;tiba=Oscar%20Winning%20Films%3A%20AJAX%20and%20Javascript%20%7C%20Scrape%20This%20Site%20%7C%20A%20public%20sandbox%20for%20learning%20web%20scraping&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?guid=ON&amp;script=0"/>
+    </div>
+  </noscript>
+
+  <!-- Global site tag (gtag.js) - Google AdWords: 950945448 -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=AW-950945448"></script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+
+   gtag('config', 'AW-950945448');
+  </script>
+
+<script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?random=1672750007250&amp;cv=11&amp;fst=1672750007250&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=2oabu0&amp;u_w=1536&amp;u_h=864&amp;hn=www.googleadservices.com&amp;frm=0&amp;url=https%3A%2F%2Fwww.scrapethissite.com%2Fpages%2Fajax-javascript%2F&amp;tiba=Oscar%20Winning%20Films%3A%20AJAX%20and%20Javascript%20%7C%20Scrape%20This%20Site%20%7C%20A%20public%20sandbox%20for%20learning%20web%20scraping&amp;auid=624341068.1672750007&amp;uaa=x86&amp;uab=64&amp;uafvl=Google%2520Chrome%3B105.0.5195.127%7CNot)A%253BBrand%3B8.0.0.0%7CChromium%3B105.0.5195.127&amp;uapv=10.0.0&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script></body></html>

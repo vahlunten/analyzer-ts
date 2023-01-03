@@ -1,4 +1,4 @@
-import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation } from "../types";
+import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataSource } from "../types";
 import { KeyValueStore, log, Request } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
@@ -17,26 +17,33 @@ export class Validator {
     public parsedCheerio: ScrapedPage | null = null;
 
     /**
-     * Compare searchresults from analysis with search results from the browser session and search results of initial response loaded by cheerioCrawler.
+     * Compares the search results from the analysis and the browser session and compare with the results of initial response loaded by cheerioCrawler.
      * This funtion will also validate XHR requests.
      * @param url 
      * @param keywords 
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean}> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean }> {
         let validatedData: KeywordConclusion[];
         let xhrValidated: XhrValidation[] = [];
-        // load initial html
+        // load initial html with a simple HTTP client
         const cheerioCrawlerLoaded = await this.loadHtml(url);
+        // validate XHR requests    
+        xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+        await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
-        // if we failed to load initial response of
+
+        // if we failed to load the initial response by cheerioCrawler, there is nothing to validate against
         if (cheerioCrawlerLoaded == false) {
-            // fill keyword conclusion with unvalidated data
-            validatedData = this.createConclusion(searchResults, [], keywords);
+
+            // assign each search result to the correct keyword
+            validatedData = this.createConclusion(searchResults, xhrValidated, keywords);
+
         } else {
 
             const validatedSearchResults = new SearchResults();
+            // parse the initial response the same way as during the analysis
             this.parsedCheerio = parseHtml(this.body!);
 
             //validate html
@@ -58,20 +65,17 @@ export class Validator {
             // copy window properties
             validatedSearchResults.windowFound = searchResults.windowFound;
 
-            // validate XHR requests    
-            xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
-            await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
-
+            // assign each search result to the correct keyword
             validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
         }
 
 
-        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded};
+        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded };
 
     }
 
     /**
-     * Search results from each data source obtained during analysis are all contained in the single array. 
+     * Search results from each data source (html, json+ld...) obtained during the analysis are all contained in a single array. 
      * This method will group search results form all of the data sources afor every keyword. 
      * @param searchResults 
      * @param keywords 
@@ -85,23 +89,54 @@ export class Validator {
             conclusion.set(keyword.index, { Keyword: keyword, SearchResults: new SearchResults() });
         }
         for (const searchResult of searchResults.jsonFound) {
-            conclusion.get(searchResult.keyword.index)?.SearchResults.jsonFound.push(searchResult);
+            const keywordConclusion = conclusion.get(searchResult.keyword.index);
+            keywordConclusion?.SearchResults.jsonFound.push(searchResult);
+            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)
         }
         for (const searchResult of searchResults.metaFound) {
-            conclusion.get(searchResult.keyword.index)?.SearchResults.metaFound.push(searchResult);
+            const keywordConclusion = conclusion.get(searchResult.keyword.index);
+            keywordConclusion?.SearchResults.metaFound.push(searchResult);
+            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)
+
         }
         for (const searchResult of searchResults.htmlFound) {
-            conclusion.get(searchResult.keyword.index)?.SearchResults.htmlFound.push(searchResult);
+            const keywordConclusion = conclusion.get(searchResult.keyword.index);
+            keywordConclusion?.SearchResults.htmlFound.push(searchResult);
+            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)
         }
         for (const searchResult of searchResults.schemaFound) {
-            conclusion.get(searchResult.keyword.index)?.SearchResults.schemaFound.push(searchResult);
+            const keywordConclusion = conclusion.get(searchResult.keyword.index);
+            keywordConclusion?.SearchResults.schemaFound.push(searchResult);
+            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)
         }
         for (const searchResult of searchResults.windowFound) {
-            conclusion.get(searchResult.keyword.index)?.SearchResults.windowFound.push(searchResult);
+            const keywordConclusion = conclusion.get(searchResult.keyword.index);
+            keywordConclusion?.SearchResults.windowFound.push(searchResult);
+            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)            
         }
+
+        for (const xhr of xhrValidated) {
+            for (const call of xhr.callWithCookies) {
+                for (const kw of call.keywordsFound) {
+                    const keywordConclusion = conclusion.get(kw.index);
+                    // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+                    keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataSource.got]);
+                }
+            }
+        }
+
         return Array.from(conclusion.values());
     }
 
+    mergeSources(oldData: DataSource[], newDataSoure: DataSource[]) {
+        const newSources: DataSource[] = [...oldData];
+        for (const source of newDataSoure) {
+            if (!oldData.includes(source)) {
+                newSources.push(source);
+            }
+        }
+        return newSources;
+    }
     /**
      * 
      * @param url Function will load initial response of analysed url and store it in validator.body
@@ -110,7 +145,7 @@ export class Validator {
     public async loadHtml(url: string): Promise<boolean> {
         log.info("CheerioCrawler: loading input");
 
-                // console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
+        // console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
 
         let proxyConfiguration;
         if (process.env.APIFY_PROXY_PASSWORD) {
@@ -119,21 +154,17 @@ export class Validator {
             });
         }
         const router = createCheerioRouter();
+
         // TODO: Ask Lukas about error handler
         router.addDefaultHandler(async ({ request, response, body, $, log }) => {
 
-            // TODO: wtf?
             this.$ = cheerio.load($.html());
-            // console.log(this.$.html());
             this.$body = $("body").get(0);
             this.body = body.toString();
             log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
             await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
 
-
-
         });
-
 
         const crawler = new CheerioCrawler({
             proxyConfiguration: proxyConfiguration ?? undefined,
@@ -141,7 +172,7 @@ export class Validator {
             requestHandlerTimeoutSecs: 30,
             maxRequestRetries: 10,
 
-            
+
         });
 
         await crawler.run([
@@ -164,7 +195,7 @@ export class Validator {
             searchResult.forEach(searchResult => {
                 const textFound = this.$!(searchResult.path).text();
                 // TODO : check if .get(0)
-                const textFoundValidationShort =  this.$!(searchResult.pathShort).text();
+                const textFoundValidationShort = this.$!(searchResult.pathShort).text();
 
 
                 // firefox selector
@@ -186,7 +217,10 @@ export class Validator {
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
                 validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000;
-                validatedSearchResult.isValid = textFound === searchResult.textFound;
+                if (textFound === searchResult.textFound) {
+                    validatedSearchResult.isValid = true;
+                    validatedSearchResult.source.push(DataSource.cheerio);
+                }
                 validatedSearchResult.textFoundValidationShort = textFoundValidationShort;
                 validatedHtml.push(validatedSearchResult)
 
@@ -214,8 +248,8 @@ export class Validator {
                 // TODO: implement own JPath or try to disable @type matching 
                 const textFoundValidation = JSONPath({ path: "$." + jsonSearchResult.path, json: source });
                 const validatedSearchResult = jsonSearchResult;
-                validatedSearchResult.textFoundValidation = textFoundValidation.length > 0? textFoundValidation[0] : null;
-                validatedSearchResult.textFoundValidationShort = textFoundValidation.length > 0? textFoundValidation[0] : null;
+                validatedSearchResult.textFoundValidation = textFoundValidation.length > 0 ? textFoundValidation[0] : null;
+                validatedSearchResult.textFoundValidationShort = textFoundValidation.length > 0 ? textFoundValidation[0] : null;
 
                 // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
                 // console.log("Analysis text:" + jsonSearchResult.textFound);
