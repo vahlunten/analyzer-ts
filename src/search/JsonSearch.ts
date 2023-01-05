@@ -1,24 +1,24 @@
 import { isArray, isObject } from "lodash";
 import { normalizeString } from "../helpers/normalize";
-import { DataSource, SearchResult, NormalizedKeywordPair } from "../types";
+import { DataOrigin, SearchResult, NormalizedKeywordPair } from "../types";
 
 
 export class JsonSearcher {
 
     normalizedKeywordsPair: NormalizedKeywordPair[] = [];
-    source?: DataSource;
+    source?: DataOrigin;
 
     constructor() {
 
     }
 
-    public searchJson(json: any, keywords: NormalizedKeywordPair[], source: DataSource): SearchResult[] {
+    public searchJson(json: any, keywords: NormalizedKeywordPair[], source: DataOrigin): SearchResult[] {
         this.normalizedKeywordsPair = keywords;
         this.source = source;
-        return this.searchSubtree(json, [], 0);
+        return this.searchSubtree(json, []);
     }
 
-    public searchSubtree(subtree: any, path: string[], depth: number = 0): SearchResult[] {
+    public searchSubtree(subtree: any, path: string[]): SearchResult[] {
 
         let searchResults: SearchResult[] = [];
 
@@ -26,14 +26,14 @@ export class JsonSearcher {
             return searchResults;
         } else if (isArray(subtree)) {
             subtree.forEach((value, index) => {
-                const elementSearch = this.searchSubtree(value, [...path, `[${index}]`], depth + 1);
+                const elementSearch = this.searchSubtree(value, [...path, `[${index}]`]);
                 if (elementSearch) {
                     searchResults = searchResults.concat(elementSearch);
                 }
             });
         } else if (isObject(subtree)) {
             Object.entries(subtree).forEach(([key, value]) => {
-                const keySearch = this.searchSubtree(value, [...path, `${key}`], depth + 1);
+                const keySearch = this.searchSubtree(value, [...path, `${key}`]);
                 if (keySearch) {
                     searchResults = searchResults.concat(keySearch);
                 }

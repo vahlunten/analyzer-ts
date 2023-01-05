@@ -16,6 +16,7 @@ export class PlaywrightScraper {
     scrapedData: ScrapedData;
     url: string;
     keywords: NormalizedKeywordPair[];
+    browserContext: BrowserContext | undefined;
 
     constructor(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;
@@ -32,10 +33,10 @@ export class PlaywrightScraper {
     async scrapePage(useApifyProxy = true, generateFingeprint = true): Promise<ScrapedData> {
 
         // opens browser and a new tab 
-        const browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
+        this.browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
 
         // navigates to the analyzed url 
-        const { responseStatus, initialResponseBody } = await this.openPage(this.url, browserContext);
+        const { responseStatus, initialResponseBody } = await this.openPage(this.url, this.browserContext);
         this.scrapedData.responseStatus = responseStatus;
 
 
@@ -49,6 +50,12 @@ export class PlaywrightScraper {
 
     }
 
+    async close(){
+        log.info('===================================================================================================================');
+        log.info('Closing the browser');
+        log.info('===================================================================================================================');
+        await this.browserContext?.close();
+    }
     /**
      * 
      * @param useApifyProxy If true, actor will try to use Apify proxy.
@@ -102,6 +109,7 @@ export class PlaywrightScraper {
         const bodyBuffer = await initialResponse?.body();
         const responseBody = bodyBuffer?.toString() ?? '';
         await page.waitForTimeout(3000);
+        // 
         await this.getContent(page);
         // save the value of initial response
         await KeyValueStore.setValue("initial", prettyPrint(responseBody, {indent_size: 2}), { contentType: 'text/html; charset=utf-8' });
@@ -169,7 +177,7 @@ export class PlaywrightScraper {
         const domContent = await page.content();
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
-
+        // save the rendered HTML document
         await KeyValueStore.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 

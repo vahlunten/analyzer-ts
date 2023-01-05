@@ -20,7 +20,7 @@ import { Actor } from 'apify';
         (async () => {
             if (process.env.NODE_ENV != "production") {
                 // Copy input from input examples   
-                const inputFile = "./src/static/example_inputs/INPUT_XHR.json"
+                const inputFile = "./src/static/example_inputs/INPUT_MALL.json"
                 await KeyValueStore.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
                 log.debug("Running in dev mode");
             }
@@ -47,9 +47,12 @@ import { Actor } from 'apify';
         log.info('===================================================================================================================');
         output.analysisStarted = getCUrrentDate();
 
-        // navigate to the website, scrape and parse the data 
+        // navigate to the website
         const scraper = new PlaywrightScraper(input.url, normalizedKeywords);
+        // scrape and parse the data 
         const scrapedData = await scraper.scrapePage(true, true);
+        // close the browser
+        scraper.close();
 
         // after the data is loaded and parsed we can search for keywords 
         const searchResults = searchData(scrapedData, normalizedKeywords);

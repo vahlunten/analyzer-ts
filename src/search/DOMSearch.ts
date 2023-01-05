@@ -1,13 +1,13 @@
 import cheerio from 'cheerio';
 import { normalizeString } from '../helpers/normalize';
-import { DataSource, NormalizedKeywordPair, SearchResult } from '../types';
+import { DataOrigin, NormalizedKeywordPair, SearchResult } from '../types';
 
 export class DOMSearch {
     private $: cheerio.Root;
     private keywords: NormalizedKeywordPair[] = [];
-    private source: DataSource;
+    private source: DataOrigin;
 
-    public constructor(html: string, source: DataSource) {
+    public constructor(html: string, source: DataOrigin) {
         this.$ = cheerio.load(html);
         this.source = source;
     }

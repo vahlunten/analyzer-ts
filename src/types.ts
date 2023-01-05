@@ -35,11 +35,9 @@ export class ScrapedData {
  */
 export class ScrapedPage {
     body: string | null = null;
-    jsonLDData: any | null = null;
-    schemaOrgData: any | null = null;
-    metadata: any | null = null;
-    windowProperties: any | null = null;
-    searchResults: SearchResults | null= null;
+    jsonLDData: any = null;
+    schemaOrgData: any  = null;
+    metadata: any = null;
 }
 
 /**
@@ -77,7 +75,7 @@ export interface KeywordConclusion {
 }
 
 export class SearchResults {
-    canBeScrapedWith:DataSource[] = [];
+    canBeScrapedWith:DataOrigin[] = [];
     htmlFound:SearchResult[] = [];
     jsonFound:SearchResult[] = [];
     schemaFound:SearchResult[] = [];
@@ -93,21 +91,20 @@ export class SearchResult
     pathShort: string | null;
     keyword: NormalizedKeywordPair;
     textFound: string;
-    textFoundShort: string;
-    source: DataSource[] = [];
+    textFoundLong: string;
+    source: DataOrigin[] = [];
     score: number;
     textFoundValidation: string | null;
     textFoundValidationShort: string | null;
     isValid: boolean;
 
 
-    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataOrigin, pathShort = "", textFoundValidationShort="", textFoundLong = "", score = 0, isValid = false) {
         this.path = path;
         this.keyword = keyword;
-        // text found in i
 
         this.textFound = textFound;
-        this.textFoundShort = textFoundShort;
+        this.textFoundLong = textFoundLong;
 
         this.source.push(source);
         this.pathShort = pathShort;
@@ -126,7 +123,7 @@ export class XhrSearchResult {
     }
 }
 
-export enum DataSource {
+export enum DataOrigin {
     initial = 'initial',
     rendered = 'rendered',
     cheerio = 'cheerioCrawler',

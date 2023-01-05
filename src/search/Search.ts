@@ -1,4 +1,4 @@
-import { DataSource, NormalizedKeywordPair, SearchResult, ScrapedData, SearchResults, ParsedRequestResponse, XhrSearchResult } from "../types";
+import { DataOrigin, NormalizedKeywordPair, SearchResult, ScrapedData, SearchResults, ParsedRequestResponse, XhrSearchResult } from "../types";
 import { DOMSearch } from "./DOMSearch";
 
 import { JsonSearcher } from "./JsonSearch";
@@ -28,10 +28,10 @@ export function searchData(scraped: ScrapedData, keywords: NormalizedKeywordPair
 
 function searchHtml(initial: string, rendered: string, keywords: NormalizedKeywordPair[]): SearchResult[] {
 
-    let domSearcher = new DOMSearch(initial, DataSource.initial);
+    let domSearcher = new DOMSearch(initial, DataOrigin.initial);
     const initialSearchResults  = domSearcher.find(keywords);   
 
-    domSearcher = new DOMSearch(rendered, DataSource.rendered);
+    domSearcher = new DOMSearch(rendered, DataOrigin.rendered);
     const domSearchResults  = domSearcher.find(keywords);   
 
 
@@ -41,8 +41,8 @@ function searchHtml(initial: string, rendered: string, keywords: NormalizedKeywo
 
 function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeywordPair[]): SearchResult[] {
     const jsonSearcher = new JsonSearcher();
-    let searchResultsInitial = jsonSearcher.searchJson(initial, keywords, DataSource.initial);
-    let searchResultsRendered = jsonSearcher.searchJson(rendered, keywords, DataSource.rendered);
+    let searchResultsInitial = jsonSearcher.searchJson(initial, keywords, DataOrigin.initial);
+    let searchResultsRendered = jsonSearcher.searchJson(rendered, keywords, DataOrigin.rendered);
     const filtered = removeDuplicates(searchResultsInitial, searchResultsRendered);
     return filtered;
 }
@@ -56,14 +56,14 @@ export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: Normaliz
             if (xhr.response.headers["content-type"].indexOf('json') != -1 && xhr.response.body?.length > 0) {
 
                 const jsonSearcher = new JsonSearcher();
-                const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataSource.xhr));
+                const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataOrigin.xhr));
                 if (xhrSearchResult.length > 0) {
                     xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
                 }
             }
 
             if (xhr.response.headers["content-type"].indexOf('html') != -1 && xhr.response.body?.length > 0) {
-                const domSearcher = new DOMSearch(xhr.response.body, DataSource.xhr)
+                const domSearcher = new DOMSearch(xhr.response.body, DataOrigin.xhr)
                 const xhrSearchResult = (domSearcher.find(keywords));
                 if (xhrSearchResult.length > 0) {
                     xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
@@ -78,7 +78,7 @@ export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: Normaliz
 function searchWIndowObject(windowFound: any, keywords: NormalizedKeywordPair[]): SearchResult[] {
     const jsonSearcher = new JsonSearcher();
 
-    const windowSearchResults = jsonSearcher.searchJson(keywords, windowFound, DataSource.rendered);
+    const windowSearchResults = jsonSearcher.searchJson(keywords, windowFound, DataOrigin.rendered);
     return windowSearchResults;
 
 }
