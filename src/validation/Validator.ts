@@ -24,7 +24,7 @@ export class Validator {
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean }> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean, parsedCheerio: ScrapedPage | null}> {
         let validatedData: KeywordConclusion[];
         let xhrValidated: XhrValidation[] = [];
         // load initial html with a simple HTTP client
@@ -70,7 +70,7 @@ export class Validator {
         }
 
 
-        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded };
+        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded, parsedCheerio: this.parsedCheerio};
 
     }
 
@@ -254,7 +254,11 @@ export class Validator {
                 // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
                 // console.log("Analysis text:" + jsonSearchResult.textFound);
 
-                validatedSearchResult.isValid = validatedSearchResult.textFoundValidation === jsonSearchResult.textFound;
+                if (validatedSearchResult.textFoundValidation === jsonSearchResult.textFound) {
+                    validatedSearchResult.isValid = true;
+                    validatedSearchResult.source.push(DataOrigin.cheerio);
+                }
+                
                 validatedJson.push(validatedSearchResult);
             } catch (e) {
                 console.error(e);

@@ -128,7 +128,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
 
 async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: Options): Promise<GotCall> {
     // TODO: proxy url 
-    const request = gotScraping(undefined, undefined, options );
+    const request = gotScraping(undefined, undefined, options);
     let response: Response<string>;
     let searchResults: SearchResult[] = [];
     let result: GotCall = {

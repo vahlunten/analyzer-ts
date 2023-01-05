@@ -17,14 +17,14 @@ import { Actor } from 'apify';
     try {
 
         // if running locally you can uncomment this to try out some of the example inputs
-        (async () => {
-            if (process.env.NODE_ENV != "production") {
-                // Copy input from input examples   
-                const inputFile = "./src/static/example_inputs/INPUT_MALL.json"
-                await KeyValueStore.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
-                log.debug("Running in dev mode");
-            }
-        })();
+        // (async () => {
+        //     if (process.env.NODE_ENV != "production") {
+        //         // Copy input from input examples   
+        //         const inputFile = "./src/static/example_inputs/INPUT_MALL.json"
+        //         await KeyValueStore.setValue("INPUT", readFileSync(inputFile), { contentType: "application/json; charset=utf-8" })
+        //         log.debug("Running in dev mode");
+        //     }
+        // })();
 
         log.setLevel(log.LEVELS.DEBUG);
 
@@ -52,7 +52,7 @@ import { Actor } from 'apify';
         // scrape and parse the data 
         const scrapedData = await scraper.scrapePage(true, true);
         // close the browser
-        scraper.close();
+        // scraper.close();
 
         // after the data is loaded and parsed we can search for keywords 
         const searchResults = searchData(scrapedData, normalizedKeywords);
@@ -67,6 +67,7 @@ import { Actor } from 'apify';
         output.keywordConclusions = validatedData.conclusion;
         output.xhrValidated = validatedData.xhrValidated;
         output.cheerioCrawlerSuccess = validatedData.cheerioCrawlerSuccess;
+        output.scrapedData.parsedCheerio = validatedData.parsedCheerio;
         // error for testing purposes
         // throw new Error("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
 

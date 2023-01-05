@@ -19,6 +19,7 @@ export class ScrapedData {
     responseStatus: number | null = null;
     initial: ScrapedPage | null = null;
     DOM: ScrapedPage | null = null;
+    parsedCheerio:ScrapedPage | null = null;
 
     xhrParsed: ParsedRequestResponse[] | null = null;
     cookies: Cookie[] | null = null;
@@ -31,7 +32,7 @@ export class ScrapedData {
 
 }
 /**
- * Scraped content of HTML document. 
+ * Scraped content of an HTML document. 
  */
 export class ScrapedPage {
     body: string | null = null;
@@ -47,14 +48,13 @@ export class Output {
     url: string = "";
     keywords: NormalizedKeywordPair[] = [];
 
-    scrapedData?: ScrapedData;
+    scrapedData: ScrapedData | null = null
     searchResults:SearchResults | null = null;
 
-    keywordConclusions?:KeywordConclusion[];
+    keywordConclusions:KeywordConclusion[] = [];
 
     xhrValidated: XhrValidation[] = [];
     cheerioCrawlerSuccess: boolean = false;
-    
     analysisStarted: string | null = null;
     analysisEnded: string | null = null;
 
@@ -124,11 +124,16 @@ export class XhrSearchResult {
 }
 
 export enum DataOrigin {
+    // initial response of the chromium browser
     initial = 'initial',
+    // render html document
     rendered = 'rendered',
+    // initial response from the cheerioCrawler
     cheerio = 'cheerioCrawler',
-    got = 'got',
-    xhr = 'xhr'
+    // xhr request made by chromium
+    xhr = 'xhr',
+    // got-scraping request
+    got = 'got'
 }
 
 export interface ParsedRequestResponse {
@@ -148,8 +153,6 @@ export interface ParsedResponse {
     status: number;
     headers: { [key: string]: string };
 }
-
-
 
 export interface XhrValidation {
     callsMinimalHeaders: GotCall[],
