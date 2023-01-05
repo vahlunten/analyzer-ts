@@ -86,18 +86,18 @@ const testJson = {
 }
 
 
-const searchResultInitial:SearchResult[] = [
-  new SearchResult("1", {original: "5", normalized: "pes", index: 0}, "mackaText", DataOrigin.initial),
-  new SearchResult("2", {original: "5", normalized: "pes", index: 1}, "mackaText", DataOrigin.initial),
-  new SearchResult("3", {original: "5", normalized: "pes", index: 2}, "mackaText", DataOrigin.initial),
-]
+// const searchResultInitial:SearchResult[] = [
+//   new SearchResult("1", {original: "5", normalized: "pes", index: 0}, "mackaText", DataOrigin.initial),
+//   new SearchResult("2", {original: "5", normalized: "pes", index: 1}, "mackaText", DataOrigin.initial),
+//   new SearchResult("3", {original: "5", normalized: "pes", index: 2}, "mackaText", DataOrigin.initial),
+// ]
 
-const searchResultDom:SearchResult[] = [
-  new SearchResult("1", {original: "5", normalized: "pes", index: 0}, "", DataOrigin.rendered),
-  new SearchResult("2", {original: "5", normalized: "pes", index: 1}, "mackaText", DataOrigin.rendered),
-  new SearchResult("3", {original: "5", normalized: "pes", index: 2}, "mackaTextyyyyyyy", DataOrigin.rendered),
-  new SearchResult("4", {original: "5", normalized: "pes", index: 2}, "mackaTextyyyyyyy", DataOrigin.rendered),
+// const searchResultDom:SearchResult[] = [
+//   new SearchResult("1", {original: "5", normalized: "pes", index: 0}, "", DataOrigin.rendered),
+//   new SearchResult("2", {original: "5", normalized: "pes", index: 1}, "mackaText", DataOrigin.rendered),
+//   new SearchResult("3", {original: "5", normalized: "pes", index: 2}, "mackaTextyyyyyyy", DataOrigin.rendered),
+//   new SearchResult("4", {original: "5", normalized: "pes", index: 2}, "mackaTextyyyyyyy", DataOrigin.rendered),
 
-]
+// ]
 
 
