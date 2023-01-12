@@ -1,33 +1,45 @@
 import { Cookie } from "playwright";
 
 export interface Input {
+    // analyzed url 
     url: string;
+    // an array of keyword strings
     keywords: string[];
 }
 /**
- * 
+ * Representation of the keyword. 
  */
 export interface NormalizedKeywordPair {
+    // original keyword string
     original: string, 
+    // normalized keyword string
     normalized: string,
+    // omdex of the keyword
     index: number    
 }
 
 
 export class ScrapedData {
    
+    // response status of the browsers initial request response
     responseStatus: number | null = null;
+    // parsed initial response from chromium
     initial: ScrapedPage | null = null;
+    // parsed HTML rendered in the browser
     DOM: ScrapedPage | null = null;
-    parsedCheerio:ScrapedPage | null = null;
-
-    xhrParsed: ParsedRequestResponse[] | null = null;
-    cookies: Cookie[] | null = null;
-    error: Error | null = null;
-    
+    // window object cleared of circular dependencies and parsed
     allWindowProperties: { [key: string]: any } | null= null;
+    // search results of keywords found in the window object
     windowFound:SearchResult[] = [];
-
+    // parsed inirial response from cheerioCrawler
+    parsedCheerio:ScrapedPage | null = null;
+    // all intercepted XHR requests parsed
+    xhrParsed: ParsedRequestResponse[] | null = null;
+    // cookies captured during the browser session 
+    cookies: Cookie[] | null = null;
+    // error if the parsing of the HTML document failed due to uncaught exception
+    error: Error | null = null;
+    // indicates whether the HTML document was sucessfully scraped and parsed
     scrapingFinished:boolean = false;
 
 }
@@ -35,9 +47,13 @@ export class ScrapedData {
  * Scraped content of an HTML document. 
  */
 export class ScrapedPage {
+    // HTML document data
     body: string | null = null;
+    // scraped and parsed JSON-LD data
     jsonLDData: any = null;
+    // parsed schema.org -> microdata
     schemaOrgData: any  = null;
+    // parsed meta tags
     metadata: any = null;
 }
 
@@ -45,20 +61,33 @@ export class ScrapedPage {
  * OUTPUT.JSON 
  */
 export class Output {
+    // analyzed url
     url: string = "";
+    // analyzed keywords with normalized form 
     keywords: NormalizedKeywordPair[] = [];
-
-    scrapedData: ScrapedData | null = null
+    // HTML documents (initial response, rendered dom, cheerioCrawler response) 
+    // scraped and parsed 
+    scrapedData: ScrapedData | null = null;
+    // search results from the initial response and rendered dom 
+    // for all of the keywords merged in a single array
+    // left here for the development purposes, theses search results 
+    // get validated and assorted to the particular keyword in the
+    // validation step and saved in the keywordConclusions field
     searchResults:SearchResults | null = null;
-
+    // an array of the analysis results for each keyword
     keywordConclusions:KeywordConclusion[] = [];
-
+    // xhr requests containing any of the kwyword are replicated using
+    // got-scraping, attempts to replicate the calls are saved in the
+    //  xhrValidated field
     xhrValidated: XhrValidation[] = [];
+
+    // indicates whether the cheerioCrawler succeedeed to get the initial response
     cheerioCrawlerSuccess: boolean = false;
     analysisStarted: string | null = null;
     analysisEnded: string | null = null;
 
     actorSuccess: boolean = true;
+    // error if the analyzer failed due to uncaught exception
     errorMessage: string | null = null;
 
     setInput(url: string, keywords: NormalizedKeywordPair[]) {
@@ -68,13 +97,18 @@ export class Output {
     
 }
 
-
+/**
+ * All the information found about the keyword. 
+ */
 export interface KeywordConclusion {
-    SearchResults:SearchResults;
+    // input keyword 
     Keyword:NormalizedKeywordPair;
+    // search results of this keyword
+    SearchResults:SearchResults;
 }
 
 export class SearchResults {
+    // all the ways the keyword can be scraped 
     canBeScrapedWith:DataOrigin[] = [];
     htmlFound:SearchResult[] = [];
     jsonFound:SearchResult[] = [];
@@ -87,6 +121,7 @@ export class SearchResults {
 
 export class SearchResult
  {
+
     path:string;
     pathShort: string | null;
     keyword: NormalizedKeywordPair;
