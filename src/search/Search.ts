@@ -47,7 +47,7 @@ function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeyword
     return filtered;
 }
 
-// TODO: Use this inside XHR validation 
+// TODO: Use this inside XHR validation bump
 export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: NormalizedKeywordPair[]):XhrSearchResult[] {
     let xhrFound: XhrSearchResult[] = [];
 

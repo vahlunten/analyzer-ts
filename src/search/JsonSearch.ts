@@ -18,6 +18,8 @@ export class JsonSearcher {
         return this.searchSubtree(json, []);
     }
 
+    // absolute path in JPath format
+    // does not need to be optimized
     public searchSubtree(subtree: any, path: string[]): SearchResult[] {
 
         let searchResults: SearchResult[] = [];
@@ -47,6 +49,7 @@ export class JsonSearcher {
                 }
             });
             // TODO: Calculate scores
+            // found in lists: more better
         }
         return searchResults;
     }

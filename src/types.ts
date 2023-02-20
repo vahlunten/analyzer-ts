@@ -85,7 +85,7 @@ export class Output {
     cheerioCrawlerSuccess: boolean = false;
     analysisStarted: string | null = null;
     analysisEnded: string | null = null;
-
+    // indicates whether the actor finished sucessfully
     actorSuccess: boolean = true;
     // error if the analyzer failed due to uncaught exception
     errorMessage: string | null = null;
@@ -118,22 +118,36 @@ export class SearchResults {
     xhrFound:XhrSearchResult[] = [];
 }
 
-
+/**
+ * 
+ */
 export class SearchResult
  {
-
+    // JSONPath exoression or css selector
     path:string;
+    // if the path is a selector, pathShort is a more robust 
+    // selector, preferably containing class or id of a parent
     pathShort: string | null;
+    // a keyword
     keyword: NormalizedKeywordPair;
+    // text found for this keyword during the analysis on the element with:
+    //   path for JSON objects
+    //   pathShort for HTML 
     textFound: string;
+    // text found with the long selector
     textFoundLong: string;
+    // indicates origin of the data, where the keyword was found
     source: DataOrigin[] = [];
+    // score of the path/selector
     score: number;
+    // text found during the validation of this search result with path
     textFoundValidation: string | null;
+    // text found during the validation of this search result with pathShort
     textFoundValidationShort: string | null;
     isValid: boolean;
 
 
+    // TODO: add found in lists property
     constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataOrigin, pathShort = "", textFoundValidationShort="", textFoundLong = "", score = 0, isValid = false) {
         this.path = path;
         this.keyword = keyword;

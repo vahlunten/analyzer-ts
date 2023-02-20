@@ -19,6 +19,7 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
 
         }
         catch (err: any) {
+            // TODO: error handling
             log.error(err);
             log.error(`Failed validation of XHR request: ${""}`);
 
@@ -144,6 +145,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
             },
             response: {
                 body: "",
+                // TODO: this is not working well 
                 status: -1,
                 headers: {}
             },

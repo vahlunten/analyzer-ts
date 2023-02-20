@@ -5,7 +5,7 @@ import { removeDuplicates } from "../src/search/Search";
 import { DataOrigin, SearchResult } from "../src/types";
 import { DOMSearch } from "../src/search/DOMSearch";
 import { readFileSync } from "fs";
-import  __  from "lodash";
+import __ from "lodash";
 
 
 // describe('JsonSearch test', () => {
@@ -44,18 +44,19 @@ describe('Html search test', () => {
   //   const cheerioSearchResults = cheerioSearcher.find(normalizedKeywords)
 
 
-    
+
   //   for (let i = 0; i < initialSearchResults.length; i++) {
   //     const element = initialSearchResults[i];
   //     const elementCheerio = cheerioSearchResults[i];
 
   //     console.log(element.textFound);
   //     console.log(elementCheerio.textFound);
-      
+
   //   }
   //   expect(__.isEqual(initialSearchResults.length,cheerioSearchResults.length)).toBe(true);
   // });
 
+  // TODO: prooper tests
   test('should return 1 results', () => {
 
     const normalizedKeywords = normalizeArray(["gold"]);
@@ -68,21 +69,21 @@ describe('Html search test', () => {
 });
 
 const testJson = {
-	world: [
-		"people",
-		"animals",
-		{
-			pirateShip: {
-				deck: {
-					barell: "Barell with gunpowder",
-					chest: [
-						"necklace",
-						"golden coin"
-					]
-				}
-			}
-		}
-	]
+  world: [
+    "people",
+    "animals",
+    {
+      pirateShip: {
+        deck: {
+          barell: "Barell with gunpowder",
+          chest: [
+            "necklace",
+            "golden coin"
+          ]
+        }
+      }
+    }
+  ]
 }
 
 

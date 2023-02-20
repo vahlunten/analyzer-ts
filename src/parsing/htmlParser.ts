@@ -11,6 +11,8 @@ import { parseSchemaOrgData } from "./schema-org";
  */
 export function parseHtml(body: string): ScrapedPage {
 
+    // TODO: use this function inside a crawler to test the search results 
+    // and create an example dataset
     const $ = cheerio.load(body);
     const out = new ScrapedPage();
 

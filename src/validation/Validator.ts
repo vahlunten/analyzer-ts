@@ -260,6 +260,9 @@ export class Validator {
                 }
                 
                 validatedJson.push(validatedSearchResult);
+
+                // TODO: unify error messages styles
+                // TODO: improve error handling
             } catch (e) {
                 console.error(e);
             }

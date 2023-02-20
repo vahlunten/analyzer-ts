@@ -6,7 +6,7 @@ import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";
 import { KeyValueStore, log } from '@crawlee/core';
-import {prettyPrint}  from "html";
+import { prettyPrint } from "html";
 
 
 
@@ -24,6 +24,7 @@ export class PlaywrightScraper {
         this.scrapedData = new ScrapedData();
 
     }
+    // TODO: JSDoc
     /**
      * Open the browser, open new tab, navigate to the page and scrape and parse all the necessary data from the analyzed web page
      * @param useApifyProxy If true, actor will try to use Apify proxy.
@@ -50,7 +51,8 @@ export class PlaywrightScraper {
 
     }
 
-    async close(){
+    async close() {
+        // TODO: fix formatting 
         log.info('===================================================================================================================');
         log.info('Closing the browser');
         log.info('===================================================================================================================');
@@ -70,6 +72,7 @@ export class PlaywrightScraper {
             password?: string | undefined;
         } | undefined;
 
+        // TODO: add proxy params to actor.json
         if (useApifyProxy && process.env.APIFY_PROXY_PASSWORD) {
             proxyConfiguration = {
                 server: "proxy.apify.com:8000",
@@ -112,7 +115,7 @@ export class PlaywrightScraper {
         // 
         await this.getContent(page);
         // save the value of initial response
-        await KeyValueStore.setValue("initial", prettyPrint(responseBody, {indent_size: 2}), { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("initial", prettyPrint(responseBody, { indent_size: 2 }), { contentType: 'text/html; charset=utf-8' });
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
@@ -177,6 +180,7 @@ export class PlaywrightScraper {
         const domContent = await page.content();
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
+        // TODO: save less files
         // save the rendered HTML document
         await KeyValueStore.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
 
