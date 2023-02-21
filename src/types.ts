@@ -11,16 +11,16 @@ export interface Input {
  */
 export interface NormalizedKeywordPair {
     // original keyword string
-    original: string, 
+    original: string,
     // normalized keyword string
     normalized: string,
     // omdex of the keyword
-    index: number    
+    index: number
 }
 
 
 export class ScrapedData {
-   
+
     // response status of the browsers initial request response
     responseStatus: number | null = null;
     // parsed initial response from chromium
@@ -28,11 +28,11 @@ export class ScrapedData {
     // parsed HTML rendered in the browser
     DOM: ScrapedPage | null = null;
     // window object cleared of circular dependencies and parsed
-    allWindowProperties: { [key: string]: any } | null= null;
+    allWindowProperties: { [key: string]: any } | null = null;
     // search results of keywords found in the window object
-    windowFound:SearchResult[] = [];
+    windowFound: SearchResult[] = [];
     // parsed inirial response from cheerioCrawler
-    parsedCheerio:ScrapedPage | null = null;
+    parsedCheerio: ScrapedPage | null = null;
     // all intercepted XHR requests parsed
     xhrParsed: ParsedRequestResponse[] | null = null;
     // cookies captured during the browser session 
@@ -40,7 +40,7 @@ export class ScrapedData {
     // error if the parsing of the HTML document failed due to uncaught exception
     error: Error | null = null;
     // indicates whether the HTML document was sucessfully scraped and parsed
-    scrapingFinished:boolean = false;
+    scrapingFinished: boolean = false;
 
 }
 /**
@@ -52,7 +52,7 @@ export class ScrapedPage {
     // scraped and parsed JSON-LD data
     jsonLDData: any = null;
     // parsed schema.org -> microdata
-    schemaOrgData: any  = null;
+    schemaOrgData: any = null;
     // parsed meta tags
     metadata: any = null;
 }
@@ -73,9 +73,9 @@ export class Output {
     // left here for the development purposes, theses search results 
     // get validated and assorted to the particular keyword in the
     // validation step and saved in the keywordConclusions field
-    searchResults:SearchResults | null = null;
+    searchResults: SearchResults | null = null;
     // an array of the analysis results for each keyword
-    keywordConclusions:KeywordConclusion[] = [];
+    keywordConclusions: KeywordConclusion[] = [];
     // xhr requests containing any of the kwyword are replicated using
     // got-scraping, attempts to replicate the calls are saved in the
     //  xhrValidated field
@@ -94,7 +94,7 @@ export class Output {
         this.url = url;
         this.keywords = keywords;
     }
-    
+
 }
 
 /**
@@ -102,29 +102,28 @@ export class Output {
  */
 export interface KeywordConclusion {
     // input keyword 
-    Keyword:NormalizedKeywordPair;
+    Keyword: NormalizedKeywordPair;
     // search results of this keyword
-    SearchResults:SearchResults;
+    SearchResults: SearchResults;
 }
 
 export class SearchResults {
     // all the ways the keyword can be scraped 
-    canBeScrapedWith:DataOrigin[] = [];
-    htmlFound:SearchResult[] = [];
-    jsonFound:SearchResult[] = [];
-    schemaFound:SearchResult[] = [];
-    metaFound:SearchResult[] = [];
-    windowFound:SearchResult[] = [];
-    xhrFound:XhrSearchResult[] = [];
+    canBeScrapedWith: DataOrigin[] = [];
+    htmlFound: SearchResult[] = [];
+    jsonFound: SearchResult[] = [];
+    schemaFound: SearchResult[] = [];
+    metaFound: SearchResult[] = [];
+    windowFound: SearchResult[] = [];
+    xhrFound: XhrSearchResult[] = [];
 }
 
 /**
  * 
  */
-export class SearchResult
- {
+export class SearchResult {
     // JSONPath exoression or css selector
-    path:string;
+    path: string;
     // if the path is a selector, pathShort is a more robust 
     // selector, preferably containing class or id of a parent
     pathShort: string | null;
@@ -148,7 +147,7 @@ export class SearchResult
 
 
     // TODO: add found in lists property
-    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataOrigin, pathShort = "", textFoundValidationShort="", textFoundLong = "", score = 0, isValid = false) {
+    constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataOrigin, pathShort = "", textFoundValidationShort = "", textFoundLong = "", score = 0, isValid = false) {
         this.path = path;
         this.keyword = keyword;
 
@@ -166,9 +165,9 @@ export class SearchResult
 export class XhrSearchResult {
     searchResults: SearchResult[] = [];
     parsedRequestResponse: ParsedRequestResponse;
-    constructor (searchResults: SearchResult[], parsedRequestResponserse: ParsedRequestResponse) {
+    constructor(searchResults: SearchResult[], parsedRequestResponserse: ParsedRequestResponse) {
         this.searchResults = searchResults;
-        this.parsedRequestResponse  = parsedRequestResponserse;
+        this.parsedRequestResponse = parsedRequestResponserse;
     }
 }
 
@@ -211,9 +210,9 @@ export interface XhrValidation {
     validationSuccess: boolean
 }
 export interface GotCall {
-    parsedRequestResponse: ParsedRequestResponse, 
+    parsedRequestResponse: ParsedRequestResponse,
     searchResults: SearchResult[],
     callSuccess: true | false;
     isValid: true | false;
-    keywordsFound:NormalizedKeywordPair[];
+    keywordsFound: NormalizedKeywordPair[];
 }

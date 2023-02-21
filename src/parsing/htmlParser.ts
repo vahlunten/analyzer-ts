@@ -4,6 +4,8 @@ import { parseJsonLD } from "./json-ld";
 import { parseMetadata } from "./meta";
 import { parseSchemaOrgData } from "./schema-org";
 
+// TODO: parse from the cheerio object
+
 /**
  * Parses jsonld, metadata, schema.org data from html.
  * @param body Html string to be parsed

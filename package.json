@@ -8,6 +8,7 @@
 		"apify": "^3.1.1",
 		"cheerio": "^1.0.0-rc.12",
 		"crawlee": "^3.1.0",
+		"dayjs": "^1.11.7",
 		"dotenv": "^16.0.3",
 		"fingerprint-generator": "^2.0.1",
 		"fingerprint-injector": "^2.0.1",
