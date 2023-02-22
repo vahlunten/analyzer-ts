@@ -8,19 +8,20 @@ import { KeyValueStore, log } from '@crawlee/core';
 import { Actor } from 'apify';
 import { crawl } from './crawl/Crawler';
 import dayjs from 'dayjs'
-
+import { parse, html } from "diff2html";
+import Diff from 'diff'
 /**
  * Actor's entry point. 
  */
 (async () => {
     Actor.init();
     const output = new Output();
-    let store:KeyValueStore;
-    let input:Input;
+    let store: KeyValueStore;
+    let input: Input;
 
     try {
         input = await KeyValueStore.getInput() as Input;
-    } catch (e:any) {
+    } catch (e: any) {
         log.error("Failed to load the input");
         log.error(e.message);
 
@@ -30,7 +31,7 @@ import dayjs from 'dayjs'
     try {
         store = await Actor.openKeyValueStore(`runs/${dayjs(new Date()).format('YYYY-MM-DD_HH-mm-ss')}`);
 
-    } catch (e:any) {
+    } catch (e: any) {
         log.error('Failed to create a key-value store with the current date');
         log.error(e.message);
     }
@@ -96,7 +97,7 @@ import dayjs from 'dayjs'
         // TODO: create and run the crawler
 
         // await crawl(input.url, output.keywordConclusions);
-        
+
         // error for testing purposes
         // throw new Error("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
 
@@ -112,9 +113,30 @@ import dayjs from 'dayjs'
 
     }
     output.analysisEnded = getCUrrentDate();
-    
-    output.scrapedData!.initial = null;
-    output.scrapedData!.DOM = null;
+
+    // TODO: calculate git diff and save it to the storage to be later displayed in the UI
+    // prettify -> save -> load compare
+
+    // await KeyValueStore.get("./src/static/diff.txt", readFileSync("diff.txt"), { contentType: "application/json; charset=utf-8" });
+
+    try {
+        const diffString = readFileSync("./src/static/diff.txt").toString();
+        await KeyValueStore!.setValue("diffstring", diffString, { contentType: 'application/text; charset=utf-8' });
+
+
+        const diffJson = parse(diffString);
+        const diffHtml = html(diffJson, { outputFormat: 'side-by-side' });
+        log.debug(diffHtml);
+        await KeyValueStore!.setValue("diff", diffHtml, { contentType: 'application/html; charset=utf-8' });
+
+        output.scrapedData!.initial = null;
+        output.scrapedData!.DOM = null;
+    } catch (e: any) {
+        log.debug("Failed to create the diff of initial response and rendered document:");
+        log.error(e.message);
+
+
+    }
 
 
     // TODO: generate folder with a timestamp for each run 

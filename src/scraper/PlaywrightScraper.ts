@@ -7,6 +7,7 @@ import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../ty
 import { scrapeWindowProperties } from "../parsing/window-properties";
 import { KeyValueStore, log } from '@crawlee/core';
 import { prettyPrint } from "html";
+import { Request } from "playwright";
 
 
 
@@ -115,7 +116,7 @@ export class PlaywrightScraper {
         // 
         await this.getContent(page);
         // save the value of initial response
-        await KeyValueStore.setValue("initial", prettyPrint(responseBody, { indent_size: 2 }), { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("initial", prettyPrint(responseBody, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
@@ -171,9 +172,14 @@ export class PlaywrightScraper {
         }
 
         page.on("response", async (response: Response) => await onResponse(this.requests, response, this.url));
+        page.on("request", request => this.onRequest(request));
     }
 
 
+    async onRequest(request:Request) {
+        log.debug(request.url());
+        // log.debug(request.postData());
+    }
 
 
     async getContent(page: Page) {

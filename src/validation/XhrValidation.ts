@@ -192,7 +192,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
 
             }
             result.parsedRequestResponse.response = {
-                body: prettyPrint(response.body, {indent_size: 2}),
+                body: prettyPrint(response.body, {indent_size: 3}),
                 status: response.statusCode,
                 headers: response.headers as {[key: string]:string}
             };
