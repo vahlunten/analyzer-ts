@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import { Page } from "playwright";
 
+// TODO: this could and should be very helpful 
 export async function scrapeWindowProperties(page: Page): Promise<{ [key: string]: any }> {
     return await page.evaluate(() => {
         function isNotImportant(property:any) {

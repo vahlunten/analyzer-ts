@@ -2,7 +2,7 @@ import { gotScraping, Method, Options, Response, CancelableRequest } from "got-s
 import { isEqual } from "lodash";
 import { DOMSearch } from "../search/DOMSearch";
 import { JsonSearcher } from "../search/JsonSearch";
-import { DataSource, GotCall, NormalizedKeywordPair, ParsedRequestResponse, SearchResult, XhrSearchResult, XhrValidation } from "../types";
+import { DataOrigin, GotCall, NormalizedKeywordPair, ParsedRequestResponse, SearchResult, XhrSearchResult, XhrValidation } from "../types";
 import {  log } from '@crawlee/core';
 import {prettyPrint}  from "html";
 
@@ -19,6 +19,7 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
 
         }
         catch (err: any) {
+            // TODO: error handling
             log.error(err);
             log.error(`Failed validation of XHR request: ${""}`);
 
@@ -58,6 +59,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
             secureConnect: 2000,
             send: 2000,
             socket: 2000
+            // TODO: check got dos for correct timeout
         }
     });
 
@@ -126,7 +128,8 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
 }
 
 async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: Options): Promise<GotCall> {
-    const request = gotScraping(undefined, undefined, options );
+    // TODO: proxy url 
+    const request = gotScraping(undefined, undefined, options);
     let response: Response<string>;
     let searchResults: SearchResult[] = [];
     let result: GotCall = {
@@ -142,6 +145,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
             },
             response: {
                 body: "",
+                // TODO: this is not working well 
                 status: -1,
                 headers: {}
             },
@@ -157,12 +161,11 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
         if (response.statusCode == xhr.parsedRequestResponse.response.status) {
             // reponses are the same, we can proceed
             log.debug("Response with the same status received: " + response.statusCode);
-            // TODO: check content type header and search html or json
 
             if (response.headers["content-type"]?.indexOf("json") != -1) {
-                searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataSource.xhr);
+                searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataOrigin.xhr);
             } else if (response.headers["content-type"].indexOf("html") != 1) {
-                searchResults = (new DOMSearch(response.body, DataSource.xhr)).find(keywords);
+                searchResults = (new DOMSearch(response.body, DataOrigin.xhr)).find(keywords);
                 }
                 result.searchResults = searchResults;
 
@@ -172,7 +175,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                     log.debug("Validated xhr is valid.");
                     result.isValid = true;
                     result.searchResults.forEach(sr => {
-                        sr.source.push(DataSource.got);
+                        sr.source.push(DataOrigin.got);
                     })
                     const keywordsFound:NormalizedKeywordPair[] = []
                     xhr.searchResults.forEach(searchResult => {
@@ -189,7 +192,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
 
             }
             result.parsedRequestResponse.response = {
-                body: prettyPrint(response.body, {indent_size: 2}),
+                body: prettyPrint(response.body, {indent_size: 3}),
                 status: response.statusCode,
                 headers: response.headers as {[key: string]:string}
             };

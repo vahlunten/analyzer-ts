@@ -3,6 +3,9 @@ import cheerio from 'cheerio';
 import { parseJsonLD } from "./json-ld";
 import { parseMetadata } from "./meta";
 import { parseSchemaOrgData } from "./schema-org";
+import { prettyPrint } from "html";
+
+// TODO: parse from the cheerio object
 
 /**
  * Parses jsonld, metadata, schema.org data from html.
@@ -11,10 +14,12 @@ import { parseSchemaOrgData } from "./schema-org";
  */
 export function parseHtml(body: string): ScrapedPage {
 
+    // TODO: use this function inside a crawler to test the search results 
+    // and create an example dataset
     const $ = cheerio.load(body);
     const out = new ScrapedPage();
 
-    out.body = body;
+    out.body = prettyPrint(body, { indent_size: 3 });
     out.jsonLDData = parseJsonLD($);
     out.metadata = parseMetadata($);
     out.schemaOrgData = parseSchemaOrgData($);

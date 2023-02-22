@@ -1,4 +1,4 @@
-import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataSource } from "../types";
+import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataOrigin } from "../types";
 import { KeyValueStore, log, Request } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
@@ -24,7 +24,7 @@ export class Validator {
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean }> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean, parsedCheerio: ScrapedPage | null}> {
         let validatedData: KeywordConclusion[];
         let xhrValidated: XhrValidation[] = [];
         // load initial html with a simple HTTP client
@@ -70,7 +70,7 @@ export class Validator {
         }
 
 
-        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded };
+        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded, parsedCheerio: this.parsedCheerio};
 
     }
 
@@ -120,7 +120,7 @@ export class Validator {
                 for (const kw of call.keywordsFound) {
                     const keywordConclusion = conclusion.get(kw.index);
                     // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-                    keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataSource.got]);
+                    keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
                 }
             }
         }
@@ -128,8 +128,8 @@ export class Validator {
         return Array.from(conclusion.values());
     }
 
-    mergeSources(oldData: DataSource[], newDataSoure: DataSource[]) {
-        const newSources: DataSource[] = [...oldData];
+    mergeSources(oldData: DataOrigin[], newDataSoure: DataOrigin[]) {
+        const newSources: DataOrigin[] = [...oldData];
         for (const source of newDataSoure) {
             if (!oldData.includes(source)) {
                 newSources.push(source);
@@ -171,7 +171,7 @@ export class Validator {
             requestHandler: router,
             requestHandlerTimeoutSecs: 30,
             maxRequestRetries: 10,
-
+            // failedRequestHandler: 
 
         });
 
@@ -219,7 +219,7 @@ export class Validator {
                 validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000;
                 if (textFound === searchResult.textFound) {
                     validatedSearchResult.isValid = true;
-                    validatedSearchResult.source.push(DataSource.cheerio);
+                    validatedSearchResult.source.push(DataOrigin.cheerio);
                 }
                 validatedSearchResult.textFoundValidationShort = textFoundValidationShort;
                 validatedHtml.push(validatedSearchResult)
@@ -254,8 +254,15 @@ export class Validator {
                 // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
                 // console.log("Analysis text:" + jsonSearchResult.textFound);
 
-                validatedSearchResult.isValid = validatedSearchResult.textFoundValidation === jsonSearchResult.textFound;
+                if (validatedSearchResult.textFoundValidation === jsonSearchResult.textFound) {
+                    validatedSearchResult.isValid = true;
+                    validatedSearchResult.source.push(DataOrigin.cheerio);
+                }
+                
                 validatedJson.push(validatedSearchResult);
+
+                // TODO: unify error messages styles
+                // TODO: improve error handling
             } catch (e) {
                 console.error(e);
             }

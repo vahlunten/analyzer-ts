@@ -1,18 +1,20 @@
 import cheerio from 'cheerio';
 import { normalizeString } from '../helpers/normalize';
-import { DataSource, NormalizedKeywordPair, SearchResult } from '../types';
+import { DataOrigin, NormalizedKeywordPair, SearchResult } from '../types';
 
 export class DOMSearch {
     private $: cheerio.Root;
     private keywords: NormalizedKeywordPair[] = [];
-    private source: DataSource;
+    private source: DataOrigin;
 
-    public constructor(html: string, source: DataSource) {
+    public constructor(html: string, source: DataOrigin) {
         this.$ = cheerio.load(html);
         this.source = source;
     }
 
 
+    // TODO: Find in lists!!!!!!
+    // CORE
     public find(keywords: NormalizedKeywordPair[]): SearchResult[] {
         // console.log(this.$.html());
 
@@ -25,8 +27,10 @@ export class DOMSearch {
 
         return htmlSearchResults;
     }
+    // TODO: better unique selectors
     isUniqueAndMatching(selector: string, text: string) {
         const elements = this.$(selector);
+        // TODO: this is incorrect assumption
         if (elements.length == 1) {
             return true;
         }
@@ -36,6 +40,7 @@ export class DOMSearch {
         var parents = el.parents();
         if (!parents[0]) {
             // Element doesn't have any parents
+            // TODO: learn how to parse the body only
             return ':root';
         }
         const elementSelector = this.getElementSelector(el);
@@ -60,6 +65,9 @@ export class DOMSearch {
         return result;
     };
 
+    // generates absolute poath from the root of the document
+    // this selector will be optimized later and is saved in the
+    // searchResult type 
     getElementSelector(el: cheerio.Cheerio): string {
 
         if (el.attr('id')) {
@@ -104,9 +112,9 @@ export class DOMSearch {
         let searchResults: SearchResult[] = [];
         // console.log("Id: " + this.$(root).attr("id"));
 
-    
-        
-        const rootElementText = this.$(root).first().contents().filter(function(index, element) {
+
+
+        const rootElementText = this.$(root).first().contents().filter(function (index, element) {
             return element.type === 'text';
         }).text();
         // TODO: chekc this out one more time
@@ -149,14 +157,14 @@ export class DOMSearch {
         if (root.children().length > 0) {
 
             // console.log("Found parent with class: " + this.$(root).attr("class") + "and text: " + this.$(root).text());
-            if (root.attr("class") == "availability-row__delivery--redesign") {
-                // console.log("gotcha");
-                // root.attr("class");
-                // console.log("Text: " + root.text());
-                // console.log("html: " + root.html());
+            // if (root.attr("class") == "availability-row__delivery--redesign") {
+            //     // console.log("gotcha");
+            //     // root.attr("class");
+            //     // console.log("Text: " + root.text());
+            //     // console.log("html: " + root.html());
 
-                // console.log("Children count : " + root.children().length);
-            }
+            //     // console.log("Children count : " + root.children().length);
+            // }
             root.children().each((index, element) => {
                 const elementSearchResults = this.searchElement(this.$(element), depth + 1, this.$(element).get(0).tagName, [...path, `${this.$(element).get(0).tagName}:nth-child(${index + 1})`]);
                 elementSearchResults.forEach(elementSearchResult => {
@@ -187,6 +195,8 @@ export class DOMSearch {
                     // console.log("Short path text: " + shortPathText);
                     // constructor(path: string, keyword: NormalizedKeywordPair, textFound: string, source: DataSource, pathShort = "", textFoundValidationShort="", textFoundShort = "", score = 0, isValid = false) {
 
+                    // TODO: add found in lists property
+                    // TODO: make this more readable
                     searchResults.push(new SearchResult(longPath, keyword, text, this.source, shortPath, "", shortPathText, this.getScore(keyword.normalized, text, "")));
 
 
@@ -198,7 +208,7 @@ export class DOMSearch {
 
     }
 
-    // TODO: more sophisticated scoring system 
+    // TODO: more sophisticated scoring system bump
     getScore(keywordNormalized: string, textNormalized: string, selector: string): number {
         const score = textNormalized.length - keywordNormalized.length;
         // console.log(score + selector.length);

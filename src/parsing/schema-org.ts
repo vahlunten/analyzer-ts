@@ -43,6 +43,7 @@ function extractItemScope($: cheerio.Root, $itemScope: cheerio.Cheerio) {
     return item;
 }
 
+// TODO: this shouyld be renamed to microdata everywhere
 export function parseSchemaOrgData($: cheerio.Root) {
     const result: any[]= [];
     $('[itemscope]').filter((_, element) => {

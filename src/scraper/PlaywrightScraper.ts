@@ -6,7 +6,8 @@ import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";
 import { KeyValueStore, log } from '@crawlee/core';
-import {prettyPrint}  from "html";
+import { prettyPrint } from "html";
+import { Request } from "playwright";
 
 
 
@@ -16,6 +17,7 @@ export class PlaywrightScraper {
     scrapedData: ScrapedData;
     url: string;
     keywords: NormalizedKeywordPair[];
+    browserContext: BrowserContext | undefined;
 
     constructor(url: string, keywords: NormalizedKeywordPair[]) {
         this.url = url;
@@ -23,6 +25,7 @@ export class PlaywrightScraper {
         this.scrapedData = new ScrapedData();
 
     }
+    // TODO: JSDoc
     /**
      * Open the browser, open new tab, navigate to the page and scrape and parse all the necessary data from the analyzed web page
      * @param useApifyProxy If true, actor will try to use Apify proxy.
@@ -32,10 +35,10 @@ export class PlaywrightScraper {
     async scrapePage(useApifyProxy = true, generateFingeprint = true): Promise<ScrapedData> {
 
         // opens browser and a new tab 
-        const browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
+        this.browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
 
         // navigates to the analyzed url 
-        const { responseStatus, initialResponseBody } = await this.openPage(this.url, browserContext);
+        const { responseStatus, initialResponseBody } = await this.openPage(this.url, this.browserContext);
         this.scrapedData.responseStatus = responseStatus;
 
 
@@ -49,6 +52,13 @@ export class PlaywrightScraper {
 
     }
 
+    async close() {
+        // TODO: fix formatting 
+        log.info('===================================================================================================================');
+        log.info('Closing the browser');
+        log.info('===================================================================================================================');
+        await this.browserContext?.close();
+    }
     /**
      * 
      * @param useApifyProxy If true, actor will try to use Apify proxy.
@@ -63,6 +73,7 @@ export class PlaywrightScraper {
             password?: string | undefined;
         } | undefined;
 
+        // TODO: add proxy params to actor.json
         if (useApifyProxy && process.env.APIFY_PROXY_PASSWORD) {
             proxyConfiguration = {
                 server: "proxy.apify.com:8000",
@@ -102,9 +113,10 @@ export class PlaywrightScraper {
         const bodyBuffer = await initialResponse?.body();
         const responseBody = bodyBuffer?.toString() ?? '';
         await page.waitForTimeout(3000);
+        // 
         await this.getContent(page);
         // save the value of initial response
-        await KeyValueStore.setValue("initial", prettyPrint(responseBody, {indent_size: 2}), { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("initial", prettyPrint(responseBody, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
@@ -160,17 +172,23 @@ export class PlaywrightScraper {
         }
 
         page.on("response", async (response: Response) => await onResponse(this.requests, response, this.url));
+        page.on("request", request => this.onRequest(request));
     }
 
 
+    async onRequest(request:Request) {
+        log.debug(request.url());
+        // log.debug(request.postData());
+    }
 
 
     async getContent(page: Page) {
         const domContent = await page.content();
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
-
-        await KeyValueStore.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
+        // TODO: save less files
+        // save the rendered HTML document
+        await KeyValueStore.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 
         // it is good for quick visual check, whether the analysis was sucessful
