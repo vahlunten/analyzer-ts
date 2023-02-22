@@ -9,8 +9,8 @@ import { Actor } from 'apify';
 import { crawl } from './crawl/Crawler';
 import dayjs from 'dayjs'
 import { parse, html } from "diff2html";
-import Diff from 'diff'
-/**
+import { createTwoFilesPatch } from 'diff';
+/*
  * Actor's entry point. 
  */
 (async () => {
@@ -120,11 +120,16 @@ import Diff from 'diff'
     // await KeyValueStore.get("./src/static/diff.txt", readFileSync("diff.txt"), { contentType: "application/json; charset=utf-8" });
 
     try {
+        // const difffff = differ.diffLines()
+    //    console.log(Diff);
+        // const diffff = diffChars('abc', 'adc');
+        const difdiff = createTwoFilesPatch("Initial response", "Rendered document", output.scrapedData!.initial!.body, output.scrapedData!.DOM!.body, "Initial response", "Rendered document");
+        log.debug(difdiff);
         const diffString = readFileSync("./src/static/diff.txt").toString();
         await KeyValueStore!.setValue("diffstring", diffString, { contentType: 'application/text; charset=utf-8' });
 
 
-        const diffJson = parse(diffString);
+        const diffJson = parse(difdiff);
         const diffHtml = html(diffJson, { outputFormat: 'side-by-side' });
         log.debug(diffHtml);
         await KeyValueStore!.setValue("diff", diffHtml, { contentType: 'application/html; charset=utf-8' });
@@ -133,7 +138,7 @@ import Diff from 'diff'
         output.scrapedData!.DOM = null;
     } catch (e: any) {
         log.debug("Failed to create the diff of initial response and rendered document:");
-        log.error(e.message);
+        console.log(e.message);
 
 
     }

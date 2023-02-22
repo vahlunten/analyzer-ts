@@ -3,6 +3,7 @@ import cheerio from 'cheerio';
 import { parseJsonLD } from "./json-ld";
 import { parseMetadata } from "./meta";
 import { parseSchemaOrgData } from "./schema-org";
+import { prettyPrint } from "html";
 
 // TODO: parse from the cheerio object
 
@@ -18,7 +19,7 @@ export function parseHtml(body: string): ScrapedPage {
     const $ = cheerio.load(body);
     const out = new ScrapedPage();
 
-    out.body = body;
+    out.body = prettyPrint(body, { indent_size: 3 });
     out.jsonLDData = parseJsonLD($);
     out.metadata = parseMetadata($);
     out.schemaOrgData = parseSchemaOrgData($);

@@ -188,7 +188,7 @@ export class PlaywrightScraper {
         this.scrapedData.DOM = parseHtml(domContent);
         // TODO: save less files
         // save the rendered HTML document
-        await KeyValueStore.setValue("rendered", domContent!, { contentType: 'text/html; charset=utf-8' });
+        await KeyValueStore.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 
         // it is good for quick visual check, whether the analysis was sucessful
