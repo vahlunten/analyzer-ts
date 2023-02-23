@@ -18,11 +18,13 @@ export class PlaywrightScraper {
     url: string;
     keywords: NormalizedKeywordPair[];
     browserContext: BrowserContext | undefined;
+    store: KeyValueStore;
 
-    constructor(url: string, keywords: NormalizedKeywordPair[]) {
+    constructor(url: string, keywords: NormalizedKeywordPair[], store:KeyValueStore) {
         this.url = url;
         this.keywords = keywords;
         this.scrapedData = new ScrapedData();
+        this.store = store;
 
     }
     // TODO: JSDoc
@@ -117,6 +119,8 @@ export class PlaywrightScraper {
         await this.getContent(page);
         // save the value of initial response
         await KeyValueStore.setValue("initial", prettyPrint(responseBody, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
+        await this.store.setValue("initial", prettyPrint(responseBody, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
+
         return { responseStatus: initialResponse!.status(), initialResponseBody: responseBody };
     }
 
@@ -189,6 +193,8 @@ export class PlaywrightScraper {
         // TODO: save less files
         // save the rendered HTML document
         await KeyValueStore.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
+        await this.store.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
+
 
         // screenshot wll be displayed in the actor's UI on Apify platform. 
         // it is good for quick visual check, whether the analysis was sucessful
@@ -196,6 +202,8 @@ export class PlaywrightScraper {
         // it is easy for a human to visually tell, wether the page was navigated sucessfully
         const screenshot = await page.screenshot();
         await KeyValueStore.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
+        await this.store.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
+
 
         // this will execute javascript **in the browser** and parse window properties
         const windowObject = await scrapeWindowProperties(page);
