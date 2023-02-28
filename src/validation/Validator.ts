@@ -15,11 +15,11 @@ export class Validator {
     private body: string | null = null;
     private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
-    store:KeyValueStore;
+    // store:KeyValueStore;
     
     
-    public constructor(store:KeyValueStore){
-        this.store = store;
+    public constructor(){
+        // this.store = store;
     }
 
     /**
@@ -38,7 +38,7 @@ export class Validator {
         // validate XHR requests    
         xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
         await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
-        await this.store.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
+        // await this.store.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 
 
 
@@ -171,7 +171,7 @@ export class Validator {
             this.body = body.toString();
             log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
             await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
-            await this.store.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
+            // await this.store.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
 
 
         });
