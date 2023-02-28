@@ -81,7 +81,7 @@ import { createTwoFilesPatch } from 'diff';
             const difdiff = createTwoFilesPatch("", "", scrapedData.initial!.body, scrapedData!.DOM!.body, "Initial response", "Rendered document");
             const diffJson = parse(difdiff);
             const diffHtml = html(diffJson, { outputFormat: 'side-by-side', drawFileList: false });
-            log.debug(diffHtml);
+            // log.debug(diffHtml);
             await KeyValueStore.setValue("diff", diffHtml, { contentType: 'application/html; charset=utf-8' });
             await store!.setValue("diff", diffHtml, { contentType: 'application/html; charset=utf-8' });
 
@@ -110,21 +110,18 @@ import { createTwoFilesPatch } from 'diff';
         output.scrapedData!.DOM = null;
 
         // TODO: create and run the crawler
-        // await crawl(input.url, output.keywordConclusions);
+        await crawl(input.url, output.keywordConclusions);
 
         // error for testing purposes
         // throw new Error("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
 
 
     } catch (e: any) {
-
-        // TODO: more sophisticated error handling
         log.error('Top lever error inside main:');
         log.error(e);
         console.error(e);
         output.actorSuccess = false;
         output.errorMessage = e.message;
-
     } finally {
 
         output.analysisEnded = getCUrrentDate();

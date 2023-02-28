@@ -34,14 +34,21 @@ export async function crawl(url: string, kwConclusions: KeywordConclusion[]): Pr
                 for (const htmlSearchResult of keyword.SearchResults.htmlFound) {
                     // selectorTest.push({ path: htmlSearchResult.path, found: $(htmlSearchResult.path).text(), expected: htmlSearchResult.textFound });
 
-                    await Dataset.pushData(
-                        {
-                            path: htmlSearchResult.pathShort,
-                            found: $(htmlSearchResult.pathShort).text(),
-                            expected: htmlSearchResult.textFound,
-                            url: request.url
-                        }
-                    );
+                    const parsedHtml = parseHtml($.html());
+
+                    const textFound = $(htmlSearchResult.pathShort).text();
+
+                    if (textFound === htmlSearchResult.textFound) {
+                        await Dataset.pushData(
+                            {
+                                path: htmlSearchResult.pathShort,
+                                found: textFound,
+                                expected: htmlSearchResult.textFound,
+                                url: request.url
+                            }
+                        );
+                    }
+
 
                     // await Dataset.pushData(
                     //     // {
@@ -64,7 +71,7 @@ export async function crawl(url: string, kwConclusions: KeywordConclusion[]): Pr
         // 'http://www.example.com/page-1',
         // 'http://www.example.com/page-2',
         // 'http://www.example.com/page-3',
-    
+
         'https://www.alza.sk/logitech-mx-mini-mechanical-for-mac-pale-grey-us-intl-d7468950.htm?o=6',
         'https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm'
     ]);
@@ -74,8 +81,8 @@ export async function crawl(url: string, kwConclusions: KeywordConclusion[]): Pr
 
     try {
         // a key-value store named "my-data" under the key "OUTPUT"
-    // await Dataset.exportToCSV('selector-test', { toKVS: 'default' });
-    } catch(e) {
+        // await Dataset.exportToCSV('selector-test', { toKVS: 'default' });
+    } catch (e) {
         console.log(e);
 
     }

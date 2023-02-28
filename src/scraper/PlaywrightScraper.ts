@@ -55,7 +55,6 @@ export class PlaywrightScraper {
     }
 
     async close() {
-        // TODO: fix formatting 
         log.info('===================================================================================================================');
         log.info('Closing the browser');
         log.info('===================================================================================================================');
@@ -190,14 +189,13 @@ export class PlaywrightScraper {
         const domContent = await page.content();
         this.scrapedData.cookies = await page.context().cookies();
         this.scrapedData.DOM = parseHtml(domContent);
-        // TODO: save less files
+
         // save the rendered HTML document
         await KeyValueStore.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
         await this.store.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
 
-
         // screenshot wll be displayed in the actor's UI on Apify platform. 
-        // it is good for quick visual check, whether the analysis was sucessful
+        // it's good for quick visual check, whether the analysis was sucessful
         // often, we can get blocked by for example cloudflare bot protection
         // it is easy for a human to visually tell, wether the page was navigated sucessfully
         const screenshot = await page.screenshot();
