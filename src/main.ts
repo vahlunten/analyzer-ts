@@ -40,7 +40,7 @@ import { createTwoFilesPatch } from 'diff';
         }
         // TODO: only save the output of analyzer to default kvs in production
         try {
-            store = await Actor.openKeyValueStore(`runs/${dayjs(new Date()).format('YYYY-MM-DD_HH-mm-ss')}`);
+            store = await Actor.openKeyValueStore(`runs/${dayjs(new Date()).format('YYYY-MM-DD-HH-mm-ss')}`);
             await store.setValue("INPUT", JSON.stringify(input!), { contentType: "application/json; charset=utf-8" });
         } catch (e: any) {
             log.error('Failed to create a key-value store with the current date');
