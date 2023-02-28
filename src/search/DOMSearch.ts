@@ -36,6 +36,7 @@ export class DOMSearch {
         }
         return false;
     }
+    // TODO: consult selector generation with js gods
     getUniqueSelector(el: cheerio.Cheerio): string {
         var parents = el.parents();
         if (!parents[0]) {
@@ -45,7 +46,11 @@ export class DOMSearch {
         }
         const elementSelector = this.getElementSelector(el);
 
-        if (elementSelector[0] === '#' || elementSelector[0] === '.') {
+        if (elementSelector[0] === '#' ) {
+            return elementSelector;
+        }
+
+        if (elementSelector[0] === '.') {
             return elementSelector;
         }
 

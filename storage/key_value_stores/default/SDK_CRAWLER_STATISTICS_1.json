@@ -1,0 +1,37 @@
+{
+  "requestsFinished": 30,
+  "requestsFailed": 0,
+  "requestsRetries": 0,
+  "requestsFailedPerMinute": 0,
+  "requestsFinishedPerMinute": 46,
+  "requestMinDurationMillis": 416,
+  "requestMaxDurationMillis": 35111,
+  "requestTotalFailedDurationMillis": 0,
+  "requestTotalFinishedDurationMillis": 217589,
+  "crawlerStartedAt": "2023-02-28T10:59:01.204Z",
+  "crawlerFinishedAt": "2023-02-28T10:59:40.052Z",
+  "statsPersistedAt": "2023-02-28T10:59:40.053Z",
+  "crawlerRuntimeMillis": 38870,
+  "crawlerLastStartTimestamp": 1677581941183,
+  "requestRetryHistogram": [
+    30
+  ],
+  "statsId": 1,
+  "requestAvgFailedDurationMillis": null,
+  "requestAvgFinishedDurationMillis": 7253,
+  "requestTotalDurationMillis": 217589,
+  "requestsTotal": 30,
+  "requestsWithStatusCode": {},
+  "errors": {},
+  "retryErrors": {
+    "<anonymous>": {
+      "missing error code": {
+        "SyntaxError": {
+          "Unexpected end of JSON input": {
+            "count": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,8 +3,8 @@ import { isEqual } from "lodash";
 import { DOMSearch } from "../search/DOMSearch";
 import { JsonSearcher } from "../search/JsonSearch";
 import { DataOrigin, GotCall, NormalizedKeywordPair, ParsedRequestResponse, SearchResult, XhrSearchResult, XhrValidation } from "../types";
-import {  log } from '@crawlee/core';
-import {prettyPrint}  from "html";
+import { log } from '@crawlee/core';
+import { prettyPrint } from "html";
 
 export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywords: NormalizedKeywordPair[], proxyUrl = ''): Promise<XhrValidation[]> {
 
@@ -13,6 +13,7 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
 
         try {
             for (const xhrFound of xhrSearchResults) {
+                // TODO: only validate unique requests
                 const val = await validateXHRRequest(xhrFound, keywords);
                 validatedXhr.push(val);
             }
@@ -63,7 +64,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
         }
     });
 
-    let succeeded = false; 
+    let succeeded = false;
 
     // // calls with minimal headers
     // // TODO: prepare minimal headers
@@ -71,7 +72,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     // options.headers = minimalHeaders;
     // // trying every request multiple times to avoid false negatives due to proxy limitations
     // for (let i = 0; i < 5; i++) {
-        
+
     //     const callValidation = await validateGotCall(xhr, keywords, options);
     //     callsWithMinimal.push(callValidation);
 
@@ -89,34 +90,34 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     //     options.headers = originalHeadersWithoutCookie;
 
     //     for (let i = 0; i < 5; i++) {
-        
+
     //         const callValidation = await validateGotCall(xhr, keywords, options);
     //         callsWithOriginalHeaders.push(callValidation);
-    
+
     //         if (callValidation.isValid) {
     //             succeeded = true;
     //             break;
     //         }
     //     }
-                
+
     // }
     // calls with original headers including a cookie
     if (!succeeded) {
-        const originalHeaders: { [key: string]: string } = {};    
+        const originalHeaders: { [key: string]: string } = {};
         options.headers = filteredHeaders;
 
         for (let i = 0; i < 5; i++) {
-        
+
             const callValidation = await validateGotCall(xhr, keywords, options);
             callsWithOriginalCookie.push(callValidation);
-    
+
             if (callValidation.isValid) {
                 succeeded = true;
                 break;
             }
         }
-                
-    }    
+
+    }
 
     return {
         originalRequestResponse: xhr.parsedRequestResponse,
@@ -166,10 +167,17 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                 searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataOrigin.xhr);
             } else if (response.headers["content-type"].indexOf("html") != 1) {
                 searchResults = (new DOMSearch(response.body, DataOrigin.xhr)).find(keywords);
-                }
-                result.searchResults = searchResults;
+            }
+            result.searchResults = searchResults;
 
             if (searchResults.length > 0) {
+                const keywordsFound: NormalizedKeywordPair[] = []
+                xhr.searchResults.forEach(searchResult => {
+                    if (!keywordsFound.includes(searchResult.keyword)) {
+                        keywordsFound.push(searchResult.keyword);
+                    }
+
+                });
                 // if the search results of the response body are the same as search results obtained during analysis
                 if (isEqual(searchResults, xhr.searchResults)) {
                     log.debug("Validated xhr is valid.");
@@ -177,24 +185,16 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                     result.searchResults.forEach(sr => {
                         sr.source.push(DataOrigin.got);
                     })
-                    const keywordsFound:NormalizedKeywordPair[] = []
-                    xhr.searchResults.forEach(searchResult => {
-                        if (!keywordsFound.includes(searchResult.keyword)) {
-                            keywordsFound.push(searchResult.keyword);
-                        }
-                        
-                    });
-                    result.keywordsFound = keywordsFound;
-                    
+
                 } else {
                     log.debug("Validated xhr is invalid.")
                 }
 
             }
             result.parsedRequestResponse.response = {
-                body: prettyPrint(response.body, {indent_size: 3}),
+                body: prettyPrint(response.body, { indent_size: 3 }),
                 status: response.statusCode,
-                headers: response.headers as {[key: string]:string}
+                headers: response.headers as { [key: string]: string }
             };
         } else {
             log.debug("Validation failed");

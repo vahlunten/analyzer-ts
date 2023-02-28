@@ -216,3 +216,14 @@ export interface GotCall {
     isValid: true | false;
     keywordsFound: NormalizedKeywordPair[];
 }
+export interface CrawlerConfig {
+    // keyword0 is saved at index 0 ins ui svelte-store 
+    keywordSelectors: KeywordSelector[],
+}
+
+// when creating a configurtion from the ui, user will select multiple selectors for each keyword
+// 
+export interface KeywordSelector {
+    keyword: NormalizedKeywordPair,
+    selectors: SearchResults
+}
