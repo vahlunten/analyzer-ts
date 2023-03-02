@@ -38,7 +38,7 @@ export async function crawl(url: string, kwConclusions: KeywordConclusion[]): Pr
 
                     const textFound = $(htmlSearchResult.pathShort).text();
 
-                    if (textFound === htmlSearchResult.textFound) {
+                    if (true) {
                         await Dataset.pushData(
                             {
                                 path: htmlSearchResult.pathShort,
@@ -72,8 +72,10 @@ export async function crawl(url: string, kwConclusions: KeywordConclusion[]): Pr
         // 'http://www.example.com/page-2',
         // 'http://www.example.com/page-3',
 
-        'https://www.alza.sk/logitech-mx-mini-mechanical-for-mac-pale-grey-us-intl-d7468950.htm?o=6',
-        'https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm'
+        // 'https://www.alza.sk/logitech-mx-mini-mechanical-for-mac-pale-grey-us-intl-d7468950.htm?o=6',
+
+        // 'https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm'
+        url
     ]);
 
     await crawler.addRequests([url]);

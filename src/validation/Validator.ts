@@ -1,4 +1,4 @@
-import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataOrigin } from "../types";
+import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataOrigin, XhrSearchResult } from "../types";
 import { KeyValueStore, log, Request } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
@@ -46,7 +46,7 @@ export class Validator {
         if (cheerioCrawlerLoaded == false) {
 
             // assign each search result to the correct keyword
-            validatedData = this.createConclusion(searchResults, xhrValidated, keywords);
+            validatedData = this.createConclusion(searchResults,searchResults.xhrFound, xhrValidated, keywords);
 
         } else {
 
@@ -74,7 +74,7 @@ export class Validator {
             validatedSearchResults.windowFound = searchResults.windowFound;
 
             // assign each search result to the correct keyword
-            validatedData = this.createConclusion(validatedSearchResults, xhrValidated, keywords);
+            validatedData = this.createConclusion(validatedSearchResults,searchResults.xhrFound, xhrValidated, keywords);
         }
 
 
@@ -89,12 +89,12 @@ export class Validator {
      * @param keywords 
      * @returns 
      */
-    public createConclusion(searchResults: SearchResults, xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
+    public createConclusion(searchResults: SearchResults,xhrFound:XhrSearchResult[], xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 
         for (const keyword of keywords) {
-            conclusion.set(keyword.index, { Keyword: keyword, SearchResults: new SearchResults() });
+            conclusion.set(keyword.index, { Keyword: keyword, SearchResults: new SearchResults(), ValidatedXhr: [] });
         }
         for (const searchResult of searchResults.jsonFound) {
             const keywordConclusion = conclusion.get(searchResult.keyword.index);
@@ -123,6 +123,16 @@ export class Validator {
             keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)            
         }
 
+        // for (const searchResult of searchResults.xhrFound) {
+        //     const keywordConclusion = conclusion.get(searchResult.keyword.index);
+        //     keywordConclusion?.SearchResults.windowFound.push(searchResult);
+        //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)            
+        // }
+        // searchResults.xhrFound.forEach((xhrFound, index) => {
+            
+        // });
+
+        
         for (const xhr of xhrValidated) {
             for (const call of xhr.callWithCookies) {
                 for (const kw of call.keywordsFound) {
@@ -132,6 +142,47 @@ export class Validator {
                 }
             }
         }
+
+        xhrValidated.forEach((xhr, index) => {
+            for (const sr of xhr.xhrSearchResult.searchResults) {
+
+                const keywordConclusion = conclusion.get(sr.keyword.index);
+                log.debug("request: " + xhr.originalRequestResponse.request.url)
+                log.debug("keyword: " + sr.keyword)
+
+                keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
+
+                keywordConclusion?.ValidatedXhr.push(xhr);
+
+
+                
+                // const keywordConclusion = conclusion.get(kw.index);
+                    // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+                // for (const kw of xhr.) {
+                //     const keywordConclusion = conclusion.get(kw.index);
+                //     // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+                //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
+                // }
+            }
+        
+        })
+        // for (const xhr of xhrValidated) {
+        //     for (const sr of xhr.xhrSearchResult.searchResults) {
+
+        //         const keywordConclusion = conclusion.get(sr.keyword.index);
+        //         log.debug("request: " + xhr.originalRequestResponse.request.url)
+        //         log.debug("keyword: " + sr.keyword)
+
+        //         keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
+        //         // const keywordConclusion = conclusion.get(kw.index);
+        //             // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+        //         // for (const kw of xhr.) {
+        //         //     const keywordConclusion = conclusion.get(kw.index);
+        //         //     // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+        //         //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
+        //         // }
+        //     }
+        // }
 
         return Array.from(conclusion.values());
     }

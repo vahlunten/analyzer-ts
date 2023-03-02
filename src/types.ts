@@ -105,6 +105,7 @@ export interface KeywordConclusion {
     Keyword: NormalizedKeywordPair;
     // search results of this keyword
     SearchResults: SearchResults;
+    ValidatedXhr: XhrValidation[];
 }
 
 export class SearchResults {
@@ -165,10 +166,12 @@ export class SearchResult {
 export class XhrSearchResult {
     searchResults: SearchResult[] = [];
     parsedRequestResponse: ParsedRequestResponse;
-    constructor(searchResults: SearchResult[], parsedRequestResponserse: ParsedRequestResponse) {
+    constructor(searchResults: SearchResult[], parsedRequestResponserse: ParsedRequestResponse, index:number) {
         this.searchResults = searchResults;
         this.parsedRequestResponse = parsedRequestResponserse;
-    }
+        this.index = index;
+    };
+    index: number;
 }
 
 export enum DataOrigin {
@@ -207,7 +210,10 @@ export interface XhrValidation {
     callsWithOriginalHeaders: GotCall[],
     callWithCookies: GotCall[],
     originalRequestResponse: ParsedRequestResponse,
-    validationSuccess: boolean
+    validationSuccess: boolean,
+    xhrSearchResult: XhrSearchResult,
+    index: number
+
 }
 export interface GotCall {
     parsedRequestResponse: ParsedRequestResponse,

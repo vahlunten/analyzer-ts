@@ -1,6 +1,6 @@
 import { log } from "crawlee";
 import { Request, Response, Route } from "playwright";
-import { ParsedRequestResponse } from "../../types";
+import { ParsedRequestResponse } from "../types";
 
 const IGNORED_EXTENSIONS = [".css", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
 

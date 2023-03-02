@@ -10,12 +10,18 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
 
     let validatedXhr: XhrValidation[] = [];
     if (xhrSearchResults.length > 0) {
-
+        let index = 0; 
         try {
+
+            // xhrSearchResults.forEach((xhrFound, index) => {
+            //     const val = await validateXHRRequest(xhrFound, keywords, index);
+            //     validatedXhr.push(val);
+            // });
             for (const xhrFound of xhrSearchResults) {
                 // TODO: only validate unique requests
-                const val = await validateXHRRequest(xhrFound, keywords);
+                const val = await validateXHRRequest(xhrFound, keywords, index);
                 validatedXhr.push(val);
+                index++;
             }
 
         }
@@ -25,14 +31,13 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
             log.error(`Failed validation of XHR request: ${""}`);
 
         }
-        validatedXhr.push();
     }
 
     return validatedXhr;
 
 }
 
-async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[],): Promise<XhrValidation> {
+async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], index: number): Promise<XhrValidation> {
     let callsWithMinimal: GotCall[] = [];
     let callsWithOriginalHeaders: GotCall[] = [];
     let callsWithOriginalCookie: GotCall[] = [];
@@ -51,17 +56,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
         method: xhr.parsedRequestResponse.request.method as Method,
         body: xhr.parsedRequestResponse.request.body ?? undefined,
         url: xhr.parsedRequestResponse.request.url,
-        timeout: {
-            connect: 2000,
-            response: 5000,
-            lookup: 2000,
-            read: 2000,
-            request: 2000,
-            secureConnect: 2000,
-            send: 2000,
-            socket: 2000
-            // TODO: check got dos for correct timeout
-        }
+        timeout: {response: 30000}
     });
 
     let succeeded = false;
@@ -124,7 +119,9 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
         callsMinimalHeaders: callsWithMinimal,
         callsWithOriginalHeaders: callsWithOriginalHeaders,
         callWithCookies: callsWithOriginalCookie,
-        validationSuccess: succeeded
+        validationSuccess: succeeded,
+        xhrSearchResult: xhr,
+        index: index
     }
 }
 
@@ -197,7 +194,9 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                 headers: response.headers as { [key: string]: string }
             };
         } else {
-            log.debug("Validation failed");
+            log.debug("Response with different status received: " + response.statusCode);
+            log.debug("URL: " + response.url);
+
         }
     } catch (err: any) {
         result.callSuccess = false;

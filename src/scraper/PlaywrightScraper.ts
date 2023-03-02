@@ -1,7 +1,7 @@
 import { FingerprintGenerator } from 'fingerprint-generator';
 import { FingerprintInjector } from 'fingerprint-injector';
 import { Browser, BrowserContext, chromium, Page, Response } from 'playwright';
-import { interceptRequests, onResponse } from '../parsing/XHR/XHRRequests';
+import { interceptRequests, onResponse } from '../parsing/XHRRequests';
 import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";

@@ -51,14 +51,14 @@ function SearchJsonData(initial: any, rendered: any, keywords: NormalizedKeyword
 export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: NormalizedKeywordPair[]):XhrSearchResult[] {
     let xhrFound: XhrSearchResult[] = [];
 
-    xhrParsed?.forEach(xhr => {
+    xhrParsed?.forEach((xhr, index) => {
         if (xhr.response.headers["content-type"] != null) {
             if (xhr.response.headers["content-type"].indexOf('json') != -1 && xhr.response.body?.length > 0) {
 
                 const jsonSearcher = new JsonSearcher();
                 const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataOrigin.xhr));
                 if (xhrSearchResult.length > 0) {
-                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
+                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr, index));
                 }
             }
 
@@ -66,7 +66,7 @@ export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: Normaliz
                 const domSearcher = new DOMSearch(xhr.response.body, DataOrigin.xhr)
                 const xhrSearchResult = (domSearcher.find(keywords));
                 if (xhrSearchResult.length > 0) {
-                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr));
+                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr, index));
                 }
             }
         }
