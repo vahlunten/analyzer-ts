@@ -180,7 +180,7 @@ export class PlaywrightScraper {
 
 
     async onRequest(request:Request) {
-        log.debug(request.url());
+        // log.debug(request.url());
         // log.debug(request.postData());
     }
 

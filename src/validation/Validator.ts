@@ -148,7 +148,7 @@ export class Validator {
 
                 const keywordConclusion = conclusion.get(sr.keyword.index);
                 log.debug("request: " + xhr.originalRequestResponse.request.url)
-                log.debug("keyword: " + sr.keyword)
+                log.debug("keyword: " + sr.keyword.original)
 
                 keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
 
