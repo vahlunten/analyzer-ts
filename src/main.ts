@@ -7,7 +7,6 @@ import { readFileSync } from "fs";
 import { KeyValueStore, log } from '@crawlee/core';
 import { Actor } from 'apify';
 import { crawl } from './crawl/Crawler';
-import dayjs from 'dayjs'
 import { parse, html } from "diff2html";
 import { createTwoFilesPatch } from 'diff';
 /*
