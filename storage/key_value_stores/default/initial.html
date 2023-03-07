@@ -1,321 +1,198 @@
 <!doctype html>
-<html lang="en">
-   
-   <head>
-      <meta charset="utf-8">
-      <title>Oscar Winning Films: AJAX and Javascript | Scrape This Site | A public
-         sandbox for learning web scraping</title>
-      <link rel="icon" type="image/png"
-      href="/static/images/scraper-icon.png" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="description" content="Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it.">
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-      rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-      crossorigin="anonymous">
-      <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet'
-      type='text/css'>
-      <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
-      <meta name="robots" content="noindex">
-      <link href="https://lipis.github.io/flag-icon-css/css/flag-icon.css" rel="stylesheet">
-   </head>
-   
-   <body>
-      <nav id="site-nav">
-         <div class="container">
-            <div class="col-md-12">
-               <ul class="nav nav-tabs">
-                  <li id="nav-homepage"> <a href="/" class="nav-link hidden-sm hidden-xs">
-                                <img src="/static/images/scraper-icon.png" id="nav-logo">
-                                Scrape This Site
-                            </a>
+<!--[if lt IE 7]>
+   <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en">
+   <![endif]-->
+   <!--[if IE 7]>
+      <html class="no-js lt-ie9 lt-ie8" lang="en">
+      <![endif]-->
+      <!--[if IE 8]>
+         <html class="no-js lt-ie9" lang="en">
+         <![endif]-->
+         <!--[if gt IE 8]>
+            <!-->
+            <html class="no-js" lang="en">
+            <!--<![endif]-->
+            
+            <head>
+               <meta charset="utf-8">
+               <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+               <title>Apify Proxy</title>
+               <meta name="viewport" content="width=device-width, initial-scale=1">
+               <meta name="description" content="Apify Proxy status page">
+               <meta name="copyright" content="Copyright&copy; 2023 Apify Technologies s.r.o. All rights reserved.">
+               <meta name="keywords" content="Apify, proxy">
+               <meta name="robots" content="index, follow">
+               <meta name="referrer" content="origin">
+               <style>
+                  body {
+                            font-family: Graphik, sans-serif;
+                            margin: 0;
+                            padding: 0;
+                            height: 100%;
+                        }
+                        header, footer {
+                            background: #001861;
+                        }
+                        header {
+                            display: flex;
+                            height: 60px;
+                            padding: 10px 15px;
+                        }
+                        main {
+                            padding: 10px;
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                        footer {
+                            position: absolute;
+                            bottom: 0;
+                            width: 100%;
+                            color: white;
+                        }
+                        .logo {
+                            width: 150px;
+                            margin-top: 8px;
+                            margin-left: 8px;
+                        }
+                        h1 {
+                            font-weight: 400;
+                        }
+                        table {
+                            background: #f7f7f7;
+                            border-radius: 10px;
+                            box-shadow: 0 0.15rem 0.2rem 0 rgba(0,0,0,.11);
+                            padding: 15px 25px;
+                            margin-bottom: 40px;
+                        }
+                        tr {
+                            line-height: 1.4rem;
+                        }
+                        th, td {
+                            text-align: left;
+                            vertical-align: top;
+                            padding-left: 0;
+                            font-size: 15px;
+                        }
+                        th {
+                            font-weight: 500;
+                        }
+                        td {
+                            padding-left: 20px;
+                        }
+                        p {
+                            font-size: 15px;
+                        }
+                        a {
+                            color: #ff9000;
+                            text-decoration: none;
+                            transition: color 0.3s ease-in;
+                        }
+                        a:hover {
+                            color: #cc7300;
+                        }
+                        .note {
+                            color: grey;
+                        }
+                        header a {
+                            display: flex;
+                        }
+                        footer a {
+                            color: white;
+                        }
+                        footer a:hover {
+                            color: #f7f7f7
+                        }
+                        .container {
+                            padding: 0 15px;
+                        }
+                        .float-right {
+                            float: right;
+                        }
+                        .copy {
+                            font-size: 0.8rem;
+                            line-height: 1.2rem;
+                            color: white;
+                        }
+                        @media screen and (max-width: 640px) {
+                            table, thead, th, tbody, tr, td {
+                                display: block;
+                            }
+                            footer {
+                                position: relative;
+                                height: 70px;
+                                text-align: center;
+                            }
+                        }
+               </style>
+            </head>
+            
+            <body>
+               <header> <a href="proxy.apify.com">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" class="logo">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path id="logo-text" fill="#FFF" d="M89.597 20.667H83.92v-7.622h5.679c2.098 0 3.8 1.707 3.8 3.811a3.806 3.806 0 0 1-3.802 3.811zM90.171 9H78.75v23h5.169v-7.288h6.25c4.328 0 7.836-3.517 7.836-7.856S94.498 9 90.17 9zm19.975 23h5.167v-8.157h9.335v-4.145h-9.335v-6.452h11.602V9h-16.77v23zm36.353-23l-5.635 9.46h-.133L135.364 9h-5.868l8.602 14.275V32h5.2v-8.758L152 9h-5.501zm-45.42 23h5.168V9h-5.168v23zm-39.81-8.792l3.2-9.428h.133l3.134 9.428h-6.468zM61.534 9L53 32h5.301l1.6-4.713h9.202l1.6 4.713h5.468L67.636 9h-6.101z"></path>
+                                    <path fill="#6CC04A" d="M5.309 4.755c-3.37.432-5.72 3.287-5.249 6.378L3.696 35 19 3 5.309 4.755z"></path>
+                                    <path fill="#00A7CE" d="M39.986 23.133L38.689 5.145c-.231-3.198-3.144-5.535-6.347-5.09L27 .794 38.765 27a5.503 5.503 0 0 0 1.22-3.867"></path>
+                                    <path fill="#FF9012" d="M9 39.965a5.942 5.942 0 0 0 2.913-.415L33 30.886 22.975 9 9 39.965z"></path>
+                                </g>
+                            </svg>
+                        </a>
 
-                  </li>
-                  <li id="nav-sandbox"> <a href="/pages/" class="nav-link">
-                                <i class="glyphicon glyphicon-console hidden-sm hidden-xs"></i>
-                                Sandbox
-                            </a>
+               </header>
+               <main>
+                   <h1>Apify Proxy</h1>
 
-                  </li>
-                  <li id="nav-lessons"> <a href="/lessons/" class="nav-link">
-                                <i class="glyphicon glyphicon-education hidden-sm hidden-xs"></i>
-                                Lessons
-                            </a>
+                  <table>
+                     <tr>
+                        <th>Status</th>
+                        <!-- WARNING: Don't touch this class! It's used in tests! -->
+                        <td class="status"><b style="color:green;">Connected</b>
+                        </td>
+                     </tr>
+                     <tr>
+                        <th>Type</th>
+                        <td>HTTP</td>
+                     </tr>
+                     <tr>
+                        <th>Hostname</th>
+                        <!-- WARNING: Don't touch this class! It's used in tests!
+                        -->
+                        <td class="hostname"><code>proxy.apify.com</code>
+                        </td>
+                     </tr>
+                     <tr>
+                        <th>Port</th>
+                        <td><code>8000</code>
+                        </td>
+                     </tr>
+                     <tr>
+                        <th>Username</th>
+                        <td><code>auto</code>
+                        </td>
+                     </tr>
+                     <tr>
+                        <th>Password</th>
+                        <td>Provided and valid (User ID: wy8aMLeNhxg2qkGYi)</td>
+                     </tr>
+                     <tr>
+                        <th>URL</th>
+                        <td><code>http://&lt;username&gt;:&lt;password&gt;@proxy.apify.com:8000</code>
+                        </td>
+                     </tr>
+                     <tr>
+                        <th>Man in the middle</th>
+                        <td>No</td>
+                     </tr>
+                  </table>
+                  <p>To authenticate using a new username or password, open <a href="http://proxy.apify.com/?reject=auto">http://proxy.apify.com/?reject=auto</a>
 
-                  </li>
-                  <li id="nav-faq"> <a href="/faq/" class="nav-link">
-                                <i class="glyphicon glyphicon-flag hidden-sm hidden-xs"></i>
-                                FAQ
-                            </a>
-
-                  </li>
-                  <li id="nav-login" class="pull-right"> <a href="/login/" class="nav-link">
-                                Login
-                            </a>
-
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </nav>
-      <script type="text/javascript">
-         var path = document.location.pathname;
-            var tab = undefined;
-            if (path === "/"){
-                tab = document.querySelector("#nav-homepage");
-            } else if (path.indexOf("/faq/") === 0){
-                tab = document.querySelector("#nav-faq");
-            } else if (path.indexOf("/lessons/") === 0){
-                tab = document.querySelector("#nav-lessons");
-            } else if (path.indexOf("/pages/") === 0) {
-                tab = document.querySelector("#nav-sandbox");
-            } else if (path.indexOf("/login/") === 0) {
-                tab = document.querySelector("#nav-login");
-            }
-            tab.classList.add("active")
-      </script>
-      <div id="page">
-         <section id="oscars">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-12">
-                      <h1>
-                            Oscar Winning Films: AJAX and Javascript
-                            <small>87 items</small>
-                        </h1>
-
-                     <hr />
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-12">
-                     <p class="lead">Click through a bunch of great films. Learn how content is added to the
-                        page asynchronously with Javascript and how you can scrape it. Look for
-                        ways that you can tell visually when a site is loading content with AJAX.
-                        Then, browse through your network tab to see those AJAX requests and scrape
-                        them.</p>
-                     <hr />
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-6">
-                     <p> <i class="glyphicon glyphicon-education"></i> There are <a href="/lessons/">3 video lessons</a> that
-                        show you how to scrape this page.</p>
-                     <hr />
-                  </div>
-                  <div class="col-md-6 text-right">
-                     <p>Data via <a href="https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films"
-                        class="data-attribution" target="_blank">https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films</a>
-
-                     </p>
-                     <hr />
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-12 text-center">
-                      <h3>
-                            Choose a Year to View Films
-                        </h3>
- <a href="#" class="year-link" id="2015">2015</a>
- <a href="#" class="year-link"
-                     id="2014">2014</a>
- <a href="#" class="year-link" id="2013">2013</a>
- <a href="#"
-                     class="year-link" id="2012">2012</a>
- <a href="#" class="year-link" id="2011">2011</a>
-
-                     <a
-                     href="#" class="year-link" id="2010">2010</a>
-                  </div>
-                  <!--.col-->
-               </div>
-               <!--.row-->
-               <div class="row">
-                  <div class="col-md-12">
-                     <div id="loading" style="display:none">
-                        <img src="/static/images/ajax-loader.gif" class="center-block" />
-                     </div>
-                     <table class="table" style="display:none">
-                        <thead>
-                           <tr>
-                              <th>Title</th>
-                              <th>Nominations</th>
-                              <th>Awards</th>
-                              <th>Best Picture</th>
-                           </tr>
-                        </thead>
-                        <tbody id="table-body"></tbody>
-                     </table>
-                  </div>
-                  <!--.col-->
-               </div>
-               <!--.row-->
-            </div>
-            <!--.container-->
-         </section>
-      </div>
-      <!--#page-->
-      <section id="footer">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12 text-center text-muted">Lessons and Videos &copy; Hartley Brody 2023</div>
-               <!--.col-->
-            </div>
-            <!--.row-->
-         </div>
-         <!--.container-->
-      </section>
-   </body>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-   integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
-   crossorigin="anonymous"></script>
-   <script type="text/javascript">
-      $(document).ready( function(){
-           $(".year-link").click( function(e){
-               var target = $(e.target);
-               var year = target.attr("id");
-   
-               document.location.hash = year;
-               fetchFilms(year);
-               return false;
-           });
-   
-           if (document.location.hash){
-               var year = document.location.hash.substr(1)
-               fetchFilms(year);
-           }
-   
-           function fetchFilms(year){
-               showLoadingAnimation();
-               $.ajax({
-                   method: "GET",
-                   url: document.location.pathname,
-                   data: {
-                       ajax: true,
-                       year: year
-                   },
-                   success: function(data){
-                       setTimeout( function(){
-                           showFilms(data);
-                       }, 1500);  // add intentional delay to emphasize async UI
-                   },
-                   error: function(){
-                       alert("Error loading films :(");
-                   }
-               });
-               $(".active").removeClass("active");
-               $("#"+year).addClass("active");
-           }
-   
-           function showLoadingAnimation(){
-               $(".table").hide();
-               $("#loading").show();
-           }
-           function showFilms(films){
-               // console.log(films);
-               var films_html = "";
-               $.each(films, function(_, film){
-                   var film_html = "";
-                   film_html += "<tr class='film'>"
-                       film_html += "<td class='film-title'>" + film["title"] + "</td>"
-                       film_html += "<td class='film-nominations'>" + film["nominations"] + "</td>"
-                       film_html += "<td class='film-awards'>" + film["awards"] + "</td>"
-                       if (film["best_picture"]) {
-                           film_html += "<td class='film-best-picture'><i class='glyphicon glyphicon-flag'></i></td>"
-                       } else {
-                           film_html += "<td class='film-best-picture'></td>"
-                       }
-                   film_html += "</tr>"
-                   films_html += film_html;
-               })
-               $("#table-body").html(films_html);
-               $(".table").show();
-               $("#loading").hide();
-           }
-       });
-   </script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.1.0/pnotify.core.min.js"></script>
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.1.0/pnotify.core.min.css"
-   rel="stylesheet" type="text/css">
-   <!-- pnotify messages -->
-   <script type="text/javascript">
-      PNotify.prototype.options.styling = "bootstrap3";
-       $(function(){
-         
-       });
-       
-   
-       $(function () {
-         $('[data-toggle="tooltip"]').tooltip()
-       })
-   </script>
-   <!-- golbal video controls -->
-   <script type="text/javascript">
-      $("video").hover(function() {
-           $(this).prop("controls", true);
-       }, function() {
-           $(this).prop("controls", false);
-       });
-   
-       $("video").click(function() {
-           if( this.paused){
-               this.play();
-           }
-           else {
-               this.pause();
-           }
-       });
-   </script>
-   <!-- insert google analytics here -->
-   <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-   
-       ga('create', 'UA-41551755-8', 'auto');
-       ga('send', 'pageview');
-   </script>
-   <!-- Facebook Pixel Code -->
-   <script>
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-        document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      
-        fbq('init', '764287443701341');
-        fbq('track', "PageView");
-   </script>
-   <noscript>
-      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=764287443701341&ev=PageView&noscript=1"
-      />
-   </noscript>
-   <!-- End Facebook Pixel Code -->
-   <!-- Google Code for Remarketing Tag -->
-   <script type="text/javascript">
-      /* <![CDATA[ */
-       var google_conversion_id = 950945448;
-       var google_custom_params = window.google_tag_params;
-       var google_remarketing_only = true;
-       /* ]]> */
-   </script>
-   <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-   <noscript>
-      <div style="display:inline;">
-         <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?guid=ON&amp;script=0"
-         />
-      </div>
-   </noscript>
-   <!-- Global site tag (gtag.js) - Google AdWords: 950945448 -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-950945448"></script>
-   <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-   
-      gtag('config', 'AW-950945448');
-   </script>
-
-</html>
+                  </p>
+                  <p>Learn more about Apify Proxy in the <a href="https://apify.com/docs/proxy">documentation</a>.</p>
+                  <br>
+                  <p class="note">Page generated on 2023-03-07 23:01:09.019. Copyright © 2023 Apify Technologies
+                     s.r.o. All rights reserved.</p>
+               </main>
+            </body>
+            
+            </html>

@@ -20,9 +20,9 @@ export class Validator {
     // store:KeyValueStore;
 
 
-    public constructor() {
+    public constructor(proxyConfigurationCrawlee: ProxyConfiguration | undefined) {
         // this.store = store;
-
+        this.proxyConfiguration = proxyConfigurationCrawlee;
     }
 
     /**

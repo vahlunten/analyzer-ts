@@ -7,7 +7,7 @@ import { readFileSync } from "fs";
 import { KeyValueStore, log } from '@crawlee/core';
 import { Actor, ProxyConfiguration, ProxyConfigurationOptions } from 'apify';
 import { ProxyConfiguration as ProxyConfigurationCrawlee } from "crawlee";
-import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, PlaywrightProxyConfiguration } from './helpers/proxy';
+import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, PlaywrightProxyConfiguration, getCrawleeProxyConfiguration } from './helpers/proxy';
 import { createDiff } from './helpers/diff';
 /*
  * Actor's entry point. 
@@ -43,9 +43,15 @@ import { createDiff } from './helpers/diff';
 
         // create proxy configuration
         proxyConfigurationApify = await getApifyProxyConfiguration(input);
-        proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(input);
-        // TODO: Cheeriocrawler proxy config
+        // for (let i = 0; i < 5; i++) {
+        //     log.debug(await proxyConfigurationApify?.newUrl() ?? "");
 
+        // }
+        proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(input);
+
+        // TODO: Crawlee proxy config
+        // proxyConfigurationCrawlee = new ProxyConfigurationCrawlee({ proxyUrls: [await proxyConfigurationApify?.newUrl()!] })
+        proxyConfigurationCrawlee = await getCrawleeProxyConfiguration(proxyConfigurationApify, input);
         const normalizedKeywords = normalizeArray(input.keywords);
 
         log.info('===================================================================================================================');
@@ -82,7 +88,7 @@ import { createDiff } from './helpers/diff';
             // scraper.close();
 
             // retrieve initial response with the CheerioCrawler and validate the search results
-            const validator = new Validator();
+            const validator = new Validator(proxyConfigurationCrawlee);
             const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
 
             // save the output

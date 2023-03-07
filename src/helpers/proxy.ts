@@ -1,5 +1,5 @@
 import { Actor, ProxyConfiguration, ProxyConfigurationOptions } from "apify";
-import { log } from "crawlee";
+import { ProxyConfiguration as CrawleeProxyConfiguration, log } from "crawlee";
 import { Input } from "../types";
 
 // create ProxyCOnfiguration based on input schema proxyConfig
@@ -51,6 +51,28 @@ export async function getPlaywrightProxyConfiguration(input: Input): Promise<Pla
         return proxyConfiguration;
     } else {
         // TODO: proxy url array for playwright? 
+    }
+    return undefined;
+}
+// create ProxyCOnfiguration based on input schema proxyConfig
+// crawlee
+export async function getCrawleeProxyConfiguration(apifyProxyConf: ProxyConfiguration | undefined, input: Input): Promise<CrawleeProxyConfiguration | undefined> {
+    let proxyConf: CrawleeProxyConfiguration | undefined;
+
+    try {
+        if (input.proxyConfig.useApifyProxy) {
+            if (apifyProxyConf) {
+                proxyConf = new CrawleeProxyConfiguration({ proxyUrls: [await apifyProxyConf!.newUrl()] })
+                return proxyConf;
+            }
+        } else {
+            proxyConf = new CrawleeProxyConfiguration({ proxyUrls: input.proxyConfig.proxyUrls })
+            return proxyConf;
+        }
+    } catch (e: any) {
+        log.error('Failed to create CRAWLEE proxy configuration.');
+        log.error(e.message);
+        log.debug("Actor will continue without proxy. ");
     }
     return undefined;
 }
