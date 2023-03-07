@@ -1,0 +1,37 @@
+// None
+ "proxyConfig": {
+        "useApifyProxy": false
+    },
+
+
+// Custom proxies
+"proxyConfig": {
+        "useApifyProxy": false,
+        "proxyUrls": [
+            "http://admin:halo@gugel.sk:8080"
+        ]
+    },
+
+// Automatic proxy
+ "proxyConfig": {
+        "useApifyProxy": true,
+        "apifyProxyCountry": "US"
+    },
+
+// Selected proxies
+"proxyConfig": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": [
+            "BUYPROXIES94952",
+            "SHADER"
+        ]
+    },
+
+// Selected proxies
+"proxyConfig": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": [
+            "RESIDENTIAL"
+        ],
+        "apifyProxyCountry": "AI"
+    },

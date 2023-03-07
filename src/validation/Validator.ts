@@ -3,7 +3,7 @@ import { KeyValueStore, log, Request } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
-import { CheerioCrawler, createCheerioRouter } from "crawlee";
+import { CheerioCrawler, createCheerioRouter, ProxyConfiguration } from "crawlee";
 import { Actor } from "apify";
 import cheerio from "cheerio";
 // import {  } from "@frontend/scripts";
@@ -15,11 +15,14 @@ export class Validator {
     private body: string | null = null;
     private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
+    public proxyConfiguration: ProxyConfiguration | undefined;
+
     // store:KeyValueStore;
 
 
     public constructor() {
         // this.store = store;
+
     }
 
     /**
@@ -212,16 +215,7 @@ export class Validator {
      * @returns 
      */
     public async loadHtml(url: string): Promise<boolean> {
-        log.info("CheerioCrawler: loading input");
-
-        // console.log("apify proxy passwod: " + process.env.APIFY_PROXY_PASSWORD)
-
-        let proxyConfiguration;
-        if (process.env.APIFY_PROXY_PASSWORD) {
-            proxyConfiguration = await Actor.createProxyConfiguration({
-                useApifyProxy: true
-            });
-        }
+        log.info("CheerioCrawler: loading " + url);
         const router = createCheerioRouter();
 
         // TODO: Ask Lukas about error handler
@@ -238,7 +232,7 @@ export class Validator {
         });
 
         const crawler = new CheerioCrawler({
-            proxyConfiguration: proxyConfiguration ?? undefined,
+            proxyConfiguration: this.proxyConfiguration ?? undefined,
             requestHandler: router,
             requestHandlerTimeoutSecs: 30,
             maxRequestRetries: 10,

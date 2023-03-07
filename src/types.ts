@@ -1,10 +1,12 @@
 import { Cookie } from "playwright";
-
+import { ProxyConfigurationOptions } from "apify";
 export interface Input {
     // analyzed url 
     url: string;
     // an array of keyword strings
     keywords: string[];
+    // proxy configuration
+    proxyConfig: ProxyConfigurationOptions & { useApifyProxy?: boolean };
 }
 /**
  * Representation of the keyword. 

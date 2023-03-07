@@ -8,9 +8,11 @@ import { interceptRequests, onResponse } from '../parsing/XHRRequests';
 import { parseHtml } from '../parsing/htmlParser';
 import { ScrapedData, NormalizedKeywordPair, ParsedRequestResponse } from '../types';
 import { scrapeWindowProperties } from "../parsing/window-properties";
-import { KeyValueStore, log } from '@crawlee/core';
+import { KeyValueStore, log, ProxyConfiguration } from '@crawlee/core';
 import { prettyPrint } from "html";
 import { Request } from "playwright";
+import { Actor } from 'apify';
+import { PlaywrightProxyConfiguration } from '../helpers/proxy';
 
 
 
@@ -37,10 +39,10 @@ export class PlaywrightScraper {
      * @param generateFingeprint If true, custom fingerprint will be generated. Some values of chromium/playwright fingerprint are overridden by default.  
      * @returns 
      */
-    async scrapePage(useApifyProxy = true, generateFingeprint = true): Promise<ScrapedData> {
+    async scrapePage(proxyConf: PlaywrightProxyConfiguration | undefined, generateFingeprint = true): Promise<ScrapedData> {
 
         // opens browser and a new tab 
-        this.browserContext = await this.openBrowser(useApifyProxy, generateFingeprint);
+        this.browserContext = await this.openBrowser(proxyConf, generateFingeprint);
 
         // navigates to the analyzed url 
         const { responseStatus, initialResponseBody } = await this.openPage(this.url, this.browserContext);
@@ -69,38 +71,17 @@ export class PlaywrightScraper {
      * @param generateFingeprint If true, custom fingerprint will be generated. Some values of chromium/playwright fingerprint are overridden by default.  
      * @returns 
      */
-    async openBrowser(useApifyProxy: boolean, generateFingeprint: boolean): Promise<BrowserContext> {
-        let proxyConfiguration: {
-            server: string;
-            bypass?: string | undefined;
-            username?: string | undefined;
-            password?: string | undefined;
-        } | undefined;
-
-        // TODO: add proxy params to actor.json
-        if (useApifyProxy && process.env.APIFY_PROXY_PASSWORD) {
-            proxyConfiguration = {
-                server: "proxy.apify.com:8000",
-                username: "auto",
-                // groups-RESIDENTIAL
-                // https://github.com/apify-projects/store-crawler-google-places/blob/master/.actor/INPUT_SCHEMA.json#L858
-                password: process.env.APIFY_PROXY_PASSWORD
-
-            }
-        }
+    async openBrowser(proxyConf: PlaywrightProxyConfiguration | undefined, generateFingeprint: boolean): Promise<BrowserContext> {       
         // open chromium browser
         const browser = await chromium.launch({
             headless: false,
-            proxy: proxyConfiguration ?? undefined,
+            proxy: proxyConf,
             devtools: true
-
         });
-
 
         // open new tab
         const browserContext = this.createLaunchContext(browser, generateFingeprint);
         return browserContext;
-
     }
     /**
      * Navigates to the input url.
@@ -181,6 +162,13 @@ export class PlaywrightScraper {
 
         page.on("response", async (response: Response) => await onResponse(this.requests, response, this.url));
         page.on("request", request => this.onRequest(request));
+        page.on("pageerror", (e:Error) => {
+            log.debug("Page error: ");
+            log.error(e.message);
+        });
+        page.on("crash", (page: Page) => {
+            log.debug("Crash error: ");
+        });
     }
 
 
