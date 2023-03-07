@@ -104,12 +104,16 @@ import { createTwoFilesPatch } from 'diff';
         output.cheerioCrawlerSuccess = validatedData.cheerioCrawlerSuccess;
         output.scrapedData.parsedCheerio = validatedData.parsedCheerio;
 
-        // TODO: delete other redundant properties from the OUTPUT.json
-        output.scrapedData!.initial = null;
-        output.scrapedData!.DOM = null;
+        try {
+            // TODO: delete other redundant properties from the OUTPUT.json
+            output.scrapedData!.initial!.body = null;
+            output.scrapedData!.DOM!.body = null;
+        } catch (e: any) {
+            log.error(e);
+        }
 
         // TODO: create and run the crawler
-        await crawl(input.url, output.keywordConclusions);
+        // await crawl(input.url, output.keywordConclusions);
 
         // error for testing purposes
         // throw new Error("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")

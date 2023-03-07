@@ -1,3 +1,4 @@
+import { log } from "crawlee";
 import { DataOrigin, NormalizedKeywordPair, SearchResult, ScrapedData, SearchResults, ParsedRequestResponse, XhrSearchResult } from "../types";
 import { DOMSearch } from "./DOMSearch";
 
@@ -56,9 +57,18 @@ export function searchXHR(xhrParsed: ParsedRequestResponse[], keywords: Normaliz
             if (xhr.response.headers["content-type"].indexOf('json') != -1 && xhr.response.body?.length > 0) {
 
                 const jsonSearcher = new JsonSearcher();
-                const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataOrigin.xhr));
-                if (xhrSearchResult.length > 0) {
-                    xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr, index));
+
+                let body: any = null;
+                try {
+                    body = JSON.parse(xhr.response.body);
+                } catch (e:any) {
+                    log.error(e.message);
+                }
+                if (body) {
+                    const xhrSearchResult = (jsonSearcher.searchJson(JSON.parse(xhr.response.body), keywords, DataOrigin.xhr));
+                    if (xhrSearchResult.length > 0) {
+                        xhrFound.push(new XhrSearchResult(xhrSearchResult, xhr, index));
+                    }
                 }
             }
 

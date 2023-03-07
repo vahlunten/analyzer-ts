@@ -1,350 +1,427 @@
 <!DOCTYPE html>
-<html lang="en-us" class="no-js">
-<!--<![endif]-->
-<head>
-   <title>Unreasonable Hope: Finding Faith in the God Who Brings Purpose to Your
-      Pain | Books to Scrape - Sandbox</title>
-   <meta http-equiv="content-type"
-   content="text/html; charset=UTF-8">
-   <meta name="created" content="24th Jun 2016 09:30">
-   <meta name="description" content="
-    Where was God when ____? How could God allow ____? Why? These are the questions that flood our hearts and minds when the unimaginable happens. When things go horribly wrong and the world seems to be unraveling, how do you believe in God s goodness? How do you cling to hope? Chad Veach directs readers away from cliched Sunday school answers that fail to offer real comfort o Where was God when ____? How could God allow ____? Why? These are the questions that flood our hearts and minds when the unimaginable happens. When things go horribly wrong and the world seems to be unraveling, how do you believe in God s goodness? How do you cling to hope? Chad Veach directs readers away from cliched Sunday school answers that fail to offer real comfort or provide faith-building insights. Instead, he draws from God s promises in the Bible and from the story of his own daughter s diagnosis of a devastating and debilitating disease to reveal simple, purposeful steps for dealing with pain. Resting in God s love, remembering his past faithfulness, and realizing the distinction between having faith and clinging to hope are just some of these steps. Veach reminds us that because we know who God is, we know there is hope.&quot; ...more
-">
-   <meta name="viewport" content="width=device-width">
-   <meta name="robots" content="NOARCHIVE,NOCACHE">
-   <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-   <!--[if lt IE 9]>
-      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-   <![endif]-->
-   <link rel="shortcut icon" href="../../static/oscar/favicon.ico">
-   <link rel="stylesheet" type="text/css" href="../../static/oscar/css/styles.css">
-   <link rel="stylesheet" href="../../static/oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
-   <link rel="stylesheet" type="text/css" href="../../static/oscar/css/datetimepicker.css">
-</head>
-<body id="default" class="default">
-   <header class="header container-fluid">
-      <div class="page_inner">
-         <div class="row">
-            <div class="col-sm-8 h1"><a href="../../index.html">Books to Scrape</a><small> We love being scraped!</small>
+<html lang="en">
+   
+   <head>
+      <meta charset="utf-8">
+      <title>Oscar Winning Films: AJAX and Javascript | Scrape This Site | A public
+         sandbox for learning web scraping</title>
+      <link rel="icon" type="image/png"
+      href="/static/images/scraper-icon.png">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it.">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+      rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+      crossorigin="anonymous">
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet"
+      type="text/css">
+      <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+      <meta name="robots" content="noindex">
+      <link href="https://lipis.github.io/flag-icon-css/css/flag-icon.css" rel="stylesheet">
+      <meta http-equiv="origin-trial" content="A751Xsk4ZW3DVQ8WZng2Dk5s3YzAyqncTzgv+VaE6wavgTY0QHkDvUTET1o7HanhuJO8lgv1Vvc88Ij78W1FIAAAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9">
+      <meta http-equiv="origin-trial" content="A751Xsk4ZW3DVQ8WZng2Dk5s3YzAyqncTzgv+VaE6wavgTY0QHkDvUTET1o7HanhuJO8lgv1Vvc88Ij78W1FIAAAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjgwNjUyNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9">
+   </head>
+   
+   <body>
+      <nav id="site-nav">
+         <div class="container">
+            <div class="col-md-12">
+               <ul class="nav nav-tabs">
+                  <li id="nav-homepage"> <a href="/" class="nav-link hidden-sm hidden-xs">
+                                <img src="/static/images/scraper-icon.png" id="nav-logo">
+                                Scrape This Site
+                            </a>
 
+                  </li>
+                  <li id="nav-sandbox" class=""> <a href="/pages/" class="nav-link">
+                                <i class="glyphicon glyphicon-console hidden-sm hidden-xs"></i>
+                                Sandbox
+                            </a>
+
+                  </li>
+                  <li id="nav-lessons"> <a href="/lessons/" class="nav-link">
+                                <i class="glyphicon glyphicon-education hidden-sm hidden-xs"></i>
+                                Lessons
+                            </a>
+
+                  </li>
+                  <li id="nav-faq"> <a href="/faq/" class="nav-link">
+                                <i class="glyphicon glyphicon-flag hidden-sm hidden-xs"></i>
+                                FAQ
+                            </a>
+
+                  </li>
+                  <li id="nav-login" class="pull-right"> <a href="/login/" class="nav-link">
+                                Login
+                            </a>
+
+                  </li>
+               </ul>
             </div>
          </div>
-      </div>
-   </header>
-   <div class="container-fluid page">
-      <div class="page_inner">
-         <ul class="breadcrumb">
-            <li> <a href="../../index.html">Home</a>
+      </nav>
+      <script src="https://connect.facebook.net/signals/config/764287443701341?v=2.9.98&amp;r=stable"
+      async=""></script>
+      <script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
+      <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+      <script type="text/javascript">
+         var path = document.location.pathname;
+            var tab = undefined;
+            if (path === "/"){
+                tab = document.querySelector("#nav-homepage");
+            } else if (path.indexOf("/faq/") === 0){
+                tab = document.querySelector("#nav-faq");
+            } else if (path.indexOf("/lessons/") === 0){
+                tab = document.querySelector("#nav-lessons");
+            } else if (path.indexOf("/pages/") === 0) {
+                tab = document.querySelector("#nav-sandbox");
+            } else if (path.indexOf("/login/") === 0) {
+                tab = document.querySelector("#nav-login");
+            }
+            tab.classList.add("active")
+      </script>
+      <div id="page">
+         <section id="oscars">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                      <h1>
+                            Oscar Winning Films: AJAX and Javascript
+                            <small>87 items</small>
+                        </h1>
 
-            </li>
-            <li> <a href="../category/books_1/index.html">Books</a>
+                     <hr>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-12">
+                     <p class="lead">Click through a bunch of great films. Learn how content is added to the
+                        page asynchronously with Javascript and how you can scrape it. Look for
+                        ways that you can tell visually when a site is loading content with AJAX.
+                        Then, browse through your network tab to see those AJAX requests and scrape
+                        them.</p>
+                     <hr>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <p> <i class="glyphicon glyphicon-education"></i> There are <a href="/lessons/">3 video lessons</a> that
+                        show you how to scrape this page.</p>
+                     <hr>
+                  </div>
+                  <div class="col-md-6 text-right">
+                     <p>Data via <a href="https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films"
+                        class="data-attribution" target="_blank">https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films</a>
 
-            </li>
-            <li> <a href="../category/books/spirituality_39/index.html">Spirituality</a>
+                     </p>
+                     <hr>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-12 text-center">
+                      <h3>
+                            Choose a Year to View Films
+                        </h3>
+ <a href="#" class="year-link active" id="2015">2015</a>
+ <a href="#" class="year-link"
+                     id="2014">2014</a>
+ <a href="#" class="year-link" id="2013">2013</a>
+ <a href="#"
+                     class="year-link" id="2012">2012</a>
+ <a href="#" class="year-link" id="2011">2011</a>
 
-            </li>
-            <li class="active">Unreasonable Hope: Finding Faith in the God Who Brings Purpose to Your
-               Pain</li>
-         </ul>
-         <div id="messages"></div>
-         <div class="content">
-            <div id="promotions"></div>
-            <div id="content_inner">
-               <article class="product_page">
-                  <!-- Start of product page -->
-                  <div class="row">
-                     <div class="col-sm-6">
-                        <div id="product_gallery" class="carousel">
-                           <div class="thumbnail">
-                              <div class="carousel-inner">
-                                 <div class="item active">
-                                    <img src="../../media/cache/80/43/804385d2b49e2f9e26a7d88b8ccaf62d.jpg"
-                                    alt="Unreasonable Hope: Finding Faith in the God Who Brings Purpose to Your Pain">
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                     <a
+                     href="#" class="year-link" id="2010">2010</a>
+                  </div>
+                  <!--.col-->
+               </div>
+               <!--.row-->
+               <div class="row">
+                  <div class="col-md-12">
+                     <div id="loading" style="display: none;">
+                        <img src="/static/images/ajax-loader.gif" class="center-block">
                      </div>
-                     <div class="col-sm-6 product_main">
-                         <h1>Unreasonable Hope: Finding Faith in the God Who Brings Purpose to Your Pain</h1>
-
-                        <p class="price_color">£46.33</p>
-                        <p class="instock availability"> <i class="icon-ok"></i>
-In stock (7 available)</p>
-                        <p class="star-rating Two"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                           <i
-                           class="icon-star"></i> <i class="icon-star"></i>
-
-                              <!-- <small><a href="/catalogue/unreasonable-hope-finding-faith-in-the-god-who-brings-purpose-to-your-pain_505/reviews/">
-        
-                
-                    0 customer reviews
-                
-        </a></small>
-         -->&nbsp;
-                              <!-- <a id="write_review" href="/catalogue/unreasonable-hope-finding-faith-in-the-god-who-brings-purpose-to-your-pain_505/reviews/add/#addreview"
-                              class="btn btn-success btn-sm">
-        Write a review
-    </a>
-
- -->
-                        </p>
-                        <hr>
-                        <div class="alert alert-warning" role="alert"><strong>Warning!</strong> This is a demo website for web scraping purposes.
-                           Prices and ratings here were randomly assigned and have no real meaning.</div>
-                     </div>
-                     <!-- /col-sm-6 -->
+                     <table class="table" style="">
+                        <thead>
+                           <tr>
+                              <th>Title</th>
+                              <th>Nominations</th>
+                              <th>Awards</th>
+                              <th>Best Picture</th>
+                           </tr>
+                        </thead>
+                        <tbody id="table-body">
+                           <tr class="film">
+                              <td class="film-title">Spotlight</td>
+                              <td class="film-nominations">6</td>
+                              <td class="film-awards">2</td>
+                              <td class="film-best-picture"><i class="glyphicon glyphicon-flag"></i>
+                              </td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Mad Max: Fury Road</td>
+                              <td class="film-nominations">10</td>
+                              <td class="film-awards">6</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">The Revenant</td>
+                              <td class="film-nominations">12</td>
+                              <td class="film-awards">3</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Bridge of Spies</td>
+                              <td class="film-nominations">6</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">The Big Short</td>
+                              <td class="film-nominations">5</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">The Danish Girl</td>
+                              <td class="film-nominations">4</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Room</td>
+                              <td class="film-nominations">4</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Ex Machina</td>
+                              <td class="film-nominations">2</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">The Hateful Eight</td>
+                              <td class="film-nominations">2</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Inside Out</td>
+                              <td class="film-nominations">2</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Amy</td>
+                              <td class="film-nominations">1</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Bear Story</td>
+                              <td class="film-nominations">1</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">A Girl in the River: The Price of Forgiveness</td>
+                              <td class="film-nominations">1</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Son of Saul</td>
+                              <td class="film-nominations">1</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Spectre</td>
+                              <td class="film-nominations">1</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                           <tr class="film">
+                              <td class="film-title">Stutterer</td>
+                              <td class="film-nominations">1</td>
+                              <td class="film-awards">1</td>
+                              <td class="film-best-picture"></td>
+                           </tr>
+                        </tbody>
+                     </table>
                   </div>
-                  <!-- /row -->
-                  <div id="product_description" class="sub-header">
-                      <h2>Product Description</h2>
-
-                  </div>
-                  <p>Where was God when ____? How could God allow ____? Why? These are the
-                     questions that flood our hearts and minds when the unimaginable happens.
-                     When things go horribly wrong and the world seems to be unraveling, how
-                     do you believe in God s goodness? How do you cling to hope? Chad Veach
-                     directs readers away from cliched Sunday school answers that fail to offer
-                     real comfort o Where was God when ____? How could God allow ____? Why?
-                     These are the questions that flood our hearts and minds when the unimaginable
-                     happens. When things go horribly wrong and the world seems to be unraveling,
-                     how do you believe in God s goodness? How do you cling to hope? Chad Veach
-                     directs readers away from cliched Sunday school answers that fail to offer
-                     real comfort or provide faith-building insights. Instead, he draws from
-                     God s promises in the Bible and from the story of his own daughter s diagnosis
-                     of a devastating and debilitating disease to reveal simple, purposeful
-                     steps for dealing with pain. Resting in God s love, remembering his past
-                     faithfulness, and realizing the distinction between having faith and clinging
-                     to hope are just some of these steps. Veach reminds us that because we
-                     know who God is, we know there is hope." ...more</p>
-                  <div class="sub-header">
-                      <h2>Product Information</h2>
-
-                  </div>
-                  <table class="table table-striped">
-                     <tbody>
-                        <tr>
-                           <th>UPC</th>
-                           <td>48cb52d78c992487</td>
-                        </tr>
-                        <tr>
-                           <th>Product Type</th>
-                           <td>Books</td>
-                        </tr>
-                        <tr>
-                           <th>Price (excl. tax)</th>
-                           <td>£46.33</td>
-                        </tr>
-                        <tr>
-                           <th>Price (incl. tax)</th>
-                           <td>£46.33</td>
-                        </tr>
-                        <tr>
-                           <th>Tax</th>
-                           <td>£0.00</td>
-                        </tr>
-                        <tr>
-                           <th>Availability</th>
-                           <td>In stock (7 available)</td>
-                        </tr>
-                        <tr>
-                           <th>Number of reviews</th>
-                           <td>0</td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  <section>
-                     <div id="reviews" class="sub-header"></div>
-                  </section>
-                  <div class="sub-header">
-                      <h2>Products you recently viewed</h2>
-
-                  </div>
-                  <ul class="row">
-                     <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                        <article class="product_pod">
-                           <div class="image_container"> <a href="../if-i-gave-you-gods-phone-number-searching-for-spirituality-in-america_564/index.html"><img src="../../media/cache/87/fe/87fe3f7f3f62c1b1b81890578c9cf294.jpg" alt="If I Gave You God's Phone Number....: Searching for Spirituality in America" class="thumbnail"></a>
-
-                           </div>
-                           <p class="star-rating One"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                              <i
-                              class="icon-star"></i> <i class="icon-star"></i>
-
-                           </p>
-                            <h3><a href="../if-i-gave-you-gods-phone-number-searching-for-spirituality-in-america_564/index.html" title="If I Gave You God's Phone Number....: Searching for Spirituality in America">If I Gave You ...</a></h3>
-
-                           <div class="product_price">
-                              <p class="price_color">£20.91</p>
-                              <p class="instock availability"> <i class="icon-ok"></i>
-In stock</p>
-                              <form>
-                                 <button type="submit" class="btn btn-primary btn-block" data-loading-text="Adding...">Add to basket</button>
-                              </form>
-                           </div>
-                        </article>
-                     </li>
-                     <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                        <article class="product_pod">
-                           <div class="image_container"> <a href="../chasing-heaven-what-dying-taught-me-about-living_797/index.html"><img src="../../media/cache/b7/6a/b76a73640d26b09c4a6f373b09050bed.jpg" alt="Chasing Heaven: What Dying Taught Me About Living" class="thumbnail"></a>
-
-                           </div>
-                           <p class="star-rating Two"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                              <i
-                              class="icon-star"></i> <i class="icon-star"></i>
-
-                           </p>
-                            <h3><a href="../chasing-heaven-what-dying-taught-me-about-living_797/index.html" title="Chasing Heaven: What Dying Taught Me About Living">Chasing Heaven: What Dying ...</a></h3>
-
-                           <div class="product_price">
-                              <p class="price_color">£37.80</p>
-                              <p class="instock availability"> <i class="icon-ok"></i>
-In stock</p>
-                              <form>
-                                 <button type="submit" class="btn btn-primary btn-block" data-loading-text="Adding...">Add to basket</button>
-                              </form>
-                           </div>
-                        </article>
-                     </li>
-                     <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                        <article class="product_pod">
-                           <div class="image_container"> <a href="../the-activists-tao-te-ching-ancient-advice-for-a-modern-revolution_928/index.html"><img src="../../media/cache/96/db/96db61bb53930c560fb4c1c62b583816.jpg" alt="The Activist's Tao Te Ching: Ancient Advice for a Modern Revolution" class="thumbnail"></a>
-
-                           </div>
-                           <p class="star-rating Five"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                              <i
-                              class="icon-star"></i> <i class="icon-star"></i>
-
-                           </p>
-                            <h3><a href="../the-activists-tao-te-ching-ancient-advice-for-a-modern-revolution_928/index.html" title="The Activist's Tao Te Ching: Ancient Advice for a Modern Revolution">The Activist's Tao Te ...</a></h3>
-
-                           <div class="product_price">
-                              <p class="price_color">£32.24</p>
-                              <p class="instock availability"> <i class="icon-ok"></i>
-In stock</p>
-                              <form>
-                                 <button type="submit" class="btn btn-primary btn-block" data-loading-text="Adding...">Add to basket</button>
-                              </form>
-                           </div>
-                        </article>
-                     </li>
-                     <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                        <article class="product_pod">
-                           <div class="image_container"> <a href="../the-four-agreements-a-practical-guide-to-personal-freedom_970/index.html"><img src="../../media/cache/0f/7e/0f7ee69495c0df1d35723f012624a9f8.jpg" alt="The Four Agreements: A Practical Guide to Personal Freedom" class="thumbnail"></a>
-
-                           </div>
-                           <p class="star-rating Five"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                              <i
-                              class="icon-star"></i> <i class="icon-star"></i>
-
-                           </p>
-                            <h3><a href="../the-four-agreements-a-practical-guide-to-personal-freedom_970/index.html" title="The Four Agreements: A Practical Guide to Personal Freedom">The Four Agreements: A ...</a></h3>
-
-                           <div class="product_price">
-                              <p class="price_color">£17.66</p>
-                              <p class="instock availability"> <i class="icon-ok"></i>
-In stock</p>
-                              <form>
-                                 <button type="submit" class="btn btn-primary btn-block" data-loading-text="Adding...">Add to basket</button>
-                              </form>
-                           </div>
-                        </article>
-                     </li>
-                     <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                        <article class="product_pod">
-                           <div class="image_container"> <a href="../we-are-all-completely-beside-ourselves_301/index.html"><img src="../../media/cache/4d/18/4d1891e435c6692c864331c585e0d014.jpg" alt="We Are All Completely Beside Ourselves" class="thumbnail"></a>
-
-                           </div>
-                           <p class="star-rating One"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                              <i
-                              class="icon-star"></i> <i class="icon-star"></i>
-
-                           </p>
-                            <h3><a href="../we-are-all-completely-beside-ourselves_301/index.html" title="We Are All Completely Beside Ourselves">We Are All Completely ...</a></h3>
-
-                           <div class="product_price">
-                              <p class="price_color">£24.04</p>
-                              <p class="instock availability"> <i class="icon-ok"></i>
-In stock</p>
-                              <form>
-                                 <button type="submit" class="btn btn-primary btn-block" data-loading-text="Adding...">Add to basket</button>
-                              </form>
-                           </div>
-                        </article>
-                     </li>
-                     <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-                        <article class="product_pod">
-                           <div class="image_container"> <a href="../someone-like-you-the-harrisons-2_735/index.html"><img src="../../media/cache/e3/d0/e3d05227f3fc24f0e0c84ccebe108fb0.jpg" alt="Someone Like You (The Harrisons #2)" class="thumbnail"></a>
-
-                           </div>
-                           <p class="star-rating Five"> <i class="icon-star"></i>
- <i class="icon-star"></i>
- <i class="icon-star"></i>
-
-                              <i
-                              class="icon-star"></i> <i class="icon-star"></i>
-
-                           </p>
-                            <h3><a href="../someone-like-you-the-harrisons-2_735/index.html" title="Someone Like You (The Harrisons #2)">Someone Like You (The ...</a></h3>
-
-                           <div class="product_price">
-                              <p class="price_color">£52.79</p>
-                              <p class="instock availability"> <i class="icon-ok"></i>
-In stock</p>
-                              <form>
-                                 <button type="submit" class="btn btn-primary btn-block" data-loading-text="Adding...">Add to basket</button>
-                              </form>
-                           </div>
-                        </article>
-                     </li>
-                  </ul>
-               </article>
-               <!-- End of product page -->
+                  <!--.col-->
+               </div>
+               <!--.row-->
             </div>
-         </div>
+            <!--.container-->
+         </section>
       </div>
-   </div>
-   <footer class="footer container-fluid"></footer>
-   <!-- jQuery -->
-   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-   <script>
-      window.jQuery || document.write('<script src="../../static/oscar/js/jquery/jquery-1.9.1.min.js"><\/script>')
-   </script>
-   <!-- Twitter Bootstrap -->
-   <script type="text/javascript" src="../../static/oscar/js/bootstrap3/bootstrap.min.js"></script>
-   <!-- Oscar -->
-   <script src="../../static/oscar/js/oscar/ui.js" type="text/javascript"
-   charset="utf-8"></script>
-   <script src="../../static/oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js"
-   type="text/javascript" charset="utf-8"></script>
-   <script src="../../static/oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js"
-   type="text/javascript" charset="utf-8"></script>
-   <script type="text/javascript">
-      $(function() {
-                
-    
-    oscar.init();
-
-            });
-   </script>
-   <!-- Version: N/A -->
-</body>
+      <!--#page-->
+      <section id="footer">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12 text-center text-muted">Lessons and Videos © Hartley Brody 2023</div>
+               <!--.col-->
+            </div>
+            <!--.row-->
+         </div>
+         <!--.container-->
+      </section>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+      integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+      crossorigin="anonymous"></script>
+      <script type="text/javascript">
+         $(document).ready( function(){
+              $(".year-link").click( function(e){
+                  var target = $(e.target);
+                  var year = target.attr("id");
+      
+                  document.location.hash = year;
+                  fetchFilms(year);
+                  return false;
+              });
+      
+              if (document.location.hash){
+                  var year = document.location.hash.substr(1)
+                  fetchFilms(year);
+              }
+      
+              function fetchFilms(year){
+                  showLoadingAnimation();
+                  $.ajax({
+                      method: "GET",
+                      url: document.location.pathname,
+                      data: {
+                          ajax: true,
+                          year: year
+                      },
+                      success: function(data){
+                          setTimeout( function(){
+                              showFilms(data);
+                          }, 1500);  // add intentional delay to emphasize async UI
+                      },
+                      error: function(){
+                          alert("Error loading films :(");
+                      }
+                  });
+                  $(".active").removeClass("active");
+                  $("#"+year).addClass("active");
+              }
+      
+              function showLoadingAnimation(){
+                  $(".table").hide();
+                  $("#loading").show();
+              }
+              function showFilms(films){
+                  // console.log(films);
+                  var films_html = "";
+                  $.each(films, function(_, film){
+                      var film_html = "";
+                      film_html += "<tr class='film'>"
+                          film_html += "<td class='film-title'>" + film["title"] + "</td>"
+                          film_html += "<td class='film-nominations'>" + film["nominations"] + "</td>"
+                          film_html += "<td class='film-awards'>" + film["awards"] + "</td>"
+                          if (film["best_picture"]) {
+                              film_html += "<td class='film-best-picture'><i class='glyphicon glyphicon-flag'></i></td>"
+                          } else {
+                              film_html += "<td class='film-best-picture'></td>"
+                          }
+                      film_html += "</tr>"
+                      films_html += film_html;
+                  })
+                  $("#table-body").html(films_html);
+                  $(".table").show();
+                  $("#loading").hide();
+              }
+          });
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.1.0/pnotify.core.min.js"></script>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.1.0/pnotify.core.min.css"
+      rel="stylesheet" type="text/css">
+      <!-- pnotify messages -->
+      <script type="text/javascript">
+         PNotify.prototype.options.styling = "bootstrap3";
+          $(function(){
+            
+          });
+          
+      
+          $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+          })
+      </script>
+      <!-- golbal video controls -->
+      <script type="text/javascript">
+         $("video").hover(function() {
+              $(this).prop("controls", true);
+          }, function() {
+              $(this).prop("controls", false);
+          });
+      
+          $("video").click(function() {
+              if( this.paused){
+                  this.play();
+              }
+              else {
+                  this.pause();
+              }
+          });
+      </script>
+      <!-- insert google analytics here -->
+      <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      
+          ga('create', 'UA-41551755-8', 'auto');
+          ga('send', 'pageview');
+      </script>
+      <!-- Facebook Pixel Code -->
+      <script>
+         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+           n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+           n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+           t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+           document,'script','https://connect.facebook.net/en_US/fbevents.js');
+         
+           fbq('init', '764287443701341');
+           fbq('track', "PageView");
+      </script>
+      <noscript>
+         <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=764287443701341&ev=PageView&noscript=1"
+         />
+      </noscript>
+      <!-- End Facebook Pixel Code -->
+      <!-- Google Code for Remarketing Tag -->
+      <script type="text/javascript">
+         /* <![CDATA[ */
+          var google_conversion_id = 950945448;
+          var google_custom_params = window.google_tag_params;
+          var google_remarketing_only = true;
+          /* ]]> */
+      </script>
+      <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+      <script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?random=1678190341522&amp;cv=9&amp;fst=1678190341522&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=375603260%2C466465926&amp;u_h=2160&amp;u_w=3840&amp;u_ah=2160&amp;u_aw=3840&amp;u_cd=24&amp;u_his=4&amp;u_tz=60&amp;u_java=false&amp;u_nplug=5&amp;u_nmime=2&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=https%3A%2F%2Fwww.scrapethissite.com%2Fpages%2Fajax-javascript%2F&amp;tiba=Oscar%20Winning%20Films%3A%20AJAX%20and%20Javascript%20%7C%20Scrape%20This%20Site%20%7C%20A%20public%20sandbox%20for%20learning%20web%20scraping&amp;hn=www.googleadservices.com&amp;rfmt=3&amp;fmt=4"></script>
+      <noscript>
+         <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?guid=ON&amp;script=0"
+            />
+         </div>
+      </noscript>
+      <!-- Global site tag (gtag.js) - Google AdWords: 950945448 -->
+      <script async="" src="https://www.googletagmanager.com/gtag/js?id=AW-950945448"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+      
+         gtag('config', 'AW-950945448');
+      </script>
+      <script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950945448/?random=1678190341587&amp;cv=11&amp;fst=1678190341587&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45be3310&amp;u_w=3840&amp;u_h=2160&amp;hn=www.googleadservices.com&amp;frm=0&amp;url=https%3A%2F%2Fwww.scrapethissite.com%2Fpages%2Fajax-javascript%2F&amp;tiba=Oscar%20Winning%20Films%3A%20AJAX%20and%20Javascript%20%7C%20Scrape%20This%20Site%20%7C%20A%20public%20sandbox%20for%20learning%20web%20scraping&amp;auid=26928414.1678190342&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B110.0.5481.77%7CNot%2520A(Brand%3B24.0.0.0%7CGoogle%2520Chrome%3B110.0.5481.77&amp;uamb=0&amp;uapv=10.0.0&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script>
+   </body>
 
 </html>

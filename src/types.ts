@@ -174,6 +174,7 @@ export class XhrSearchResult {
     index: number;
 }
 
+// 
 export enum DataOrigin {
     // initial response of the chromium browser
     initial = 'initial',
@@ -187,6 +188,16 @@ export enum DataOrigin {
     got = 'got'
 }
 
+// type of selector
+export enum DataSource {
+    cssselector = "cssselector",
+    jsonld = "jsonld",
+    meta = "meta",
+    microdata = "microdata",
+    window = "window"
+
+
+}
 export interface ParsedRequestResponse {
     request: ParsedRequest;
     response: ParsedResponse;
@@ -211,16 +222,23 @@ export interface XhrValidation {
     callWithCookies: GotCall[],
     originalRequestResponse: ParsedRequestResponse,
     validationSuccess: boolean,
+    lastCall: GotCall | null,
     xhrSearchResult: XhrSearchResult,
     index: number
-
 }
+export type GotCallType = "minimalHeaders" | "withouCookieHeaders" | "originalHeaders";
+//     minimalHeaders = "minimalHeaders"
+//     withoutCookieHeaders = "withouCookieHeaders",
+//     originalHeaders = "originalHeaders"
+
+// }
 export interface GotCall {
     parsedRequestResponse: ParsedRequestResponse,
     searchResults: SearchResult[],
     callSuccess: true | false;
     isValid: true | false;
-    keywordsFound: NormalizedKeywordPair[];
+    keywordsFound: NormalizedKeywordPair[],
+    callType: GotCallType
 }
 export interface CrawlerConfig {
     // keyword0 is saved at index 0 ins ui svelte-store 

@@ -16,9 +16,9 @@ export class Validator {
     private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
     // store:KeyValueStore;
-    
-    
-    public constructor(){
+
+
+    public constructor() {
         // this.store = store;
     }
 
@@ -30,7 +30,7 @@ export class Validator {
      * @param searchResults 
      * @returns 
      */
-    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean, parsedCheerio: ScrapedPage | null}> {
+    public async validate(url: string, keywords: NormalizedKeywordPair[], searchResults: SearchResults): Promise<{ conclusion: KeywordConclusion[], xhrValidated: XhrValidation[], cheerioCrawlerSuccess: boolean, parsedCheerio: ScrapedPage | null }> {
         let validatedData: KeywordConclusion[];
         let xhrValidated: XhrValidation[] = [];
         // load initial html with a simple HTTP client
@@ -46,7 +46,7 @@ export class Validator {
         if (cheerioCrawlerLoaded == false) {
 
             // assign each search result to the correct keyword
-            validatedData = this.createConclusion(searchResults,searchResults.xhrFound, xhrValidated, keywords);
+            validatedData = this.createConclusion(searchResults, searchResults.xhrFound, xhrValidated, keywords);
 
         } else {
 
@@ -74,11 +74,11 @@ export class Validator {
             validatedSearchResults.windowFound = searchResults.windowFound;
 
             // assign each search result to the correct keyword
-            validatedData = this.createConclusion(validatedSearchResults,searchResults.xhrFound, xhrValidated, keywords);
+            validatedData = this.createConclusion(validatedSearchResults, searchResults.xhrFound, xhrValidated, keywords);
         }
 
 
-        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded, parsedCheerio: this.parsedCheerio};
+        return { conclusion: validatedData, xhrValidated: xhrValidated, cheerioCrawlerSuccess: cheerioCrawlerLoaded, parsedCheerio: this.parsedCheerio };
 
     }
 
@@ -89,7 +89,7 @@ export class Validator {
      * @param keywords 
      * @returns 
      */
-    public createConclusion(searchResults: SearchResults,xhrFound:XhrSearchResult[], xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
+    public createConclusion(searchResults: SearchResults, xhrFound: XhrSearchResult[], xhrValidated: XhrValidation[], keywords: NormalizedKeywordPair[]): KeywordConclusion[] {
 
         const conclusion = new Map<Number, KeywordConclusion>();
 
@@ -120,7 +120,7 @@ export class Validator {
         for (const searchResult of searchResults.windowFound) {
             const keywordConclusion = conclusion.get(searchResult.keyword.index);
             keywordConclusion?.SearchResults.windowFound.push(searchResult);
-            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)            
+            keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)
         }
 
         // for (const searchResult of searchResults.xhrFound) {
@@ -129,10 +129,10 @@ export class Validator {
         //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)            
         // }
         // searchResults.xhrFound.forEach((xhrFound, index) => {
-            
+
         // });
 
-        
+
         for (const xhr of xhrValidated) {
             for (const call of xhr.callWithCookies) {
                 for (const kw of call.keywordsFound) {
@@ -152,19 +152,29 @@ export class Validator {
 
                 keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
 
+                // const xhrUrls = keywordConclusion?.ValidatedXhr.filter((valXhr) => {
+                //     if (valXhr.originalRequestResponse.request.url === xhr.originalRequestResponse.request.url) {
+                //         return true;
+                //     }
+                //     return false;
+                // });
+                // if (xhrUrls?.length! > 0) {
+                //     keywordConclusion?.ValidatedXhr.push(xhr);
+
+                // }
                 keywordConclusion?.ValidatedXhr.push(xhr);
 
 
-                
+
                 // const keywordConclusion = conclusion.get(kw.index);
-                    // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+                // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
                 // for (const kw of xhr.) {
                 //     const keywordConclusion = conclusion.get(kw.index);
                 //     // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
                 //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
                 // }
             }
-        
+
         })
         // for (const xhr of xhrValidated) {
         //     for (const sr of xhr.xhrSearchResult.searchResults) {
@@ -319,7 +329,7 @@ export class Validator {
                     validatedSearchResult.isValid = true;
                     validatedSearchResult.source.push(DataOrigin.cheerio);
                 }
-                
+
                 validatedJson.push(validatedSearchResult);
 
                 // TODO: unify error messages styles

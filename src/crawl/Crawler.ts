@@ -12,7 +12,7 @@ export async function crawl(url: string, kwConclusions: KeywordConclusion[]): Pr
 
         // useSessionPool: false,
         // Limits the crawler to only 10 requests (do not use if you want to crawl all links)
-        // maxRequestsPerCrawl: 20,
+        maxRequestsPerCrawl: 20,
         // Function called for each URL
         async requestHandler({ request, enqueueLinks, log, $ }) {
             log.info(request.url);
