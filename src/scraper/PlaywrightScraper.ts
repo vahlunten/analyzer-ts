@@ -1,5 +1,8 @@
 import { FingerprintGenerator } from 'fingerprint-generator';
 import { FingerprintInjector } from 'fingerprint-injector';
+
+// launchPlaywright
+
 import { Browser, BrowserContext, chromium, Page, Response } from 'playwright';
 import { interceptRequests, onResponse } from '../parsing/XHRRequests';
 import { parseHtml } from '../parsing/htmlParser';
@@ -79,6 +82,8 @@ export class PlaywrightScraper {
             proxyConfiguration = {
                 server: "proxy.apify.com:8000",
                 username: "auto",
+                // groups-RESIDENTIAL
+                // https://github.com/apify-projects/store-crawler-google-places/blob/master/.actor/INPUT_SCHEMA.json#L858
                 password: process.env.APIFY_PROXY_PASSWORD
 
             }
