@@ -1,0 +1,262 @@
+import { gotScraping, Method, Options, Response, CancelableRequest } from "got-scraping";
+import { isEqual } from "lodash";
+import { DOMSearch } from "../search/DOMSearch";
+import { JsonSearcher } from "../search/JsonSearch";
+import { DataOrigin, GotCall, GotCallType, NormalizedKeywordPair, ParsedRequestResponse, SearchResult, XhrSearchResult, XhrValidation } from "../types";
+import { log, ProxyConfiguration } from '@crawlee/core';
+import { prettyPrint } from "html";
+import { HttpsProxyAgent } from 'hpagent';
+
+export async function validateAllXHR(proxyConf: ProxyConfiguration, xhrSearchResults: XhrSearchResult[], keywords: NormalizedKeywordPair[], proxyUrl = ''): Promise<XhrValidation[]> {
+
+    let validatedXhr: XhrValidation[] = [];
+    if (xhrSearchResults.length > 0) {
+        let index = 0;
+        try {
+
+            // xhrSearchResults.forEach((xhrFound, index) => {
+            //     const val = await validateXHRRequest(xhrFound, keywords, index);
+            //     validatedXhr.push(val);
+            // });
+            for (const xhrFound of xhrSearchResults) {
+                // TODO: only validate unique requests
+                const val = await validateXHRRequest(proxyConf, xhrFound, keywords, index);
+                validatedXhr.push(val);
+                index++;
+            }
+
+        }
+        catch (err: any) {
+            // TODO: error handling
+            log.error(err);
+            log.error(`Failed validation of XHR request: ${""}`);
+
+        }
+    }
+
+    return validatedXhr;
+
+}
+
+async function validateXHRRequest(proxyConf: ProxyConfiguration, xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], index: number): Promise<XhrValidation> {
+    let callsWithMinimal: GotCall[] = [];
+    let callsWithOriginalHeaders: GotCall[] = [];
+    let callsWithOriginalCookie: GotCall[] = [];
+
+
+    const filteredHeaders: { [key: string]: string } = {};
+
+    // Remove pseudo-headers
+    Object.keys(xhr.parsedRequestResponse.request.headers).forEach(headerKey => {
+        if (headerKey.indexOf(":") == -1) {
+            filteredHeaders[headerKey] = xhr.parsedRequestResponse.request.headers[headerKey]
+        }
+    });
+    
+    const options: Options = new Options({
+        method: xhr.parsedRequestResponse.request.method as Method,
+        body: xhr.parsedRequestResponse.request.body ?? undefined,
+        url: xhr.parsedRequestResponse.request.url,
+        timeout: { response: 30000 },
+        agent: {
+            https: new HttpsProxyAgent({
+                keepAlive: true,
+                keepAliveMsecs: 1000,
+                maxSockets: 256,
+                maxFreeSockets: 256,
+                scheduling: 'lifo',
+                proxy: 'https://localhost:8080'
+            }),
+            http: new HttpsProxyAgent({
+                keepAlive: true,
+                keepAliveMsecs: 1000,
+                maxSockets: 256,
+                maxFreeSockets: 256,
+                scheduling: 'lifo',
+                proxy: 'https://localhost:8080'
+            }),
+            http2: new HttpsProxyAgent({
+                keepAlive: true,
+                keepAliveMsecs: 1000,
+                maxSockets: 256,
+                maxFreeSockets: 256,
+                scheduling: 'lifo',
+                proxy: 'https://localhost:8080'
+            }),
+        }
+
+
+    });
+
+    let succeeded = false;
+
+    // // calls with minimal headers
+    // // TODO: prepare minimal headers
+    const minimalHeaders: { [key: string]: string } = {};
+    // check referer and content type if payload is present
+    const referer = filteredHeaders["referer"];
+    if (referer != null && referer != "") {
+        minimalHeaders["referer"] = referer;
+    }
+
+    //copy request body and content type
+    if (options.body) {
+        minimalHeaders["content-type"] = filteredHeaders["content-type"];
+    }
+
+    options.headers = minimalHeaders;
+    // trying every request multiple times to avoid false negatives due to proxy limitations
+    for (let i = 0; i < 5; i++) {
+
+        const callValidation = await validateGotCall(proxyConf, xhr, keywords, options, "minimalHeaders");
+        callsWithMinimal.push(callValidation);
+
+        if (callValidation.isValid) {
+            succeeded = true;
+            break;
+        }
+    }
+
+
+    // // calls with original headers from chromium without a cookie
+    // // only execute if we failed to validate request with less headers
+    if (!succeeded) {
+        const originalHeadersWithoutCookie: { [key: string]: string } = { ...filteredHeaders };
+        delete originalHeadersWithoutCookie["cookie"]
+        options.headers = originalHeadersWithoutCookie;
+
+        for (let i = 0; i < 5; i++) {
+
+            const callValidation = await validateGotCall(xhr, keywords, options, "withouCookieHeaders");
+            callsWithOriginalHeaders.push(callValidation);
+
+            if (callValidation.isValid) {
+                succeeded = true;
+                break;
+            }
+        }
+
+    }
+    // calls with original headers including a cookie
+    if (!succeeded) {
+        const originalHeaders: { [key: string]: string } = {};
+        options.headers = filteredHeaders;
+
+        for (let i = 0; i < 5; i++) {
+
+            const callValidation = await validateGotCall(xhr, keywords, options, "originalHeaders");
+            callsWithOriginalCookie.push(callValidation);
+
+            if (callValidation.isValid) {
+                succeeded = true;
+                break;
+            }
+        }
+
+    }
+
+    let lastCall: GotCall | null = callsWithOriginalCookie.length > 0 ? callsWithOriginalCookie[callsWithOriginalCookie.length - 1] : null;
+
+
+    lastCall = lastCall == null && callsWithOriginalHeaders.length > 0 ? callsWithOriginalHeaders[callsWithOriginalHeaders.length - 1] : lastCall;
+    lastCall = lastCall == null && callsWithMinimal.length > 0 ? callsWithMinimal[callsWithMinimal.length - 1] : lastCall;
+
+
+
+    return {
+        originalRequestResponse: xhr.parsedRequestResponse,
+        callsMinimalHeaders: callsWithMinimal,
+        callsWithOriginalHeaders: callsWithOriginalHeaders,
+        callWithCookies: callsWithOriginalCookie,
+        validationSuccess: succeeded,
+        xhrSearchResult: xhr,
+        index: index,
+        lastCall: lastCall
+    }
+
+}
+
+async function validateGotCall(proxyConf: ProxyConfiguration, xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: Options, gotCallType: GotCallType): Promise<GotCall> {
+    // TODO: proxy url 
+    const request = gotScraping(undefined, undefined, options);
+    if (proxyConf) {
+        request
+    }
+    let response: Response<string>;
+    let searchResults: SearchResult[] = [];
+    let result: GotCall = {
+        callSuccess: true,
+        isValid: false,
+        keywordsFound: [],
+        parsedRequestResponse: {
+            request: {
+                body: xhr.parsedRequestResponse.request.body,
+                headers: options.headers as { [key: string]: string },
+                method: xhr.parsedRequestResponse.request.method,
+                url: xhr.parsedRequestResponse.request.url,
+            },
+            response: {
+                body: "",
+                // TODO: this is not working well 
+                status: -1,
+                headers: {}
+            },
+            error: null
+        },
+        searchResults: [],
+        callType: gotCallType
+    }
+    try {
+        log.debug("Tryign with headers: " + gotCallType.toString())
+        response = (await request) as Response<string>;
+        // console.log(response.body);
+
+        if (response.statusCode == xhr.parsedRequestResponse.response.status) {
+            // reponses are the same, we can proceed
+            log.debug("Response with the same status received: " + response.statusCode);
+
+            if (response.headers["content-type"]?.indexOf("json") != -1) {
+                searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataOrigin.xhr);
+            } else if (response.headers["content-type"].indexOf("html") != 1) {
+                searchResults = (new DOMSearch(response.body, DataOrigin.xhr)).find(keywords);
+            }
+            result.searchResults = searchResults;
+
+            if (searchResults.length > 0) {
+                const keywordsFound: NormalizedKeywordPair[] = []
+                xhr.searchResults.forEach(searchResult => {
+                    if (!keywordsFound.includes(searchResult.keyword)) {
+                        keywordsFound.push(searchResult.keyword);
+                    }
+
+                });
+                // if the search results of the response body are the same as search results obtained during analysis
+
+                if (isEqual(searchResults, xhr.searchResults)) {
+                    log.debug("Validated xhr is valid.");
+                    result.isValid = true;
+                    result.searchResults.forEach(sr => {
+                        sr.source.push(DataOrigin.got);
+                    })
+
+                } else {
+                    log.debug("Validated xhr is invalid.")
+                }
+
+            }
+            result.parsedRequestResponse.response = {
+                body: prettyPrint(response.body, { indent_size: 3 }),
+                status: response.statusCode,
+                headers: response.headers as { [key: string]: string }
+            };
+        } else {
+            log.debug("Response with different status received: " + response.statusCode);
+            log.debug("URL: " + response.url);
+
+        }
+    } catch (err: any) {
+        result.callSuccess = false;
+        result.isValid = false;
+    }
+    return result;
+}

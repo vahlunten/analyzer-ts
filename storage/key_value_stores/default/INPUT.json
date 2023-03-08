@@ -1,6 +1,5 @@
 {
     "keywords": [
-        "Not connected",
         "Connected",
         "proxy.apify.com"
     ],
@@ -8,8 +7,9 @@
         "useApifyProxy": true,
         "apifyProxyGroups": [
             "RESIDENTIAL"
-        ],
-        "apifyProxyCountry": "US"
+        ]
     },
+
+
     "url": "http://proxy.apify.com"
 }

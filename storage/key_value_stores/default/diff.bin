@@ -808,7 +808,7 @@
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn"><del>                        </del>&lt;<del>td&gt;&lt;code</del>&gt;<del>auto</del>&lt;&#x2F;<del>code</del>&gt;</span>
+            <span class="d2h-code-line-ctn"><del>                        </del>&lt;<del>td&gt;&lt;code</del>&gt;<del>groups-RESIDENTIAL</del>&lt;&#x2F;<del>code</del>&gt;</span>
         </div>
     </td>
 </tr><tr>
@@ -948,7 +948,7 @@
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn"><del>                        </del>&lt;<del>td</del>&gt;<del>No</del>&lt;&#x2F;<del>td</del>&gt;</span>
+            <span class="d2h-code-line-ctn"><del>                        </del>&lt;<del>td</del>&gt;<del>Yes</del>&lt;&#x2F;<del>td</del>&gt;</span>
         </div>
     </td>
 </tr><tr>
@@ -978,7 +978,7 @@
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn"><del>                  &lt;p&gt;To authenticate using a new username or password, open &lt;a href=&quot;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=auto&quot;&gt;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=auto</del>&lt;&#x2F;<del>a</del>&gt;</span>
+            <span class="d2h-code-line-ctn"><del>                  &lt;p&gt;To authenticate using a new username or password, open &lt;a href=&quot;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=groups-RESIDENTIAL&quot;&gt;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=groups-RESIDENTIAL</del>&lt;&#x2F;<del>a</del>&gt;</span>
         </div>
     </td>
 </tr><tr>
@@ -1048,7 +1048,7 @@
     <td class="d2h-del d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">-</span>
-            <span class="d2h-code-line-ctn"><del>                  </del>&lt;p class=&quot;note&quot;&gt;Page generated on 2023-03-07 23:01:09.019. Copyright © 2023 Apify Technologies</span>
+            <span class="d2h-code-line-ctn"><del>                  </del>&lt;p class=&quot;note&quot;&gt;Page generated on 2023-03-08 14:56:53.166. Copyright © 2023 Apify Technologies</span>
         </div>
     </td>
 </tr><tr>
@@ -1912,7 +1912,7 @@
     <td class="d2h-ins d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">+</span>
-            <span class="d2h-code-line-ctn"><ins>               &lt;</ins>td<ins>&gt;&lt;code</ins>&gt;<ins>auto&lt;&#x2F;code&gt;</ins></span>
+            <span class="d2h-code-line-ctn"><ins>               &lt;</ins>td<ins>&gt;&lt;code</ins>&gt;<ins>groups-RESIDENTIAL&lt;&#x2F;code&gt;</ins></span>
         </div>
     </td>
 </tr><tr>
@@ -2052,7 +2052,7 @@
     <td class="d2h-ins d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">+</span>
-            <span class="d2h-code-line-ctn"><ins>               &lt;td&gt;No</ins>&lt;&#x2F;<ins>td</ins>&gt;</span>
+            <span class="d2h-code-line-ctn"><ins>               &lt;td&gt;Yes</ins>&lt;&#x2F;<ins>td</ins>&gt;</span>
         </div>
     </td>
 </tr><tr>
@@ -2092,7 +2092,7 @@
     <td class="d2h-ins">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">+</span>
-            <span class="d2h-code-line-ctn">      &lt;p&gt;To authenticate using a new username or password, open &lt;a href=&quot;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=auto&quot;&gt;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=auto&lt;&#x2F;a&gt;</span>
+            <span class="d2h-code-line-ctn">      &lt;p&gt;To authenticate using a new username or password, open &lt;a href=&quot;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=groups-RESIDENTIAL&quot;&gt;http:&#x2F;&#x2F;proxy.apify.com&#x2F;?reject=groups-RESIDENTIAL&lt;&#x2F;a&gt;</span>
         </div>
     </td>
 </tr><tr>
@@ -2142,7 +2142,7 @@
     <td class="d2h-ins d2h-change">
         <div class="d2h-code-side-line">
             <span class="d2h-code-line-prefix">+</span>
-            <span class="d2h-code-line-ctn"><ins>      </ins>&lt;p class=&quot;note&quot;&gt;Page generated on 2023-03-07 23:01:09.019. Copyright © 2023 Apify Technologies</span>
+            <span class="d2h-code-line-ctn"><ins>      </ins>&lt;p class=&quot;note&quot;&gt;Page generated on 2023-03-08 14:56:53.166. Copyright © 2023 Apify Technologies</span>
         </div>
     </td>
 </tr><tr>

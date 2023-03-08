@@ -5,7 +5,7 @@ import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 import { readFileSync } from "fs";
 import { KeyValueStore, log } from '@crawlee/core';
-import { Actor, ProxyConfiguration, ProxyConfigurationOptions } from 'apify';
+import { Actor, ProxyConfiguration, ProxyConfigurationOptions, ProxyInfo } from 'apify';
 import { ProxyConfiguration as ProxyConfigurationCrawlee } from "crawlee";
 import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, PlaywrightProxyConfiguration, getCrawleeProxyConfiguration } from './helpers/proxy';
 import { createDiff } from './helpers/diff';
@@ -42,23 +42,39 @@ import { createDiff } from './helpers/diff';
         }
 
         // create proxy configuration
-        proxyConfigurationApify = await getApifyProxyConfiguration(input);
-        // for (let i = 0; i < 5; i++) {
-        //     log.debug(await proxyConfigurationApify?.newUrl() ?? "");
+        if (input.proxyConfig) {
+            let proxyInfo: ProxyInfo | undefined;
+            let proxyUrl: string | undefined;
 
-        // }
-        proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(input);
+            proxyConfigurationApify = await getApifyProxyConfiguration(input.proxyConfig);
+            proxyInfo = await proxyConfigurationApify?.newProxyInfo();
+            proxyUrl = await proxyConfigurationApify?.newUrl();
 
-        // TODO: Crawlee proxy config
-        // proxyConfigurationCrawlee = new ProxyConfigurationCrawlee({ proxyUrls: [await proxyConfigurationApify?.newUrl()!] })
-        proxyConfigurationCrawlee = await getCrawleeProxyConfiguration(proxyConfigurationApify, input);
-        const normalizedKeywords = normalizeArray(input.keywords);
+            proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(proxyUrl);
+            proxyConfigurationCrawlee = await getCrawleeProxyConfiguration(proxyConfigurationApify, input.proxyConfig);
+
+
+            // if (input.proxyConfig.useApifyProxy) {
+            //     proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(proxyUrl);
+            // } else if(input.proxyConfig.proxyUrls?.length) {
+            //     // initialize from the list of urls 
+            //     log.debug(JSON.stringify(input.proxyConfig.proxyUrls))
+
+            //     proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(proxyUrl);
+
+            // }
+
+        } else {
+            log.info("Actor will not use any proxy servers.")
+        }
 
         log.info('===================================================================================================================');
         log.info('URL: ' + input.url);
         log.info('KEYWORDS: ' + input.keywords);
         log.info('===================================================================================================================');
 
+
+        const normalizedKeywords = normalizeArray(input.keywords);
         output.setInput(input.url, normalizedKeywords);
 
         // navigate to the website

@@ -1,10 +1,12 @@
-// None
+// No proxy config at all - working
+
+// None - working
  "proxyConfig": {
         "useApifyProxy": false
     },
 
 
-// Custom proxies
+// Custom proxies - working
 "proxyConfig": {
         "useApifyProxy": false,
         "proxyUrls": [
@@ -12,13 +14,13 @@
         ]
     },
 
-// Automatic proxy
+// Automatic proxy - working
  "proxyConfig": {
         "useApifyProxy": true,
         "apifyProxyCountry": "US"
     },
 
-// Selected proxies
+// Selected proxies - working
 "proxyConfig": {
         "useApifyProxy": true,
         "apifyProxyGroups": [
@@ -27,11 +29,11 @@
         ]
     },
 
-// Selected proxies
-"proxyConfig": {
+// Selected proxies - working
+ "proxyConfig": {
         "useApifyProxy": true,
         "apifyProxyGroups": [
             "RESIDENTIAL"
         ],
-        "apifyProxyCountry": "AI"
+        "apifyProxyCountry": "US"
     },
