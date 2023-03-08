@@ -34,7 +34,6 @@
   },
   "required": [
     "url",
-    "keywords",
-    "proxyConfig"
+    "keywords"
   ]
 }
