@@ -3,7 +3,8 @@ import { KeyValueStore, log, Request } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
-import { CheerioCrawler, createCheerioRouter, ProxyConfiguration } from "crawlee";
+import { CheerioCrawler, createCheerioRouter } from "crawlee";
+import { ProxyConfiguration } from "apify";
 import { Actor } from "apify";
 import cheerio from "cheerio";
 // import {  } from "@frontend/scripts";
@@ -16,13 +17,14 @@ export class Validator {
     private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
     public proxyConfiguration: ProxyConfiguration | undefined;
+    private proxyUrl: string | undefined;
 
     // store:KeyValueStore;
 
 
-    public constructor(proxyConfigurationCrawlee: ProxyConfiguration | undefined) {
+    public constructor(proxyUrl: string | undefined) {
         // this.store = store;
-        this.proxyConfiguration = proxyConfigurationCrawlee;
+       this.proxyUrl = proxyUrl;
     }
 
     /**
@@ -39,7 +41,7 @@ export class Validator {
         // load initial html with a simple HTTP client
         const cheerioCrawlerLoaded = await this.loadHtml(url);
         // validate XHR requests    
-        xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords);
+        xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords, this.proxyUrl);
         await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
         // await this.store.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
 

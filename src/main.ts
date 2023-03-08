@@ -24,6 +24,9 @@ import { createDiff } from './helpers/diff';
     let proxyConfigurationPlaywright: PlaywrightProxyConfiguration | undefined;
     let proxyConfigurationCrawlee: ProxyConfigurationCrawlee | undefined;
 
+    let proxyInfo: ProxyInfo | undefined;
+    let proxyUrl: string | undefined;
+
     try {
         // try to load the INPUT.json from default kvs
         try {
@@ -43,8 +46,6 @@ import { createDiff } from './helpers/diff';
 
         // create proxy configuration
         if (input.proxyConfig) {
-            let proxyInfo: ProxyInfo | undefined;
-            let proxyUrl: string | undefined;
 
             proxyConfigurationApify = await getApifyProxyConfiguration(input.proxyConfig);
             proxyInfo = await proxyConfigurationApify?.newProxyInfo();
@@ -104,7 +105,7 @@ import { createDiff } from './helpers/diff';
             // scraper.close();
 
             // retrieve initial response with the CheerioCrawler and validate the search results
-            const validator = new Validator(proxyConfigurationCrawlee);
+            const validator = new Validator(proxyUrl);
             const validatedData = await validator.validate(input.url, normalizedKeywords, searchResults);
 
             // save the output
