@@ -1,14 +1,11 @@
-import { gotScraping, Method, Options, Response, CancelableRequest, GotOptionsInit } from "got-scraping";
-import { OptionsInit, Context } from 'got-scraping';
-
+import { gotScraping, Method, Response } from "got-scraping";
+import { OptionsInit } from 'got-scraping';
 import { isEqual } from "lodash";
 import { DOMSearch } from "../search/DOMSearch";
 import { JsonSearcher } from "../search/JsonSearch";
-import { DataOrigin, GotCall, GotCallType, NormalizedKeywordPair, ParsedRequestResponse, SearchResult, XhrSearchResult, XhrValidation } from "../types";
+import { DataOrigin, GotCall, GotCallType, NormalizedKeywordPair, SearchResult, XhrSearchResult, XhrValidation } from "../types";
 import { log } from '@crawlee/core';
-import { ProxyConfiguration } from "apify";
 import { prettyPrint } from "html";
-import { HttpsProxyAgent } from 'hpagent';
 
 export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywords: NormalizedKeywordPair[], proxyUrl: string | undefined = undefined): Promise<XhrValidation[]> {
 
@@ -23,9 +20,14 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
             // });
             for (const xhrFound of xhrSearchResults) {
                 // TODO: only validate unique requests
+               if (xhrFound.parsedRequestResponse.initial) {
+                 log.debug("Initial request wont be validated using got.")
+
+               } else {
                 const val = await validateXHRRequest(xhrFound, keywords, index, proxyUrl);
-                validatedXhr.push(val);
-                index++;
+                 validatedXhr.push(val);
+                 index++;
+               } 
             }
 
         }
@@ -55,13 +57,6 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
             filteredHeaders[headerKey] = xhr.parsedRequestResponse.request.headers[headerKey]
         }
     });
-
-    // const options: Options = new Options({
-    //     method: xhr.parsedRequestResponse.request.method as Method,
-    //     body: xhr.parsedRequestResponse.request.body ?? undefined,
-    //     url: xhr.parsedRequestResponse.request.url,
-    //     timeout: { response: 30000 }
-    // });
     const options: OptionsInit = {
         proxyUrl: proxyUrl,
         method: xhr.parsedRequestResponse.request.method as Method,
@@ -72,8 +67,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     }
     let succeeded = false;
 
-    // // calls with minimal headers
-    // // TODO: prepare minimal headers
+    // calls with minimal headers
     const minimalHeaders: { [key: string]: string } = {};
     // check referer and content type if payload is present
     const referer = filteredHeaders["referer"];
@@ -86,7 +80,7 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
         minimalHeaders["content-type"] = filteredHeaders["content-type"];
     }
 
-    log.debug("Minimal headers" + JSON.stringify(minimalHeaders));
+    // log.debug("Minimal headers" + JSON.stringify(minimalHeaders));
     options.headers = minimalHeaders;
     // trying every request multiple times to avoid false negatives due to proxy limitations
     for (let i = 0; i < 5; i++) {
@@ -101,7 +95,6 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     }
 
     // calls with original headers from chromium without a cookie
-    // only execute if we failed to validate request with less headers
     if (!succeeded) {
         const originalHeadersWithoutCookie: { [key: string]: string } = { ...filteredHeaders };
         delete originalHeadersWithoutCookie["cookie"]
@@ -121,7 +114,6 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
     }
     // calls with original headers including a cookie
     if (!succeeded) {
-        const originalHeaders: { [key: string]: string } = {};
         options.headers = filteredHeaders;
 
         for (let i = 0; i < 5; i++) {
@@ -134,16 +126,11 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
                 break;
             }
         }
-
     }
 
     let lastCall: GotCall | null = callsWithOriginalCookie.length > 0 ? callsWithOriginalCookie[callsWithOriginalCookie.length - 1] : null;
-
-
     lastCall = lastCall == null && callsWithOriginalHeaders.length > 0 ? callsWithOriginalHeaders[callsWithOriginalHeaders.length - 1] : lastCall;
     lastCall = lastCall == null && callsWithMinimal.length > 0 ? callsWithMinimal[callsWithMinimal.length - 1] : lastCall;
-
-
 
     return {
         originalRequestResponse: xhr.parsedRequestResponse,
@@ -155,11 +142,9 @@ async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeyw
         index: index,
         lastCall: lastCall
     }
-
 }
 
 async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], options: OptionsInit, gotCallType: GotCallType): Promise<GotCall> {
-    // TODO: proxy url 
     const request = gotScraping(options);
     let response: Response<string>;
     let searchResults: SearchResult[] = [];
@@ -172,7 +157,7 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                 body: xhr.parsedRequestResponse.request.body,
                 headers: options.headers as { [key: string]: string },
                 method: xhr.parsedRequestResponse.request.method,
-                url: xhr.parsedRequestResponse.request.url,
+                url: xhr.parsedRequestResponse.request.url
             },
             response: {
                 body: "",
@@ -180,7 +165,8 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                 status: -1,
                 headers: {}
             },
-            error: null
+            error: null,
+            initial: false,
         },
         searchResults: [],
         callType: gotCallType
@@ -188,10 +174,6 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
     try {
         log.debug("Tryign with headers: " + gotCallType.toString())
         response = (await request) as Response<string>;
-
-        // response = (await gotScraping.get({...options, pro})) as Response<string>
-        // console.log(response.body);
-
         if (response.statusCode == xhr.parsedRequestResponse.response.status) {
             // reponses are the same, we can proceed
             log.debug("Response with the same status received: " + response.statusCode);
@@ -211,8 +193,8 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
                     }
 
                 });
-                // if the search results of the response body are the same as search results obtained during analysis
 
+                // if the search results of the response body are the same as search results obtained during analysis
                 if (isEqual(searchResults, xhr.searchResults)) {
                     log.debug("Validated xhr is valid.");
                     result.isValid = true;

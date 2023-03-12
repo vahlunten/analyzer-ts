@@ -1,10 +1,16 @@
 {
     "keywords": [
-        "590,90 €",
+        "589,90 €",
         " NetSpa MONTANA L ",
-        "590.90",
-        "Môžete mať dnes od 17:00 ",
+        "Môžete mať zajtra od 8:00",
         "13,33"
     ],
-    "url": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm"
+    "url": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
+    "proxyConfig": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": [
+            "RESIDENTIAL"
+        ],
+        "apifyProxyCountry": "CZ"
+    }
 }

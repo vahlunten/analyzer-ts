@@ -1,0 +1,17 @@
+{
+    "keywords": [
+        "Duraflame Electric Stove",
+        "$209.99",
+        "Pro Price:"
+    ],
+    "proxyConfig": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": [
+            "RESIDENTIAL"
+        ],
+        "apifyProxyCountry": "US"
+    },
+
+
+    "url": "https://www.wayfair.com/home-improvement/pdp/duraflame-electric-stove-w008150796.html"
+}

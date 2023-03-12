@@ -2,44 +2,13 @@ import { log } from "crawlee";
 import { Request, Response, Route } from "playwright";
 import { ParsedRequestResponse } from "../types";
 
-const IGNORED_EXTENSIONS = [".css", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
 
-export function interceptRequests(route: Route, request: Request, saveBandwith: boolean) {
-
-    if (saveBandwith) {
-        const ignore = IGNORED_EXTENSIONS.reduce((ignored, extension) => {
-            if (ignored) return ignored;
-            return request.url().endsWith(extension);
-        }, false);
-
-        if (ignore) {
-            route.abort();
-            return;
-        }
-    }
-
-    route.continue();
-}
-
-export async function onResponse(xhrParsed: ParsedRequestResponse[], response: Response, url: string) {
-    
-    // console.log(response.url())
-    // if reponse is NOT a redirect, parse its content
-    // new request will be issued
-    if (!(response.status() >= 300 && response.status() <= 399)) {
-        const parsed = await parseResponse(response);
-        xhrParsed.push(parsed);
-        // console.log(parsed);
-        // console.log(parsed.response.body)
-    }
-}
-
-
-async function parseResponse(response: Response): Promise<ParsedRequestResponse> {
+export async function parseResponse(response: Response, initialUrl: string): Promise<ParsedRequestResponse> {
     // console.log(response.request().url());
     let responseBody: string = "";
 
-    // Redirects will throw "No resource with given identifier found" exception
+    // Redirects will throw "No resource with given identifier found" exception - not true
+    // Options requests? 
     try {
         responseBody = (await response.text()).toString();
     } catch (err: any) {
@@ -58,6 +27,8 @@ async function parseResponse(response: Response): Promise<ParsedRequestResponse>
             headers: await response.request().allHeaders(),
             body: response.request().postData()
         },
-        error: null
+        error: null,
+        // TODO: check out matchBaseURl fro mthe opriginal page analyzer
+        initial: response.url() === initialUrl ,
     }
 }

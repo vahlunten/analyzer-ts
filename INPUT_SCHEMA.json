@@ -9,12 +9,13 @@
       "type": "string",
       "description": "Url to a website to by analyzed",
       "editor": "textfield",
-      "prefill": "https://example.org/"
+      "prefill": "https://www.scrapethissite.com/pages/ajax-javascript/#2015"
     },
     "keywords": {
       "title": "Keywords",
       "type": "array",
       "description": "Keywords to be searched for during analysis",
+      "default": "\"Spotlight\",\"Oscar Winning Films: AJAX and Javascript\",\"https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films\",\"A Girl in the River: The Price of Forgiveness \",\"87 items\"]",
       "editor": "stringList"
     },
     "proxyConfig": {

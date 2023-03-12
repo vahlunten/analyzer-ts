@@ -5,7 +5,7 @@ import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 import { readFileSync } from "fs";
 import { KeyValueStore, log } from '@crawlee/core';
-import { Actor, ProxyConfiguration, ProxyConfigurationOptions, ProxyInfo } from 'apify';
+import { Actor, ProxyConfiguration, ProxyInfo } from 'apify';
 import { ProxyConfiguration as ProxyConfigurationCrawlee } from "crawlee";
 import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, PlaywrightProxyConfiguration, getCrawleeProxyConfiguration } from './helpers/proxy';
 import { createDiff } from './helpers/diff';
@@ -24,7 +24,6 @@ import { createDiff } from './helpers/diff';
     let proxyConfigurationPlaywright: PlaywrightProxyConfiguration | undefined;
     let proxyConfigurationCrawlee: ProxyConfigurationCrawlee | undefined;
 
-    let proxyInfo: ProxyInfo | undefined;
     let proxyUrl: string | undefined;
 
     try {
@@ -48,25 +47,13 @@ import { createDiff } from './helpers/diff';
         if (input.proxyConfig) {
 
             proxyConfigurationApify = await getApifyProxyConfiguration(input.proxyConfig);
-            proxyInfo = await proxyConfigurationApify?.newProxyInfo();
             proxyUrl = await proxyConfigurationApify?.newUrl();
 
             proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(proxyUrl);
             proxyConfigurationCrawlee = await getCrawleeProxyConfiguration(proxyConfigurationApify, input.proxyConfig);
 
-
-            // if (input.proxyConfig.useApifyProxy) {
-            //     proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(proxyUrl);
-            // } else if(input.proxyConfig.proxyUrls?.length) {
-            //     // initialize from the list of urls 
-            //     log.debug(JSON.stringify(input.proxyConfig.proxyUrls))
-
-            //     proxyConfigurationPlaywright = await getPlaywrightProxyConfiguration(proxyUrl);
-
-            // }
-
         } else {
-            log.info("Actor will not use any proxy servers.")
+            log.info("Proxy configuration is indefined, actor will not use any proxy servers.")
         }
 
         log.info('===================================================================================================================');
@@ -82,19 +69,32 @@ import { createDiff } from './helpers/diff';
         let scraper: PlaywrightScraper;
         let scrapedData: ScrapedData;
         let searchResults: SearchResults;
-        let navigated: boolean = true;
+        let scrapingFailed: boolean = false;
 
         try {
             scraper = new PlaywrightScraper(input.url, normalizedKeywords);
             scrapedData = await scraper.scrapePage(proxyConfigurationPlaywright, true);
+            if (scrapedData.scrapingFinished) {
+                if (!scrapedData.navigated) {
+                    log.error("Navigation failed.");
+                    log.error("The actor will try to continue, some data might be missing. ")
+                } else {
+                    log.info("Playwright sucessfully navigated to the website and scraped the website.")
+                }
+            } else {
+                scrapingFailed = true;
+            } 
+            await scraper.close();
         } catch (e: any) {
-            log.error("Failed to navigate and scrape the website? ");
+            log.error("Unhandled exception during scraping.");
             log.error(e);
-            navigated = false;
+            scrapingFailed = false;
+            output.actorSuccess = false;
+            throw e;
         }
 
 
-        if (navigated) {
+        if (!scrapingFailed) {
             // after the data is loaded and parsed we can search for keywords 
             searchResults = searchData(scrapedData!, normalizedKeywords);
 
@@ -120,14 +120,14 @@ import { createDiff } from './helpers/diff';
                 // TODO: delete other redundant properties from the OUTPUT.json
                 output.scrapedData!.initial!.body = null;
                 output.scrapedData!.DOM!.body = null;
+                output.scrapedData!.xhrParsed = null;
             } catch (e: any) {
                 log.error(e);
             }
         } else {
-            log.error("Failed to navigate to the website using Playwright");
+            log.error("Failed to scrape the website using Playwright. ");
+            output.actorSuccess = false;
         }
-
-
 
         // TODO: create and run the crawler
         // await crawl(input.url, output.keywordConclusions);

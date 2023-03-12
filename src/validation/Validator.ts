@@ -152,8 +152,8 @@ export class Validator {
             for (const sr of xhr.xhrSearchResult.searchResults) {
 
                 const keywordConclusion = conclusion.get(sr.keyword.index);
-                log.debug("request: " + xhr.originalRequestResponse.request.url)
-                log.debug("keyword: " + sr.keyword.original)
+                // log.debug("request: " + xhr.originalRequestResponse.request.url)
+                // log.debug("keyword: " + sr.keyword.original)
 
                 keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
 
@@ -321,7 +321,7 @@ export class Validator {
                 // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
                 // console.log("Analysis text:" + jsonSearchResult.textFound);
 
-                if (validatedSearchResult.textFoundValidation === jsonSearchResult.textFound) {
+                if (validatedSearchResult.textFoundValidationShort === jsonSearchResult.textFound) {
                     validatedSearchResult.isValid = true;
                     validatedSearchResult.source.push(DataOrigin.cheerio);
                 }

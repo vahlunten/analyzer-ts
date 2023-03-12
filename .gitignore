@@ -1,5 +1,6 @@
 node_modules
 dist
 storage/key_value_stores/runs
+storage/key_value_stores/OUTPUT.json
 storage/datasets
 storage/request_queues

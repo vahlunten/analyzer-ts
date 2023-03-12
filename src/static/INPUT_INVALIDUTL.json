@@ -1,0 +1,16 @@
+{
+    "keywords": [
+        "Hello world",
+        "Keyword"
+    ],
+    "proxyConfig": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": [
+            "RESIDENTIAL"
+        ],
+        "apifyProxyCountry": "US"
+    },
+
+
+    "url": "http://www.23asasdfasdfasdfasdf.com"
+}

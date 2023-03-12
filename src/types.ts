@@ -27,14 +27,14 @@ export class ScrapedData {
     responseStatus: number | null = null;
     // parsed initial response from chromium
     initial: ScrapedPage | null = null;
+    // parsed inirial response from cheerioCrawler
+    parsedCheerio: ScrapedPage | null = null;
     // parsed HTML rendered in the browser
     DOM: ScrapedPage | null = null;
     // window object cleared of circular dependencies and parsed
     allWindowProperties: { [key: string]: any } | null = null;
     // search results of keywords found in the window object
     windowFound: SearchResult[] = [];
-    // parsed inirial response from cheerioCrawler
-    parsedCheerio: ScrapedPage | null = null;
     // all intercepted XHR requests parsed
     xhrParsed: ParsedRequestResponse[] | null = null;
     // cookies captured during the browser session 
@@ -43,6 +43,8 @@ export class ScrapedData {
     error: Error | null = null;
     // indicates whether the HTML document was sucessfully scraped and parsed
     scrapingFinished: boolean = false;
+    navigated: boolean = false;
+    initialLoaded: boolean = false;
 
 }
 /**
@@ -204,6 +206,7 @@ export interface ParsedRequestResponse {
     request: ParsedRequest;
     response: ParsedResponse;
     error: null | string;
+    initial: boolean;
 }
 export interface ParsedRequest {
     url: string;
