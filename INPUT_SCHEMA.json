@@ -9,19 +9,19 @@
       "type": "string",
       "description": "Url to a website to by analyzed",
       "editor": "textfield",
-      "prefill": "https://www.scrapethissite.com/pages/ajax-javascript/#2015"
+      "example": "https://www.scrapethissite.com/pages/ajax-javascript/#2015"
     },
     "keywords": {
       "title": "Keywords",
       "type": "array",
       "description": "Keywords to be searched for during analysis",
-      "default": "\"Spotlight\",\"Oscar Winning Films: AJAX and Javascript\",\"https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films\",\"A Girl in the River: The Price of Forgiveness \",\"87 items\"]",
-      "editor": "stringList"
+      "editor": "stringList",
+      "example": ["Spotlight","Oscar Winning Films: AJAX and Javascript", "https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films", "A Girl in the River: The Price of Forgiveness", "87 items"]
     },
     "proxyConfig": {
       "title": "Proxy configuration",
       "type": "object",
-      "description": "You will need to use Apify proxy or custom proxies. Automatic proxy works very well for Google Maps.",
+      "description": "You will need to use Apify proxy or custom proxies.",
       "default": {
         "useApifyProxy": true
       },

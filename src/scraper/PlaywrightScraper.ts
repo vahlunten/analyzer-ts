@@ -228,8 +228,8 @@ export class PlaywrightScraper {
         });
 
         const fingerprint = fingerprintGenerator.getFingerprint();
-        const headers = fingerprint.headers as { [key: string]: string };
-        Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
+        // const headers = fingerprint.headers as { [key: string]: string };
+        // Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
 
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,

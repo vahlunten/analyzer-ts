@@ -7,12 +7,12 @@
         "headers": {
           "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
           "cf-cache-status": "DYNAMIC",
-          "cf-ray": "7a6a8bd82d3d571e-MIA",
+          "cf-ray": "7a7296eb7caab379-PRG",
           "content-encoding": "br",
           "content-type": "text/html; charset=utf-8",
-          "date": "Sun, 12 Mar 2023 08:07:55 GMT",
+          "date": "Mon, 13 Mar 2023 07:33:34 GMT",
           "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
-          "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=XClTyCCl4eO4AaxTIgXWfXZl5uABeqqt5h5gifNl1kQVJKUXzUPhVoahRemgIrEuWeqmRc9Yjwn3l9Jzp%2FqSReQwMh9cxfS26xf%2FzGZC371qs4IMSBVr35an7Zj29RVlOBfyGLQPROcpOO9El6yk0hId%2FylY\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+          "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=nQzQCJiCgaxc1lS64U439niTO231fbDOAy%2BnMw%2FMEEuEMzdJ%2FFDFuMhzvv4oEWvyAZ%2FOCQutoHkY1EZir5iHj4uFSOivG%2F5Kppiv3Tk62rTuQb3o%2BkryG9TTkJQID66PK%2Bk4%2Bar1%2BS0V\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
           "server": "cloudflare",
           "via": "1.1 vegur"
         }
@@ -21,10 +21,19 @@
         "url": "https://www.scrapethissite.com/pages/ajax-javascript/",
         "method": "GET",
         "headers": {
+          ":authority": "www.scrapethissite.com",
+          ":method": "GET",
+          ":path": "/pages/ajax-javascript/",
+          ":scheme": "https",
           "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-encoding": "gzip, deflate, br",
+          "accept-language": "en-US",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "sec-fetch-user": "?1",
           "upgrade-insecure-requests": "1",
-          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
-          "accept-language": "en-US"
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0"
         },
         "body": null
       },
@@ -48,14 +57,14 @@
             "status": 200,
             "headers": {
               ":status": 200,
-              "date": "Sun, 12 Mar 2023 08:08:21 GMT",
+              "date": "Mon, 13 Mar 2023 07:33:44 GMT",
               "content-type": "text/html; charset=utf-8",
               "via": "1.1 vegur",
               "cf-cache-status": "DYNAMIC",
-              "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=f4qabM8iCG9OeRhaax%2FDXL5YDojTa6S%2FRvwTodyPvB8pEj401Lef68K8mFovbuWveME5x4Q0%2F8b2BbNfBIPikFTVcTDwsGtqOk%2FA47fkFF%2BkM2wVxGuLrAfZ08YCaSsqaqomOPlp9wpHXcG%2FduLr0IGkOs86\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+              "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=L9k849Sqcx3LUnq65cmjkEFvCwdi1Eripo%2BSQLkyIDYmOYtgIlcjiigZ3Ed3JDRoKCtXu6REamh2%2FUmWqVETTkKYx9EQxvh7AmYZyh%2FYOc3aBhdT1p8uBflaYWzDiOkkRt1aOJ2oByiF\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
               "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
               "server": "cloudflare",
-              "cf-ray": "7a6a8c7d7e6e2b7c-LAX",
+              "cf-ray": "7a7297277fe7411f-PRG",
               "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
             }
           },
@@ -191,12 +200,12 @@
           "headers": {
             "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
             "cf-cache-status": "DYNAMIC",
-            "cf-ray": "7a6a8bd82d3d571e-MIA",
+            "cf-ray": "7a7296eb7caab379-PRG",
             "content-encoding": "br",
             "content-type": "text/html; charset=utf-8",
-            "date": "Sun, 12 Mar 2023 08:07:55 GMT",
+            "date": "Mon, 13 Mar 2023 07:33:34 GMT",
             "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
-            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=XClTyCCl4eO4AaxTIgXWfXZl5uABeqqt5h5gifNl1kQVJKUXzUPhVoahRemgIrEuWeqmRc9Yjwn3l9Jzp%2FqSReQwMh9cxfS26xf%2FzGZC371qs4IMSBVr35an7Zj29RVlOBfyGLQPROcpOO9El6yk0hId%2FylY\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=nQzQCJiCgaxc1lS64U439niTO231fbDOAy%2BnMw%2FMEEuEMzdJ%2FFDFuMhzvv4oEWvyAZ%2FOCQutoHkY1EZir5iHj4uFSOivG%2F5Kppiv3Tk62rTuQb3o%2BkryG9TTkJQID66PK%2Bk4%2Bar1%2BS0V\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
             "server": "cloudflare",
             "via": "1.1 vegur"
           }
@@ -205,10 +214,19 @@
           "url": "https://www.scrapethissite.com/pages/ajax-javascript/",
           "method": "GET",
           "headers": {
+            ":authority": "www.scrapethissite.com",
+            ":method": "GET",
+            ":path": "/pages/ajax-javascript/",
+            ":scheme": "https",
             "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "en-US",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "none",
+            "sec-fetch-user": "?1",
             "upgrade-insecure-requests": "1",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
-            "accept-language": "en-US"
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0"
           },
           "body": null
         },
@@ -234,14 +252,14 @@
           "status": 200,
           "headers": {
             ":status": 200,
-            "date": "Sun, 12 Mar 2023 08:08:21 GMT",
+            "date": "Mon, 13 Mar 2023 07:33:44 GMT",
             "content-type": "text/html; charset=utf-8",
             "via": "1.1 vegur",
             "cf-cache-status": "DYNAMIC",
-            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=f4qabM8iCG9OeRhaax%2FDXL5YDojTa6S%2FRvwTodyPvB8pEj401Lef68K8mFovbuWveME5x4Q0%2F8b2BbNfBIPikFTVcTDwsGtqOk%2FA47fkFF%2BkM2wVxGuLrAfZ08YCaSsqaqomOPlp9wpHXcG%2FduLr0IGkOs86\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=L9k849Sqcx3LUnq65cmjkEFvCwdi1Eripo%2BSQLkyIDYmOYtgIlcjiigZ3Ed3JDRoKCtXu6REamh2%2FUmWqVETTkKYx9EQxvh7AmYZyh%2FYOc3aBhdT1p8uBflaYWzDiOkkRt1aOJ2oByiF\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
             "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
             "server": "cloudflare",
-            "cf-ray": "7a6a8c7d7e6e2b7c-LAX",
+            "cf-ray": "7a7297277fe7411f-PRG",
             "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
           }
         },
@@ -318,12 +336,12 @@
         "headers": {
           "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
           "cf-cache-status": "DYNAMIC",
-          "cf-ray": "7a6a8c0e3fed571e-MIA",
+          "cf-ray": "7a7296f00a32b379-PRG",
           "content-encoding": "br",
           "content-type": "application/json",
-          "date": "Sun, 12 Mar 2023 08:08:03 GMT",
+          "date": "Mon, 13 Mar 2023 07:33:35 GMT",
           "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
-          "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=lAmKv%2Fenqsd96ZR9ZqEHFSfjG9gYvDLMsuBVSlBxUC9LwcmdtyJfgjjKvYRW1RZCY2%2FXvs68CT8fjynT%2BAwTw33eNPlozKnGFEX8LkebbknKUktgsjZ%2BpBZHBj%2F8WgCwQGr40RIpSbAqAJzLOTfRwSQQGXkJ\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+          "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=9abykAL10M0QpmyEwmXpeSMQdhL8N13Kdu4bu%2BeoDsICyhTz4%2FT7YrWa5aBFhWXyk1mvdgjemFy0uCAIzZ4EgLA5uLsH1iPGxa9i5XnhklYkI1n%2Fnna3Ihz1emI4wmDxbcXR14kzsanO\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
           "server": "cloudflare",
           "via": "1.1 vegur"
         }
@@ -332,10 +350,18 @@
         "url": "https://www.scrapethissite.com/pages/ajax-javascript/?ajax=true&year=2015",
         "method": "GET",
         "headers": {
+          ":authority": "www.scrapethissite.com",
+          ":method": "GET",
+          ":path": "/pages/ajax-javascript/?ajax=true&year=2015",
+          ":scheme": "https",
           "accept": "*/*",
+          "accept-encoding": "gzip, deflate, br",
           "accept-language": "en-US",
           "referer": "https://www.scrapethissite.com/pages/ajax-javascript/",
-          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0",
           "x-requested-with": "XMLHttpRequest"
         },
         "body": null
@@ -362,14 +388,14 @@
             "status": 200,
             "headers": {
               ":status": 200,
-              "date": "Sun, 12 Mar 2023 08:08:24 GMT",
+              "date": "Mon, 13 Mar 2023 07:33:44 GMT",
               "content-type": "application/json",
               "via": "1.1 vegur",
               "cf-cache-status": "DYNAMIC",
-              "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=5c52l1NMtf9bjSQ2oMOGeymNGiR%2BTsSmFB5r03VFUh%2FJZUYk%2FD%2FQNIeNJzU%2Fc9Um%2B%2BtkkbDYh%2FCvkVXf8RKXd364nVml4R6EsHbVQewclzIB55O8wvzaghjcKG9%2Bx3lBk4%2BnReOFHX%2BglnSNIL4077TfVUOo\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+              "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=7gpdns%2B9dlircfYGTuhgiZ78CSlbZoFvjjKYkx1u8VWp3PskzJZ%2B3jfwKgxzgrNcBzIGVSxyoZ3MjH2O9kXSk8tI8HF%2FBcZpogrliFYWvxY8o9Bb90PVBHBZnER%2FifgIE7wsEWjrL9n%2F\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
               "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
               "server": "cloudflare",
-              "cf-ray": "7a6a8c8e9d7c0318-MIA",
+              "cf-ray": "7a72972969c0411f-PRG",
               "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
             }
           },
@@ -468,12 +494,12 @@
           "headers": {
             "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
             "cf-cache-status": "DYNAMIC",
-            "cf-ray": "7a6a8c0e3fed571e-MIA",
+            "cf-ray": "7a7296f00a32b379-PRG",
             "content-encoding": "br",
             "content-type": "application/json",
-            "date": "Sun, 12 Mar 2023 08:08:03 GMT",
+            "date": "Mon, 13 Mar 2023 07:33:35 GMT",
             "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
-            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=lAmKv%2Fenqsd96ZR9ZqEHFSfjG9gYvDLMsuBVSlBxUC9LwcmdtyJfgjjKvYRW1RZCY2%2FXvs68CT8fjynT%2BAwTw33eNPlozKnGFEX8LkebbknKUktgsjZ%2BpBZHBj%2F8WgCwQGr40RIpSbAqAJzLOTfRwSQQGXkJ\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=9abykAL10M0QpmyEwmXpeSMQdhL8N13Kdu4bu%2BeoDsICyhTz4%2FT7YrWa5aBFhWXyk1mvdgjemFy0uCAIzZ4EgLA5uLsH1iPGxa9i5XnhklYkI1n%2Fnna3Ihz1emI4wmDxbcXR14kzsanO\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
             "server": "cloudflare",
             "via": "1.1 vegur"
           }
@@ -482,10 +508,18 @@
           "url": "https://www.scrapethissite.com/pages/ajax-javascript/?ajax=true&year=2015",
           "method": "GET",
           "headers": {
+            ":authority": "www.scrapethissite.com",
+            ":method": "GET",
+            ":path": "/pages/ajax-javascript/?ajax=true&year=2015",
+            ":scheme": "https",
             "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
             "accept-language": "en-US",
             "referer": "https://www.scrapethissite.com/pages/ajax-javascript/",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0",
             "x-requested-with": "XMLHttpRequest"
           },
           "body": null
@@ -493,7 +527,7 @@
         "error": null,
         "initial": false
       },
-      "index": 14
+      "index": 21
     },
     "index": 1,
     "lastCall": {
@@ -514,14 +548,14 @@
           "status": 200,
           "headers": {
             ":status": 200,
-            "date": "Sun, 12 Mar 2023 08:08:24 GMT",
+            "date": "Mon, 13 Mar 2023 07:33:44 GMT",
             "content-type": "application/json",
             "via": "1.1 vegur",
             "cf-cache-status": "DYNAMIC",
-            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=5c52l1NMtf9bjSQ2oMOGeymNGiR%2BTsSmFB5r03VFUh%2FJZUYk%2FD%2FQNIeNJzU%2Fc9Um%2B%2BtkkbDYh%2FCvkVXf8RKXd364nVml4R6EsHbVQewclzIB55O8wvzaghjcKG9%2Bx3lBk4%2BnReOFHX%2BglnSNIL4077TfVUOo\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+            "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=7gpdns%2B9dlircfYGTuhgiZ78CSlbZoFvjjKYkx1u8VWp3PskzJZ%2B3jfwKgxzgrNcBzIGVSxyoZ3MjH2O9kXSk8tI8HF%2FBcZpogrliFYWvxY8o9Bb90PVBHBZnER%2FifgIE7wsEWjrL9n%2F\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
             "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
             "server": "cloudflare",
-            "cf-ray": "7a6a8c8e9d7c0318-MIA",
+            "cf-ray": "7a72972969c0411f-PRG",
             "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
           }
         },

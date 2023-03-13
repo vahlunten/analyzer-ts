@@ -35,12 +35,9 @@ export async function validateAllXHR(xhrSearchResults: XhrSearchResult[], keywor
             // TODO: error handling
             log.error(err);
             log.error(`Failed validation of XHR request: ${""}`);
-
         }
     }
-
     return validatedXhr;
-
 }
 
 async function validateXHRRequest(xhr: XhrSearchResult, keywords: NormalizedKeywordPair[], index: number, proxyUrl: string | undefined = undefined): Promise<XhrValidation> {
@@ -172,11 +169,11 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
         callType: gotCallType
     }
     try {
-        log.debug("Tryign with headers: " + gotCallType.toString())
+        // log.debug("Tryign with headers: " + gotCallType.toString())
         response = (await request) as Response<string>;
         if (response.statusCode == xhr.parsedRequestResponse.response.status) {
             // reponses are the same, we can proceed
-            log.debug("Response with the same status received: " + response.statusCode);
+            // log.debug("Response with the same status received: " + response.statusCode);
 
             if (response.headers["content-type"]?.indexOf("json") != -1) {
                 searchResults = (new JsonSearcher()).searchJson(JSON.parse(response.body), keywords, DataOrigin.xhr);
@@ -196,14 +193,14 @@ async function validateGotCall(xhr: XhrSearchResult, keywords: NormalizedKeyword
 
                 // if the search results of the response body are the same as search results obtained during analysis
                 if (isEqual(searchResults, xhr.searchResults)) {
-                    log.debug("Validated xhr is valid.");
+                    log.info("Validated xhr is valid.");
                     result.isValid = true;
                     result.searchResults.forEach(sr => {
                         sr.source.push(DataOrigin.got);
                     })
 
                 } else {
-                    log.debug("Validated xhr is invalid.")
+                    log.info("Validated xhr is invalid.")
                 }
 
             }
