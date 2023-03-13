@@ -234,7 +234,8 @@ export class PlaywrightScraper {
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,
             locale: fingerprint.fingerprint.navigator.language,
-            viewport: fingerprint.fingerprint.screen
+            viewport: fingerprint.fingerprint.screen,
+            ignoreHTTPSErrors: true
         });
 
         if (generateFingerprint) {
