@@ -5,13 +5,15 @@ import { searchData } from './search/Search';
 import { Validator } from './validation/Validator';
 import { readFileSync } from "fs";
 import { KeyValueStore, log } from '@crawlee/core';
-import { Actor, ProxyConfiguration, ProxyInfo } from 'apify';
+import { Actor, ProxyConfiguration } from 'apify';
 import { ProxyConfiguration as ProxyConfigurationCrawlee } from "crawlee";
 import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, PlaywrightProxyConfiguration, getCrawleeProxyConfiguration } from './helpers/proxy';
 import { createDiff } from './helpers/diff';
-/*
- * Actor's entry point. 
- */
+import { crawlSitemaps } from './crawl/Sitemap';
+import { crawl } from './crawl/Crawler';
+
+
+
 (async () => {
     Actor.init();
     log.setLevel(log.LEVELS.DEBUG);
@@ -124,16 +126,29 @@ import { createDiff } from './helpers/diff';
             } catch (e: any) {
                 log.error(e);
             }
+
+            let urls:string[] = [];
+            try {
+                // TODO: proxyCOnf parameter, headers parameter
+                urls = await crawlSitemaps(new URL("/robots.txt", input.url).href, input.url);
+                log.debug(JSON.stringify(urls));
+
+
+            } catch (e:any) {
+                log.error("Crawling the sitemap failed.")
+                log.error(e);
+            }
+            // try {
+            //     if (urls.length) {
+            //         await crawl(input.url, urls, []);
+            //     }
+            // } catch(e:any) {
+
+            // }
         } else {
             log.error("Failed to scrape the website using Playwright. ");
-            output.actorSuccess = false;
+            output.actorSuccess = false; 
         }
-
-        // TODO: create and run the crawler
-        // await crawl(input.url, output.keywordConclusions);
-
-        // error for testing purposes
-        // throw new Error("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
 
 
     } catch (e: any) {

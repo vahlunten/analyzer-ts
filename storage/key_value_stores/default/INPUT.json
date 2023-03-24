@@ -1,18 +1,16 @@
 {
-   
-    "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
-    "keywords" : [
-        "Spotlight",
-        "Oscar Winning Films: AJAX and Javascript",
-        "https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films",
-        "A Girl in the River: The Price of Forgiveness ",
-        "87 items"
+    "keywords": [
+        "579,90",
+        "1,75 m",
+        " NetSpa MONTANA L ",
+        "Môžete mať dnes od 13:45",
+        "13,33"
     ],
+    "url": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
     "proxyConfig": {
         "useApifyProxy": true,
         "apifyProxyGroups": [
             "RESIDENTIAL"
-        ],
-        "apifyProxyCountry": "US"
+        ]
     }
 }

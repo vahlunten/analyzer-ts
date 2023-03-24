@@ -32,7 +32,7 @@ export class PlaywrightScraper {
         // this.store = store;
 
     }
-    // TODO: JSDoc
+
     /**
      * Open the browser, open new tab, navigate to the page and scrape and parse all the necessary data from the analyzed web page
      * @param generateFingeprint If true, custom fingerprint will be generated. Some values of chromium/playwright fingerprint are overridden by default.  
@@ -117,7 +117,6 @@ export class PlaywrightScraper {
     }
     /**
      * 
-     * @param useApifyProxy If true, actor will try to use Apify proxy.
      * @param generateFingeprint If true, custom fingerprint will be generated. Some values of chromium/playwright fingerprint are overridden by default.  
      * @returns 
      */
@@ -155,6 +154,7 @@ export class PlaywrightScraper {
             try {
                 log.info(`Navigation to ${url}, attempt number: ${i}.`)
                 initialResponse = await page.goto(url);
+                // await page.pause();
                 if (initialResponse) {
                     initialLoaded = true;
                     log.info(`Initial response of ${url}, successfully retrieved.`);
@@ -212,10 +212,7 @@ export class PlaywrightScraper {
 
         const fingerprintGenerator = new FingerprintGenerator({
             browsers: [
-                "chrome",
-                "safari",
-                "firefox",
-                "edge"
+                "chrome"
             ],
             devices: [
                 "desktop"
@@ -228,13 +225,31 @@ export class PlaywrightScraper {
         });
 
         const fingerprint = fingerprintGenerator.getFingerprint();
-        // const headers = fingerprint.headers as { [key: string]: string };
-        // Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
+
+
+        const myHeaders = "{ Host: www.nike.com\
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0\
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\
+        Accept-Language: en-US,en;q=0.5\
+        Accept-Encoding: gzip, deflate, br\
+        Connection: keep-alive\
+        Cookie: geoloc=cc=CZ,rc=,tp=vhigh,tz=GMT+1,la=50.08,lo=14.47; AnalysisUserId=23.212.110.38.232751678891750749; AMCV_F0935E09512D2C270A490D4D%40AdobeOrg=1994364360%7CMCMID%7C48700746154929839239221523371047308448%7CMCAID%7CNONE%7CvVersion%7C3.4.0; _abck=BCA5992F21126A1632298863AD6D4D60~-1~YAAQt27UF/OjCeWGAQAARRGr8QngAbmlmO9b4cNVDU3gL9pWuFKXU6X0e2BA8tsLnnyRv4Py/bTQFYGgqQkEve4XXCnmtdi/HgwPwVwEbPc6VeY6Og5MRw4J6yDYOBvjZi4QNidMcVMQruy0tn2PK5mGkHd5PS67ic0ESFH0eTC7Z9ZL8MkklEfxBkT4ru4KRqAEmdM0YzRvhZrH2Tc3IFL0EGEBOqZdmfILrPMO5Uf0lODebWh5rWCgagojvK47ctlLxmkXtsrib7nwIlOOVUwtRDMdr+CUazvDpUqXrkMJ9SkSCdr7y2EF9B1A8PHaNgfQdjAN2yf/v9FFD4omv7TM0mYoK8m0cSbbGmICjU4atVoEZNYEP/Q1tcq+2ZP9a6TUzVuo8CxEep0e7Nh5a3MF2l5Xl4+M+ZO+ModoJTs9dn4/L5l4MZFOvrZNy5kwVODw8e+ExI12SkDZfz7+/KOFfyeEKWcotzPR7hf2Ed8nCsRCLvKrGT6yrzQ09HdvjcmOheojaeOupqZSeqZfDWdeiNS8KGh2~-1~-1~-1; forterToken=3a9f8d791f774825906513eca72c7d07_1679091751842_798_UDF9_13ck; CONSUMERCHOICE=cz/cs_cz; NIKE_COMMERCE_COUNTRY=CZ; NIKE_COMMERCE_LANG_LOCALE=cs_CZ; anonymousId=980C27645E7E086BB6A4CF2A537BA6ED; ppd=upcoming|snkrs>upcoming; ni_c=PERF=0|1PA=0|BEAD=0; ak_bmsc=4468208F74B05EFC9C5F48430CE52209~000000000000000000000000000000~YAAQBG7UF/d3EuaGAQAApSSM8RNlYtpT3r+/fVlkk3p4LtKxXisuOJlBox+jUUFIJp3Qv5KSN+BP9+cL9hTh5n5W6gl9Rl0NOLS9P+2LHIt0sjgtvy+dI74Vl8DU73fYUBML9HeRmNbSf8WmPcRXyrLmmfFhtz7UQm9ciZQT/T/la7GBOdM4CQl2f8xVxMOcTaSL/TLu7bCY+yDB+iiaWLib9mFcHEpkQ5mYfF29QmsbhczjkKHu6OgJWEW2424SxojFX4JOB5LhjcGNQ9vLLcbKuaOHTzRT1QuWLUBlmRAeI9wKAnJ6Tht8udWu/aa9xBoFLZnOpVD+hjlOG2PoMsYwGNo73nj8D/7pp+LAOkmk57aWPcYoDVaEBA2rc2/BgNTYG9shxKE=; AKA_A2=A; bm_sz=B653B30E74EBE0F9A665D95149EA1613~YAAQPG7UF66cAueGAQAA5dqq8RM/X0TPQo3NSlEJ2+f+QNmPwusR4Ot+emAr1cB5oaltlZvbXmenKjx0lxOX40rU7ml6VIizqdL4T4/CVdARQrNN8rB3Aef/OvhQBuxaVMjCgrSJydvQ977Sm0TB7b7yMef2N5Wk8+RJLvB9wqBtO0zjeIhuqbyllCKh5peChVF2iYpmH2ltDpCZFsm3Bfody8MxEx0SdAY28vqaNr50nHWi8NuLdMrvtX8yWbJ1w+0M/1/+K+XIfkyjni04PJtnzjKKgQY4WnSXOeDPAMHONSkrGsgBTi9K9qeKeq1DzvkFnQyo5AxMISG5P6TqdHhtqsuwKpYZFQgljkF1uXnRy2aRcsNBdEsjWCna7nvM8O4i+1o4R0YjF1SPWaOJ0vzI6LNb+2TejnTYW/WNHIQabWNap3eCr7IajA==~4535603~3491376; audience_segmentation_performed=true; bm_mi=B08CA4D8BB2217179D90119A59403C79~YAAQPG7UF6ycAueGAQAA5dqq8RNrTKzmUQpX4mU5id9IrIIwFaq81s0NO/OfdN+GBAcpUBlZVjKMJLdxdW5wA33+K2JKeGYYzgrIloyW8ktEmyNF1DmwSUWTCKoeqsSQ/f5MTr9h1NMDKdm9R0fc7u2Uvg798/TWGFv2p/DHgkhCSeiQipW2DvubMWlQ3wA3p2plMzXl3kYbA8Pey4kgLPZEkQX0rGwqSuMYky7hfGboWeVUoNj47/VZoQyErCbNQ+GzjUmxKJycwNv7YPyXhj9nzxjVKwrljtrUS8gP0ITdctwY/CPM58DibpNswEI8s52eeM8=~1; bm_sv=D8DF0402A0FB2171B839628A8898F11A~YAAQt27UF/SjCeWGAQAARRGr8ROat0IjQMnT7sGr6wMSenychotHg/oNKMf4cZJ/trxswzNt3FqT2kqO7yfighFSn3f0+uYOehGjWFewetyaU9lpjH026AqQ9wQEmkpzAlYL6oY7XbnZ0cf/2D/yxlMN/YUqnDTYlVcTK6GJLGmgmY0m5MfeqJaf5nmE0hVbOxq/S3sqttJtVlAo1UgiQ9oAi7vc2Lz+hPynXbdZHBak78sRuG4I/svhDoSpPSE=~1; sq=0\
+        Upgrade-Insecure-Requests: 1\
+        Sec-Fetch-Dest: document\
+        Sec-Fetch-Mode: navigate\
+        Sec-Fetch-Site: none\
+        Sec-Fetch-User: ?1\
+        TE: trailers";
+
+
+
+        const headers = fingerprint.headers as { [key: string]: string };
+        Object.keys(headers).forEach(h => { console.log(`Header: ${h}, value: ${headers[h]}`) });
 
         const context = await browser.newContext({
             userAgent: fingerprint.fingerprint.navigator.userAgent,
             locale: fingerprint.fingerprint.navigator.language,
-            viewport: fingerprint.fingerprint.screen,
+            viewport:{width: 2560, height: 1440} ,
             ignoreHTTPSErrors: true
         });
 
@@ -267,7 +282,7 @@ export class PlaywrightScraper {
         });
     }
 
-    interceptRequests(route: Route, request: Request, saveBandwith: boolean) {
+    interceptRequests(route: Route, request: Request, saveBandwith: boolean = false) {
         const IGNORED_EXTENSIONS = [".css", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
 
         if (saveBandwith) {
@@ -288,10 +303,8 @@ export class PlaywrightScraper {
         // log.debug(request.url());
         if (request.url() === initialUrl) {
             log.debug("On initial request.");
-
+            log.debug(JSON.stringify(request.headers()));
         }
-
-        // log.debug(request.postData());
     }
 
     async onResponse(xhrParsed: ParsedRequestResponse[], response: Response, url: string) {
@@ -307,34 +320,6 @@ export class PlaywrightScraper {
         }
 
     }
-
-    // async getContent(page: Page) {
-    //     const domContent = await page.content();
-    //     this.scrapedData.cookies = await page.context().cookies();
-    //     this.scrapedData.DOM = parseHtml(domContent);
-
-    //     // save the rendered HTML document
-    //     await KeyValueStore.setValue("rendered", prettyPrint(domContent, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
-    //     // await this.store.setValue("rendered", prettyPrint(domContent!, { indent_size: 3 }), { contentType: 'text/html; charset=utf-8' });
-
-    //     // screenshot wll be displayed in the actor's UI on Apify platform. 
-    //     // it's good for quick visual check, whether the analysis was sucessful
-    //     // often, we can get blocked by for example cloudflare bot protection
-    //     // it is easy for a human to visually tell, wether the page was navigated sucessfully
-    //     const screenshot = await page.screenshot();
-    //     await KeyValueStore.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
-    //     // await this.store.setValue("screenshot", screenshot, { contentType: 'image/jpeg' });
-
-
-    //     // this will execute javascript **in the browser** and parse window properties
-    //     const windowObject = await scrapeWindowProperties(page);
-    //     this.scrapedData.allWindowProperties = windowObject;
-
-    //     // await page.pause();
-    //     this.scrapedData.scrapingFinished = true;
-    // }
-
-
 
 }
 

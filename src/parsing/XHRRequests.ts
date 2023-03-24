@@ -10,7 +10,7 @@ export async function parseResponse(response: Response, initialUrl: string): Pro
     // Redirects will throw "No resource with given identifier found" exception - not true
     // Options requests? 
     try {
-        responseBody = (await response.text()).toString();
+        responseBody = (await response?.text()).toString();
     } catch (err: any) {
         log.debug(err.message);
     }

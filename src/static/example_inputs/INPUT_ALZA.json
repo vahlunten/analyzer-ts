@@ -1,6 +1,7 @@
 {
     "keywords": [
-        "587,90 €",
+        "579,90",
+        "1,75 m",
         " NetSpa MONTANA L ",
         "Môžete mať dnes od 13:45",
         "13,33"
@@ -10,7 +11,6 @@
         "useApifyProxy": true,
         "apifyProxyGroups": [
             "RESIDENTIAL"
-        ],
-        "apifyProxyCountry": "CZ"
+        ]
     }
 }
