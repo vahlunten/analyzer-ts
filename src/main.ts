@@ -13,11 +13,9 @@ import { crawlSitemaps } from './crawl/Sitemap';
 import { crawl } from './crawl/Crawler';
 
 
-
-(async () => {
+export async function analyze(storageDir: string = ""): Promise<void> {
     Actor.init();
     log.setLevel(log.LEVELS.DEBUG);
-
     let input: Input;
     const output = new Output();
     output.analysisStarted = getCurrentDate();
@@ -85,7 +83,7 @@ import { crawl } from './crawl/Crawler';
                 }
             } else {
                 scrapingFailed = true;
-            } 
+            }
             await scraper.close();
         } catch (e: any) {
             log.error("Unhandled exception during scraping.");
@@ -127,17 +125,20 @@ import { crawl } from './crawl/Crawler';
                 log.error(e);
             }
 
-            let urls:string[] = [];
-            try {
-                // TODO: proxyCOnf parameter, headers parameter
-                urls = await crawlSitemaps(new URL("/robots.txt", input.url).href, input.url);
-                log.debug(JSON.stringify(urls));
+            // let urls:string[] = [];
+            // try {
+            //     // TODO: proxyCOnf parameter, headers parameter
+            //     urls = await crawlSitemaps(new URL("/robots.txt", input.url).href, input.url);
+            //     log.debug(JSON.stringify(urls));
 
 
-            } catch (e:any) {
-                log.error("Crawling the sitemap failed.")
-                log.error(e);
-            }
+            // } catch (e:any) {
+            //     log.error("Crawling the sitemap failed.")
+            //     log.error(e);
+            // }
+
+
+
             // try {
             //     if (urls.length) {
             //         await crawl(input.url, urls, []);
@@ -147,7 +148,7 @@ import { crawl } from './crawl/Crawler';
             // }
         } else {
             log.error("Failed to scrape the website using Playwright. ");
-            output.actorSuccess = false; 
+            output.actorSuccess = false;
         }
 
 
@@ -171,4 +172,8 @@ import { crawl } from './crawl/Crawler';
     }
 
     Actor.exit({ exitCode: output.actorSuccess ? 0 : 1 });
+}
+
+(async () => {
+   await analyze("../storage/key_value_stores/");    
 })();

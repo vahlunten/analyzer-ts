@@ -1,5 +1,6 @@
 import { log } from "crawlee";
 import { crawlSitemaps } from "../src/crawl/Sitemap";
+import { analyze } from "../src/main";
 
 jest.setTimeout(500000);
 log.setLevel(log.LEVELS.DEBUG);
@@ -12,6 +13,10 @@ test('Should return sensible urls to', async () => {
     //     // console.log(url);
 
     // }
+});
+
+test("should analyze alza", async () =>  {
+    await analyze();
 });
 
 // import { JsonSearcher } from "../src/search/JsonSearch";

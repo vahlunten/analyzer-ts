@@ -7,6 +7,7 @@ import { CheerioCrawler, createCheerioRouter } from "crawlee";
 import { ProxyConfiguration } from "apify";
 import { Actor } from "apify";
 import cheerio from "cheerio";
+import { normalizeString } from "../helpers/normalize";
 // import {  } from "@frontend/scripts";
 
 
@@ -283,8 +284,8 @@ export class Validator {
                 // }
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
-                validatedSearchResult.score = textFound == searchResult.textFound ? searchResult.score : searchResult.score + 10000;
-                if (textFound === searchResult.textFound) {
+                validatedSearchResult.score = normalizeString(textFound) == normalizeString(searchResult.textFound) ? searchResult.score : searchResult.score + 10000;
+                if (normalizeString(textFound) === normalizeString(searchResult.textFound)) {
                     validatedSearchResult.isValid = true;
                     validatedSearchResult.source.push(DataOrigin.cheerio);
                 }
