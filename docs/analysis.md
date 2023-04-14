@@ -1,4 +1,4 @@
-## Files saved into the key-value store
+# Files saved into the key-value store
 Actor also saves some additional files with futher information, useful mainly for developers. 
 1. __OUTPUT.json__: Most of the analysis results are stored in this file.
 2. __DASHBOARD.html__. Visual interface for displaying the analysis results.
@@ -9,7 +9,7 @@ Actor also saves some additional files with futher information, useful mainly fo
 7. __screenshot.jpeg__. Screenshot of a loaded website. 
 8. __xhrValidation.json__. Additional details about XHR validation. 
 
-### The analysis steps: 
+# The analysis steps: 
 1. Analyzer opens the chromium browser and navigates to the website.
 2. It searches the initial response of a website and fully rendered DOM.
 3. XHR requests are intercepted and searched for the keywords as well.
@@ -17,5 +17,5 @@ Actor also saves some additional files with futher information, useful mainly fo
 5. XHR request containing the keywords are then replicated using __got-scraping__ library with different sets of headers. 
 
 
-## Planned features
-* Generating a web scraper code
+# Planned features
+* Generating a web scraper code or page function to be used with the generic APify crawlers
