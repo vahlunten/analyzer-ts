@@ -2,289 +2,6 @@
   {
     "originalRequestResponse": {
       "response": {
-        "body": "{\"d\":{\"Value\":\"<div class=\\\"commodityAvailabilityBlock avlVal avl0 none\\\" id=\\\"av5347102\\\">\\n<div class=\\\"commodity-availability__row\\\">\\n<div class=\\\"commodityAvailabilityText avl\\\">\\nMôžete mať dnes od 17:45\\n</div>\\n</div>\\n<div class=\\\"availabilityTextBlock\\\">\\n<div class=\\\"lblAvailabilityTextInfo showDialog\\\">\\nPredajne a termíny dodania\\n</div>\\n<div class=\\\"lblAvailabilityTextInfo\\\">\\n| Na sklade > 5 ks\\n</div>\\n</div>\\n<div class=\\\"suggestedCommodityAvailabilitiesContainer\\\">\\n<div class=\\\"commodityAvailabilityOrder\\\">\\n<span class=\\\"commodityAvailabilityOrderTitle\\\">Najobľúbenejšie možnosti doručenia v okolí</span>\\n<span class=\\\"commodityAvailabilityOrderInfo\\\">Praha 5 Hlubočepy, 154 00</span>\\n<a class=\\\"changeCommodityAvailabilityOrder\\\" href=\\\"javascript:void(0)\\\">zmeniť</a>\\n</div>\\n<span class=\\\"commodityAvailabilityVariant\\\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\\n<span class=\\\"commodityAvailabilityVariant\\\">Doručenie až domov <b>zajtra</b></span>\\n<span class=\\\"commodityAvailabilityVariantMore\\\">Ďalšie možnosti a termíny</span>\\n</div>\\n</div>\",\"DevErrorMessage\":null,\"Message\":null,\"ErrorLevel\":0}}",
-        "status": 200,
-        "headers": {
-          "access-control-allow-credentials": "true",
-          "access-control-allow-origin": "https://www.alza.sk",
-          "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
-          "cf-cache-status": "DYNAMIC",
-          "cf-ray": "7b945d7e3b6fb348-PRG",
-          "content-encoding": "br",
-          "content-security-policy": "frame-ancestors 'self';",
-          "content-type": "application/json; charset=utf-8",
-          "date": "Mon, 17 Apr 2023 11:35:32 GMT",
-          "nonstatic": "1",
-          "permissions-policy": "autoplay=(), camera=(), microphone=(), geolocation=(self)",
-          "pragma": "no-cache",
-          "referrer-policy": "strict-origin-when-cross-origin",
-          "server": "cloudflare",
-          "set-cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; expires=Mon, 17-Apr-23 13:35:32 GMT; max-age=7200; httponly; path=/",
-          "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-          "vary": "Accept-Encoding",
-          "x-content-type-options": "nosniff",
-          "x-frame-options": "SAMEORIGIN"
-        }
-      },
-      "request": {
-        "url": "https://www.alza.sk/Services/EShopService.svc/GetCommodityAvailabilityControl",
-        "method": "POST",
-        "headers": {
-          ":authority": "www.alza.sk",
-          ":method": "POST",
-          ":path": "/Services/EShopService.svc/GetCommodityAvailabilityControl",
-          ":scheme": "https",
-          "accept": "application/json, text/javascript, */*; q=0.01",
-          "accept-encoding": "gzip, deflate, br",
-          "accept-language": "en-US",
-          "cache-control": "no-cache",
-          "content-length": "23",
-          "content-type": "application/json; charset=UTF-8",
-          "cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; VZTX=7066754538; VST=38715bed-13dd-ed11-ba66-0c42a19546bd; CriticalCSS=12408742; __cf_bm=n7k3aPZ0EZNvq.oQdB2kdGq6Q6GhEOcFpdOhFEH5nc0-1681731327-0-AbfaEQnasAYtyzQ7JBw3oJb209K1DkufVl9cMnA54j3xvPAb1Sloz3y5aZx3tYtwsCuoSWH2k5w+KPtbwfZ+x7c=; .AspNetCore.Culture=c%3Dsk-SK%7Cuic%3Dsk-SK; __ssds=2; __ssuzjsr2=a9be0cd8e; __uzmaj2=1f3ddd31-9292-4d21-9d24-85e36a258668; __uzmbj2=1681731329; __uzmcj2=573751026519; __uzmdj2=1681731329",
-          "origin": "https://www.alza.sk",
-          "referer": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-origin",
-          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-          "x-requested-with": "XMLHttpRequest"
-        },
-        "body": "{\"commodityId\":5347102}"
-      },
-      "error": null,
-      "initial": false
-    },
-    "callsMinimalHeaders": [
-      {
-        "callSuccess": true,
-        "isValid": true,
-        "keywordsFound": [],
-        "parsedRequestResponse": {
-          "request": {
-            "body": "{\"commodityId\":5347102}",
-            "headers": {
-              "referer": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
-              "content-type": "application/json; charset=UTF-8"
-            },
-            "method": "POST",
-            "url": "https://www.alza.sk/Services/EShopService.svc/GetCommodityAvailabilityControl"
-          },
-          "response": {
-            "body": "{ \"d\": { \"Value\": \"\n<div class=\\\n\"commodityAvailabilityBlock avlVal avl0 none\\\" id=\\ \"av5347102\\\">\\n\n   <div class=\\ \"commodity-availability__row\\\">\\n\n      <div class=\\ \"commodityAvailabilityText avl\\\">\\nMôžete mať dnes od 17:45\\n</div>\\n</div>\\n\n   <div class=\\\n   \"availabilityTextBlock\\\">\\n\n      <div class=\\ \"lblAvailabilityTextInfo showDialog\\\">\\nPredajne a termíny dodania\\n</div>\\n\n      <div class=\\\n      \"lblAvailabilityTextInfo\\\">\\n| Na sklade > 5 ks\\n</div>\\n</div>\\n\n   <div class=\\\n   \"suggestedCommodityAvailabilitiesContainer\\\">\\n\n      <div class=\\ \"commodityAvailabilityOrder\\\">\\n<span class=\\ \"commodityAvailabilityOrderTitle\\\">Najobľúbenejšie možnosti doručenia v okolí</span>\\n\n         <span\n         class=\\ \"commodityAvailabilityOrderInfo\\\">Praha 5 Hlubočepy, 154 00</span>\\n<a class=\\\n            \"changeCommodityAvailabilityOrder\\\" href=\\ \"javascript:void(0)\\\">zmeniť</a>\\n</div>\\n<span class=\\\n      \"commodityAvailabilityVariant\\\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\\n<span class=\\\n      \"commodityAvailabilityVariant\\\">Doručenie až domov <b>zajtra</b></span>\\n<span class=\\\n      \"commodityAvailabilityVariantMore\\\">Ďalšie možnosti a termíny</span>\\n</div>\\n</div>\", \"DevErrorMessage\":\nnull, \"Message\": null, \"ErrorLevel\": 0 } }",
-            "status": 200,
-            "headers": {
-              ":status": 200,
-              "date": "Mon, 17 Apr 2023 11:36:39 GMT",
-              "content-type": "application/json; charset=utf-8",
-              "vary": "Accept-Encoding",
-              "set-cookie": [
-                "lb_id=62c54702733941fc5bb36ac789c39b28; expires=Mon, 17-Apr-23 13:36:39 GMT; max-age=7200; httponly; path=/",
-                "VZTX=0; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "VST=00000000-0000-0000-0000-000000000000; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "VZTX=7066758842; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "VST=3632251d-14dd-ed11-ba66-0c42a19546bd; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "__cf_bm=trXpgH7FVmzykDgg6Wz8EZZu9L.ZZ69fYLZRXVUalXU-1681731399-0-AUuceXGHjUtckpMsCfDHK7DXxUu5lQAqipQqrJ5swcu9gym/caXv4UBTX5ZGboLpDw6wGUwwLOuKnJkFwZ65TUA=; path=/; expires=Mon, 17-Apr-23 12:06:39 GMT; domain=.alza.sk; HttpOnly; Secure; SameSite=None"
-              ],
-              "pragma": "no-cache",
-              "access-control-allow-origin": "https://www.alza.sk",
-              "access-control-allow-credentials": "true",
-              "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-              "x-content-type-options": "nosniff",
-              "permissions-policy": "autoplay=(), camera=(), microphone=(), geolocation=(self)",
-              "referrer-policy": "strict-origin-when-cross-origin",
-              "content-security-policy": "frame-ancestors 'self';",
-              "x-frame-options": "SAMEORIGIN",
-              "nonstatic": "1",
-              "cf-cache-status": "DYNAMIC",
-              "server": "cloudflare",
-              "cf-ray": "7b945f1cde3bb351-PRG",
-              "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
-            }
-          },
-          "error": null,
-          "initial": false
-        },
-        "searchResults": [
-          {
-            "path": "d.Value",
-            "pathShort": "d.Value",
-            "keyword": {
-              "original": "Môžete mať dnes od 17:45",
-              "normalized": "môžetemaťdnesod17:45",
-              "index": 3
-            },
-            "textFound": "<div class=\"commodityAvailabilityBlock avlVal avl0 none\" id=\"av5347102\">\n<div class=\"commodity-availability__row\">\n<div class=\"commodityAvailabilityText avl\">\nMôžete mať dnes od 17:45\n</div>\n</div>\n<div class=\"availabilityTextBlock\">\n<div class=\"lblAvailabilityTextInfo showDialog\">\nPredajne a termíny dodania\n</div>\n<div class=\"lblAvailabilityTextInfo\">\n| Na sklade > 5 ks\n</div>\n</div>\n<div class=\"suggestedCommodityAvailabilitiesContainer\">\n<div class=\"commodityAvailabilityOrder\">\n<span class=\"commodityAvailabilityOrderTitle\">Najobľúbenejšie možnosti doručenia v okolí</span>\n<span class=\"commodityAvailabilityOrderInfo\">Praha 5 Hlubočepy, 154 00</span>\n<a class=\"changeCommodityAvailabilityOrder\" href=\"javascript:void(0)\">zmeniť</a>\n</div>\n<span class=\"commodityAvailabilityVariant\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\n<span class=\"commodityAvailabilityVariant\">Doručenie až domov <b>zajtra</b></span>\n<span class=\"commodityAvailabilityVariantMore\">Ďalšie možnosti a termíny</span>\n</div>\n</div>",
-            "textFoundLong": "",
-            "source": [
-              "xhr",
-              "got"
-            ],
-            "score": 0,
-            "textFoundValidation": null,
-            "textFoundValidationShort": "",
-            "isValid": false
-          }
-        ],
-        "callType": "minimalHeaders"
-      }
-    ],
-    "callsWithOriginalHeaders": [],
-    "callWithCookies": [],
-    "validationSuccess": true,
-    "xhrSearchResult": {
-      "searchResults": [
-        {
-          "path": "d.Value",
-          "pathShort": "d.Value",
-          "keyword": {
-            "original": "Môžete mať dnes od 17:45",
-            "normalized": "môžetemaťdnesod17:45",
-            "index": 3
-          },
-          "textFound": "<div class=\"commodityAvailabilityBlock avlVal avl0 none\" id=\"av5347102\">\n<div class=\"commodity-availability__row\">\n<div class=\"commodityAvailabilityText avl\">\nMôžete mať dnes od 17:45\n</div>\n</div>\n<div class=\"availabilityTextBlock\">\n<div class=\"lblAvailabilityTextInfo showDialog\">\nPredajne a termíny dodania\n</div>\n<div class=\"lblAvailabilityTextInfo\">\n| Na sklade > 5 ks\n</div>\n</div>\n<div class=\"suggestedCommodityAvailabilitiesContainer\">\n<div class=\"commodityAvailabilityOrder\">\n<span class=\"commodityAvailabilityOrderTitle\">Najobľúbenejšie možnosti doručenia v okolí</span>\n<span class=\"commodityAvailabilityOrderInfo\">Praha 5 Hlubočepy, 154 00</span>\n<a class=\"changeCommodityAvailabilityOrder\" href=\"javascript:void(0)\">zmeniť</a>\n</div>\n<span class=\"commodityAvailabilityVariant\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\n<span class=\"commodityAvailabilityVariant\">Doručenie až domov <b>zajtra</b></span>\n<span class=\"commodityAvailabilityVariantMore\">Ďalšie možnosti a termíny</span>\n</div>\n</div>",
-          "textFoundLong": "",
-          "source": [
-            "xhr"
-          ],
-          "score": 0,
-          "textFoundValidation": null,
-          "textFoundValidationShort": "",
-          "isValid": false
-        }
-      ],
-      "parsedRequestResponse": {
-        "response": {
-          "body": "{\"d\":{\"Value\":\"<div class=\\\"commodityAvailabilityBlock avlVal avl0 none\\\" id=\\\"av5347102\\\">\\n<div class=\\\"commodity-availability__row\\\">\\n<div class=\\\"commodityAvailabilityText avl\\\">\\nMôžete mať dnes od 17:45\\n</div>\\n</div>\\n<div class=\\\"availabilityTextBlock\\\">\\n<div class=\\\"lblAvailabilityTextInfo showDialog\\\">\\nPredajne a termíny dodania\\n</div>\\n<div class=\\\"lblAvailabilityTextInfo\\\">\\n| Na sklade > 5 ks\\n</div>\\n</div>\\n<div class=\\\"suggestedCommodityAvailabilitiesContainer\\\">\\n<div class=\\\"commodityAvailabilityOrder\\\">\\n<span class=\\\"commodityAvailabilityOrderTitle\\\">Najobľúbenejšie možnosti doručenia v okolí</span>\\n<span class=\\\"commodityAvailabilityOrderInfo\\\">Praha 5 Hlubočepy, 154 00</span>\\n<a class=\\\"changeCommodityAvailabilityOrder\\\" href=\\\"javascript:void(0)\\\">zmeniť</a>\\n</div>\\n<span class=\\\"commodityAvailabilityVariant\\\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\\n<span class=\\\"commodityAvailabilityVariant\\\">Doručenie až domov <b>zajtra</b></span>\\n<span class=\\\"commodityAvailabilityVariantMore\\\">Ďalšie možnosti a termíny</span>\\n</div>\\n</div>\",\"DevErrorMessage\":null,\"Message\":null,\"ErrorLevel\":0}}",
-          "status": 200,
-          "headers": {
-            "access-control-allow-credentials": "true",
-            "access-control-allow-origin": "https://www.alza.sk",
-            "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
-            "cf-cache-status": "DYNAMIC",
-            "cf-ray": "7b945d7e3b6fb348-PRG",
-            "content-encoding": "br",
-            "content-security-policy": "frame-ancestors 'self';",
-            "content-type": "application/json; charset=utf-8",
-            "date": "Mon, 17 Apr 2023 11:35:32 GMT",
-            "nonstatic": "1",
-            "permissions-policy": "autoplay=(), camera=(), microphone=(), geolocation=(self)",
-            "pragma": "no-cache",
-            "referrer-policy": "strict-origin-when-cross-origin",
-            "server": "cloudflare",
-            "set-cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; expires=Mon, 17-Apr-23 13:35:32 GMT; max-age=7200; httponly; path=/",
-            "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-            "vary": "Accept-Encoding",
-            "x-content-type-options": "nosniff",
-            "x-frame-options": "SAMEORIGIN"
-          }
-        },
-        "request": {
-          "url": "https://www.alza.sk/Services/EShopService.svc/GetCommodityAvailabilityControl",
-          "method": "POST",
-          "headers": {
-            ":authority": "www.alza.sk",
-            ":method": "POST",
-            ":path": "/Services/EShopService.svc/GetCommodityAvailabilityControl",
-            ":scheme": "https",
-            "accept": "application/json, text/javascript, */*; q=0.01",
-            "accept-encoding": "gzip, deflate, br",
-            "accept-language": "en-US",
-            "cache-control": "no-cache",
-            "content-length": "23",
-            "content-type": "application/json; charset=UTF-8",
-            "cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; VZTX=7066754538; VST=38715bed-13dd-ed11-ba66-0c42a19546bd; CriticalCSS=12408742; __cf_bm=n7k3aPZ0EZNvq.oQdB2kdGq6Q6GhEOcFpdOhFEH5nc0-1681731327-0-AbfaEQnasAYtyzQ7JBw3oJb209K1DkufVl9cMnA54j3xvPAb1Sloz3y5aZx3tYtwsCuoSWH2k5w+KPtbwfZ+x7c=; .AspNetCore.Culture=c%3Dsk-SK%7Cuic%3Dsk-SK; __ssds=2; __ssuzjsr2=a9be0cd8e; __uzmaj2=1f3ddd31-9292-4d21-9d24-85e36a258668; __uzmbj2=1681731329; __uzmcj2=573751026519; __uzmdj2=1681731329",
-            "origin": "https://www.alza.sk",
-            "referer": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-            "x-requested-with": "XMLHttpRequest"
-          },
-          "body": "{\"commodityId\":5347102}"
-        },
-        "error": null,
-        "initial": false
-      },
-      "index": 92
-    },
-    "index": 0,
-    "lastCall": {
-      "callSuccess": true,
-      "isValid": true,
-      "keywordsFound": [],
-      "parsedRequestResponse": {
-        "request": {
-          "body": "{\"commodityId\":5347102}",
-          "headers": {
-            "referer": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
-            "content-type": "application/json; charset=UTF-8"
-          },
-          "method": "POST",
-          "url": "https://www.alza.sk/Services/EShopService.svc/GetCommodityAvailabilityControl"
-        },
-        "response": {
-          "body": "{ \"d\": { \"Value\": \"\n<div class=\\\n\"commodityAvailabilityBlock avlVal avl0 none\\\" id=\\ \"av5347102\\\">\\n\n   <div class=\\ \"commodity-availability__row\\\">\\n\n      <div class=\\ \"commodityAvailabilityText avl\\\">\\nMôžete mať dnes od 17:45\\n</div>\\n</div>\\n\n   <div class=\\\n   \"availabilityTextBlock\\\">\\n\n      <div class=\\ \"lblAvailabilityTextInfo showDialog\\\">\\nPredajne a termíny dodania\\n</div>\\n\n      <div class=\\\n      \"lblAvailabilityTextInfo\\\">\\n| Na sklade > 5 ks\\n</div>\\n</div>\\n\n   <div class=\\\n   \"suggestedCommodityAvailabilitiesContainer\\\">\\n\n      <div class=\\ \"commodityAvailabilityOrder\\\">\\n<span class=\\ \"commodityAvailabilityOrderTitle\\\">Najobľúbenejšie možnosti doručenia v okolí</span>\\n\n         <span\n         class=\\ \"commodityAvailabilityOrderInfo\\\">Praha 5 Hlubočepy, 154 00</span>\\n<a class=\\\n            \"changeCommodityAvailabilityOrder\\\" href=\\ \"javascript:void(0)\\\">zmeniť</a>\\n</div>\\n<span class=\\\n      \"commodityAvailabilityVariant\\\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\\n<span class=\\\n      \"commodityAvailabilityVariant\\\">Doručenie až domov <b>zajtra</b></span>\\n<span class=\\\n      \"commodityAvailabilityVariantMore\\\">Ďalšie možnosti a termíny</span>\\n</div>\\n</div>\", \"DevErrorMessage\":\nnull, \"Message\": null, \"ErrorLevel\": 0 } }",
-          "status": 200,
-          "headers": {
-            ":status": 200,
-            "date": "Mon, 17 Apr 2023 11:36:39 GMT",
-            "content-type": "application/json; charset=utf-8",
-            "vary": "Accept-Encoding",
-            "set-cookie": [
-              "lb_id=62c54702733941fc5bb36ac789c39b28; expires=Mon, 17-Apr-23 13:36:39 GMT; max-age=7200; httponly; path=/",
-              "VZTX=0; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "VST=00000000-0000-0000-0000-000000000000; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "VZTX=7066758842; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "VST=3632251d-14dd-ed11-ba66-0c42a19546bd; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "__cf_bm=trXpgH7FVmzykDgg6Wz8EZZu9L.ZZ69fYLZRXVUalXU-1681731399-0-AUuceXGHjUtckpMsCfDHK7DXxUu5lQAqipQqrJ5swcu9gym/caXv4UBTX5ZGboLpDw6wGUwwLOuKnJkFwZ65TUA=; path=/; expires=Mon, 17-Apr-23 12:06:39 GMT; domain=.alza.sk; HttpOnly; Secure; SameSite=None"
-            ],
-            "pragma": "no-cache",
-            "access-control-allow-origin": "https://www.alza.sk",
-            "access-control-allow-credentials": "true",
-            "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-            "x-content-type-options": "nosniff",
-            "permissions-policy": "autoplay=(), camera=(), microphone=(), geolocation=(self)",
-            "referrer-policy": "strict-origin-when-cross-origin",
-            "content-security-policy": "frame-ancestors 'self';",
-            "x-frame-options": "SAMEORIGIN",
-            "nonstatic": "1",
-            "cf-cache-status": "DYNAMIC",
-            "server": "cloudflare",
-            "cf-ray": "7b945f1cde3bb351-PRG",
-            "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
-          }
-        },
-        "error": null,
-        "initial": false
-      },
-      "searchResults": [
-        {
-          "path": "d.Value",
-          "pathShort": "d.Value",
-          "keyword": {
-            "original": "Môžete mať dnes od 17:45",
-            "normalized": "môžetemaťdnesod17:45",
-            "index": 3
-          },
-          "textFound": "<div class=\"commodityAvailabilityBlock avlVal avl0 none\" id=\"av5347102\">\n<div class=\"commodity-availability__row\">\n<div class=\"commodityAvailabilityText avl\">\nMôžete mať dnes od 17:45\n</div>\n</div>\n<div class=\"availabilityTextBlock\">\n<div class=\"lblAvailabilityTextInfo showDialog\">\nPredajne a termíny dodania\n</div>\n<div class=\"lblAvailabilityTextInfo\">\n| Na sklade > 5 ks\n</div>\n</div>\n<div class=\"suggestedCommodityAvailabilitiesContainer\">\n<div class=\"commodityAvailabilityOrder\">\n<span class=\"commodityAvailabilityOrderTitle\">Najobľúbenejšie možnosti doručenia v okolí</span>\n<span class=\"commodityAvailabilityOrderInfo\">Praha 5 Hlubočepy, 154 00</span>\n<a class=\"changeCommodityAvailabilityOrder\" href=\"javascript:void(0)\">zmeniť</a>\n</div>\n<span class=\"commodityAvailabilityVariant\">Predajňa Bratislava - Petržalka <b>zajtra od 8:00</b></span>\n<span class=\"commodityAvailabilityVariant\">Doručenie až domov <b>zajtra</b></span>\n<span class=\"commodityAvailabilityVariantMore\">Ďalšie možnosti a termíny</span>\n</div>\n</div>",
-          "textFoundLong": "",
-          "source": [
-            "xhr",
-            "got"
-          ],
-          "score": 0,
-          "textFoundValidation": null,
-          "textFoundValidationShort": "",
-          "isValid": false
-        }
-      ],
-      "callType": "minimalHeaders"
-    }
-  },
-  {
-    "originalRequestResponse": {
-      "response": {
         "body": "{\"d\":{\"Value\":\"<link href=\\\"https://cdn.alza.cz/Foto/LegendFoto/EN/Files/sablona/sablona_obecna/obecna1/style.css\\\" rel=\\\"stylesheet\\\" type=\\\"text/css\\\"><script type=\\\"text/javascript\\\" src=\\\"https://cdn.alza.cz/Foto/LegendFoto/EN/Files/js/injektace_css_scriptu_vzdalene.js\\\" async=\\\"async\\\"></script><script id=\\\"charty\\\" type=\\\"text/javascript\\\" src=\\\"https://cdn.alza.cz/Foto/LegendFoto/EN/Files/js/jQuery_charts/Chart.js\\\" async=\\\"async\\\"></script><link href=\\\"https://cdn.alza.cz/Foto/LegendFoto/EN/Files//css/vseobecny.css\\\" id=\\\"pluginyVs\\\" media=\\\"screen\\\" rel=\\\"stylesheet\\\" type=\\\"text/css\\\"><div id=\\\"celek\\\"><div data-act=\\\"block\\\"><div class=\\\"blok_pp\\\" data-act=\\\"edit\\\" style=\\\"position: relative;\\\"><p>Parádny relax po náročnom dni? S vírivkou Netspa Montana L si ho doprajete aj každý deň. O dokonalú masáž sa postará <strong>110 trysiek a vodu si môžete zahriať až na 42 °C.</strong> Vďaka okrúhlemu tvaru s menším priemerom ju umiestnite aj do menších priestorov. Perfektne sa hodí ako na záhradu, tak&nbsp;napríklad aj na terasu. Vonkajší povrch chráni ultra odolná vrstva laminovaného PVC, takže sa nemusíte obávať pretrhnutia. Vnútorný povrch s úpravou Pearl PVC je mäkký, hebký a veľmi príjemný na dotyk. Vírivka Netspa Montana L sa dodáva&nbsp;s kompletným príslušenstvom. Nechýba integrovaný ovládací digitálny panel ani kartušové filtre. Bonusom je luxusný taliansky dizajn.&nbsp; &nbsp;&nbsp;</p></div></div><div data-act=\\\"block\\\"><div class=\\\"blok_pp\\\" data-act=\\\"edit\\\" style=\\\"position: relative;\\\"><h2>Kľúčové vlastnosti vírivky Netspa Montana L</h2><ul><li>Nafukovacia vírivka pre štyri osoby v elegantnom talianskom dizajne</li><li>110 masážnych trysiek rozmiestnených po celom obvode pre dokonalú relaxáciu</li><li>Integrovaná jednotka motora s funkciou ohrevu, filtrácie a masáže</li><li>Vírivka Netspa Montana L sa dodáva s kompletným príslušenstvom</li><li>Digitálny ovládací panel je súčasťou balenia</li><li>Ultra odolný vonkajší povrch z laminovaného PVC, efekt Pearl PVC na vnútornom povrchu</li><li>Veľmi jednoduchá inštalácia aj údržba</li><li>V luxusnom vyhotovení imitácie kože</li></ul></div></div><div data-act=\\\"block\\\"><div class=\\\"blok_pp\\\" data-act=\\\"edit\\\" style=\\\"position: relative;\\\"><h2>Bohaté príslušenstvo súčasťou balenia</h2><p>Podložka pod vírivku, 2× kartušový filter, vrchná krycia plachta, hadica&nbsp;na nafúknutie vírivky, prúdový chránič, separačná súprava</p></div></div><div data-act=\\\"block\\\"><div class=\\\"blok_pp\\\" data-act=\\\"edit\\\" style=\\\"position: relative;\\\"><p class=\\\"text_pp\\\"><strong>Vzduchové trysky:</strong><br>110</p><p class=\\\"text_pp\\\"><strong>Ohrev vody:</strong><br>1 500 W</p><p class=\\\"text_pp\\\"><strong>Max. teplota vody:</strong><br>42 °C</p><p class=\\\"text_pp\\\"><strong>Napájanie:</strong><br>220 – 240 V 50 Hz</p><p class=\\\"text_pp\\\"><strong>Masážne čerpadlo:</strong><br>650 W</p><p class=\\\"text_pp\\\"><strong>Cirkulačné čerpadlo:</strong><br>1 200 l/h</p></div></div></div><div class=\\\"ui-resizable-handle ui-resizable-e\\\" style=\\\"z-index: 90;\\\"></div>\",\"DevErrorMessage\":null,\"Message\":null,\"ErrorLevel\":0}}",
         "status": 200,
         "headers": {
@@ -292,17 +9,17 @@
           "access-control-allow-origin": "https://www.alza.sk",
           "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
           "cf-cache-status": "DYNAMIC",
-          "cf-ray": "7b945d7e1b28b348-PRG",
+          "cf-ray": "7b951e6cbe68b36b-PRG",
           "content-encoding": "br",
           "content-security-policy": "frame-ancestors 'self';",
           "content-type": "application/json; charset=utf-8",
-          "date": "Mon, 17 Apr 2023 11:35:33 GMT",
+          "date": "Mon, 17 Apr 2023 13:47:15 GMT",
           "nonstatic": "1",
           "permissions-policy": "autoplay=(), camera=(), microphone=(), geolocation=(self)",
           "pragma": "no-cache",
           "referrer-policy": "strict-origin-when-cross-origin",
           "server": "cloudflare",
-          "set-cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; expires=Mon, 17-Apr-23 13:35:32 GMT; max-age=7200; httponly; path=/",
+          "set-cookie": "lb_id=a5b3441a642e59edf7054d955c5c785d; expires=Mon, 17-Apr-23 15:47:15 GMT; max-age=7200; httponly; path=/",
           "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
           "vary": "Accept-Encoding",
           "x-content-type-options": "nosniff",
@@ -323,13 +40,13 @@
           "cache-control": "no-cache",
           "content-length": "50",
           "content-type": "application/json; charset=UTF-8",
-          "cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; VZTX=7066754538; VST=38715bed-13dd-ed11-ba66-0c42a19546bd; CriticalCSS=12408742; __cf_bm=n7k3aPZ0EZNvq.oQdB2kdGq6Q6GhEOcFpdOhFEH5nc0-1681731327-0-AbfaEQnasAYtyzQ7JBw3oJb209K1DkufVl9cMnA54j3xvPAb1Sloz3y5aZx3tYtwsCuoSWH2k5w+KPtbwfZ+x7c=; .AspNetCore.Culture=c%3Dsk-SK%7Cuic%3Dsk-SK; __ssds=2; __ssuzjsr2=a9be0cd8e; __uzmaj2=1f3ddd31-9292-4d21-9d24-85e36a258668; __uzmbj2=1681731329; __uzmcj2=573751026519; __uzmdj2=1681731329",
+          "cookie": "lb_id=a5b3441a642e59edf7054d955c5c785d; VZTX=7067226414; VST=89087853-26dd-ed11-ba66-0c42a19546bd; CriticalCSS=12408742; .AspNetCore.Culture=c%3Dsk-SK%7Cuic%3Dsk-SK; __ssds=2; __ssuzjsr2=a9be0cd8e; __uzmaj2=b12331b3-7363-46f2-8133-0232e3dcf5c3; __uzmbj2=1681739232; __uzmcj2=911541035364; __uzmdj2=1681739232; __cf_bm=8efNsUDr77Wzi8EhUa8mR9xCXnBgYqzAP7OKLcupyHU-1681739235-0-AYhUMe5VS87luK7HEkwOFjccCcI9UmcXQAg6FpAHLcm048hMAH2B7ChkgWf5T/SWozLWBRr5TnNJhUN0aUiLtmA=",
           "origin": "https://www.alza.sk",
           "referer": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
           "sec-fetch-dest": "empty",
           "sec-fetch-mode": "cors",
           "sec-fetch-site": "same-origin",
-          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
           "x-requested-with": "XMLHttpRequest"
         },
         "body": "{\"code\":\"HHO009\",\"id\":-1,\"showParentLegend\":false}"
@@ -357,16 +74,16 @@
             "status": 200,
             "headers": {
               ":status": 200,
-              "date": "Mon, 17 Apr 2023 11:36:39 GMT",
+              "date": "Mon, 17 Apr 2023 13:47:33 GMT",
               "content-type": "application/json; charset=utf-8",
               "vary": "Accept-Encoding",
               "set-cookie": [
-                "lb_id=62c54702733941fc5bb36ac789c39b28; expires=Mon, 17-Apr-23 13:36:39 GMT; max-age=7200; httponly; path=/",
-                "VZTX=0; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "VST=00000000-0000-0000-0000-000000000000; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "VZTX=7066758849; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "VST=3d32251d-14dd-ed11-ba66-0c42a19546bd; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-                "__cf_bm=AWrJdSDXkJWxgeMiljlm7SzL8VWJCRSipT9yCqFOegM-1681731399-0-AYast/BwRp35nzN2pwbZrnWTrERMsfmnzSaPv3XgFEOLxkcObuwW03c6qROaJf4VULeRzWaXR7AVeRMoofvttcw=; path=/; expires=Mon, 17-Apr-23 12:06:39 GMT; domain=.alza.sk; HttpOnly; Secure; SameSite=None"
+                "lb_id=62c54702733941fc5bb36ac789c39b28; expires=Mon, 17-Apr-23 15:47:33 GMT; max-age=7200; httponly; path=/",
+                "VZTX=0; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+                "VST=00000000-0000-0000-0000-000000000000; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+                "VZTX=7067227517; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+                "VST=a76d6565-26dd-ed11-ba66-0c42a19546bd; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+                "__cf_bm=2Z1Jn5G3.ThTcRASqmDJEeYCAoG9nZ1DRi6_Nhuqr40-1681739253-0-Af9TTe0bJwj+qBCwEBuQ7QrjkxUPWtS+TTU/HqP9VbUqLDcwSD8gur0ep1g083IbsFxAnGuw4BSF3j0oSOjfpTw=; path=/; expires=Mon, 17-Apr-23 14:17:33 GMT; domain=.alza.sk; HttpOnly; Secure; SameSite=None"
               ],
               "pragma": "no-cache",
               "access-control-allow-origin": "https://www.alza.sk",
@@ -380,7 +97,7 @@
               "nonstatic": "1",
               "cf-cache-status": "DYNAMIC",
               "server": "cloudflare",
-              "cf-ray": "7b945f1ddffab351-PRG",
+              "cf-ray": "7b951edf7902b36c-PRG",
               "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
             }
           },
@@ -444,17 +161,17 @@
             "access-control-allow-origin": "https://www.alza.sk",
             "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400",
             "cf-cache-status": "DYNAMIC",
-            "cf-ray": "7b945d7e1b28b348-PRG",
+            "cf-ray": "7b951e6cbe68b36b-PRG",
             "content-encoding": "br",
             "content-security-policy": "frame-ancestors 'self';",
             "content-type": "application/json; charset=utf-8",
-            "date": "Mon, 17 Apr 2023 11:35:33 GMT",
+            "date": "Mon, 17 Apr 2023 13:47:15 GMT",
             "nonstatic": "1",
             "permissions-policy": "autoplay=(), camera=(), microphone=(), geolocation=(self)",
             "pragma": "no-cache",
             "referrer-policy": "strict-origin-when-cross-origin",
             "server": "cloudflare",
-            "set-cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; expires=Mon, 17-Apr-23 13:35:32 GMT; max-age=7200; httponly; path=/",
+            "set-cookie": "lb_id=a5b3441a642e59edf7054d955c5c785d; expires=Mon, 17-Apr-23 15:47:15 GMT; max-age=7200; httponly; path=/",
             "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
             "vary": "Accept-Encoding",
             "x-content-type-options": "nosniff",
@@ -475,13 +192,13 @@
             "cache-control": "no-cache",
             "content-length": "50",
             "content-type": "application/json; charset=UTF-8",
-            "cookie": "lb_id=bcdfee8f23b6ccc83d308f391ddb7abc; VZTX=7066754538; VST=38715bed-13dd-ed11-ba66-0c42a19546bd; CriticalCSS=12408742; __cf_bm=n7k3aPZ0EZNvq.oQdB2kdGq6Q6GhEOcFpdOhFEH5nc0-1681731327-0-AbfaEQnasAYtyzQ7JBw3oJb209K1DkufVl9cMnA54j3xvPAb1Sloz3y5aZx3tYtwsCuoSWH2k5w+KPtbwfZ+x7c=; .AspNetCore.Culture=c%3Dsk-SK%7Cuic%3Dsk-SK; __ssds=2; __ssuzjsr2=a9be0cd8e; __uzmaj2=1f3ddd31-9292-4d21-9d24-85e36a258668; __uzmbj2=1681731329; __uzmcj2=573751026519; __uzmdj2=1681731329",
+            "cookie": "lb_id=a5b3441a642e59edf7054d955c5c785d; VZTX=7067226414; VST=89087853-26dd-ed11-ba66-0c42a19546bd; CriticalCSS=12408742; .AspNetCore.Culture=c%3Dsk-SK%7Cuic%3Dsk-SK; __ssds=2; __ssuzjsr2=a9be0cd8e; __uzmaj2=b12331b3-7363-46f2-8133-0232e3dcf5c3; __uzmbj2=1681739232; __uzmcj2=911541035364; __uzmdj2=1681739232; __cf_bm=8efNsUDr77Wzi8EhUa8mR9xCXnBgYqzAP7OKLcupyHU-1681739235-0-AYhUMe5VS87luK7HEkwOFjccCcI9UmcXQAg6FpAHLcm048hMAH2B7ChkgWf5T/SWozLWBRr5TnNJhUN0aUiLtmA=",
             "origin": "https://www.alza.sk",
             "referer": "https://www.alza.sk/hobby/netspa-montana-l-d5347102.htm",
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
             "x-requested-with": "XMLHttpRequest"
           },
           "body": "{\"code\":\"HHO009\",\"id\":-1,\"showParentLegend\":false}"
@@ -489,9 +206,9 @@
         "error": null,
         "initial": false
       },
-      "index": 94
+      "index": 85
     },
-    "index": 1,
+    "index": 0,
     "lastCall": {
       "callSuccess": true,
       "isValid": true,
@@ -511,16 +228,16 @@
           "status": 200,
           "headers": {
             ":status": 200,
-            "date": "Mon, 17 Apr 2023 11:36:39 GMT",
+            "date": "Mon, 17 Apr 2023 13:47:33 GMT",
             "content-type": "application/json; charset=utf-8",
             "vary": "Accept-Encoding",
             "set-cookie": [
-              "lb_id=62c54702733941fc5bb36ac789c39b28; expires=Mon, 17-Apr-23 13:36:39 GMT; max-age=7200; httponly; path=/",
-              "VZTX=0; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "VST=00000000-0000-0000-0000-000000000000; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "VZTX=7066758849; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "VST=3d32251d-14dd-ed11-ba66-0c42a19546bd; domain=.alza.sk; expires=Wed, 17-Apr-2024 11:36:39 GMT; path=/; secure; HttpOnly; SameSite=Lax",
-              "__cf_bm=AWrJdSDXkJWxgeMiljlm7SzL8VWJCRSipT9yCqFOegM-1681731399-0-AYast/BwRp35nzN2pwbZrnWTrERMsfmnzSaPv3XgFEOLxkcObuwW03c6qROaJf4VULeRzWaXR7AVeRMoofvttcw=; path=/; expires=Mon, 17-Apr-23 12:06:39 GMT; domain=.alza.sk; HttpOnly; Secure; SameSite=None"
+              "lb_id=62c54702733941fc5bb36ac789c39b28; expires=Mon, 17-Apr-23 15:47:33 GMT; max-age=7200; httponly; path=/",
+              "VZTX=0; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+              "VST=00000000-0000-0000-0000-000000000000; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+              "VZTX=7067227517; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+              "VST=a76d6565-26dd-ed11-ba66-0c42a19546bd; domain=.alza.sk; expires=Wed, 17-Apr-2024 13:47:33 GMT; path=/; secure; HttpOnly; SameSite=Lax",
+              "__cf_bm=2Z1Jn5G3.ThTcRASqmDJEeYCAoG9nZ1DRi6_Nhuqr40-1681739253-0-Af9TTe0bJwj+qBCwEBuQ7QrjkxUPWtS+TTU/HqP9VbUqLDcwSD8gur0ep1g083IbsFxAnGuw4BSF3j0oSOjfpTw=; path=/; expires=Mon, 17-Apr-23 14:17:33 GMT; domain=.alza.sk; HttpOnly; Secure; SameSite=None"
             ],
             "pragma": "no-cache",
             "access-control-allow-origin": "https://www.alza.sk",
@@ -534,7 +251,7 @@
             "nonstatic": "1",
             "cf-cache-status": "DYNAMIC",
             "server": "cloudflare",
-            "cf-ray": "7b945f1ddffab351-PRG",
+            "cf-ray": "7b951edf7902b36c-PRG",
             "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
           }
         },
