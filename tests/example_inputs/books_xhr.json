@@ -1,0 +1,15 @@
+{
+    "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
+    "keywords" : [
+        "Spotlight",
+        "Oscar Winning Films: AJAX and Javascript",
+        "https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films",
+        "Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it. Look for ways that you can tell visually when a site is loading content with AJAX. Then, browse through your network tab to see those AJAX requests and scrape them. ",
+        "A Girl in the River: The Price of Forgiveness ",
+        "87 items"
+    ],
+    "proxyConfig": {
+        "useApifyProxy": false
+    }
+
+}

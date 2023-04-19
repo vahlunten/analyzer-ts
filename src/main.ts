@@ -11,38 +11,64 @@ import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, Playwright
 import { createDiff } from './helpers/diff';
 import { crawlSitemaps } from './crawl/Sitemap';
 import { crawl } from './crawl/Crawler';
+import dayjs from 'dayjs';
 
 
-export async function analyze(storageDir: string = ""): Promise<void> {
+async function loadInput(inputString: string | undefined = undefined): Promise<Input | undefined> {
+    let input: Input | undefined = undefined;
+
+    if (inputString) {
+        // parse the input from a string parameter
+        try {
+            input = JSON.parse(inputString) as Input;
+            if (input) {
+                await KeyValueStore.setValue("INPUT", JSON.stringify(input!, null, 2), { contentType: 'application/json; charset=utf-8' });
+            }
+        } catch (error: any) {
+            log.error("Failed to parse an input passed as a string.");
+            log.error(error.message);
+        }
+
+
+    } else {
+        // try to load the INPUT.json from default kvs
+        try {
+            input = await KeyValueStore.getInput() as Input;
+            // if (input == null) {
+            //     throw new Error("Input is null.")
+            // }
+            log.debug("Input: ");
+            log.debug(JSON.stringify(input));
+
+        } catch (e: any) {
+            log.error("Failed to parse the input from the INPUT.json file insie the kvs.");
+            log.error(e.message);
+        }
+
+    }
+    return input;
+}
+
+export async function analyze(inputString: string | undefined = undefined): Promise<void> {
     Actor.init();
     log.setLevel(log.LEVELS.DEBUG);
-    let input: Input;
+
     const output = new Output();
     output.analysisStarted = getCurrentDate();
 
     let proxyConfigurationApify: ProxyConfiguration | undefined;
     let proxyConfigurationPlaywright: PlaywrightProxyConfiguration | undefined;
     let proxyConfigurationCrawlee: ProxyConfigurationCrawlee | undefined;
-
     let proxyUrl: string | undefined;
 
+
+    let input: Input | undefined = await loadInput(inputString);
+
+    if (!input) {
+        output.actorSuccess = false;
+        throw new Error("Failed to load the input, actor will nowe exit.");
+    }
     try {
-        // try to load the INPUT.json from default kvs
-        try {
-            input = await KeyValueStore.getInput() as Input;
-            if (input == null) {
-                throw new Error("Input is null.")
-            }
-            log.debug("Input: ");
-            log.debug(JSON.stringify(input));
-
-        } catch (e: any) {
-            log.error("Failed to parse the input.");
-            log.error(e.message);
-            output.actorSuccess = false;
-            throw e;
-        }
-
         // create proxy configuration
         if (input.proxyConfig) {
 
@@ -128,7 +154,7 @@ export async function analyze(storageDir: string = ""): Promise<void> {
             // let urls:string[] = [];
             // try {
             //     // TODO: proxyCOnf parameter, headers parameter
-            //     urls = await crawlSitemaps(new URL("/robots.txt", input.url).href, input.url);
+            //     urls = await crawlSitemaps(new URL("/robots.txt", input.url,).href, input.url, 100, undefined, proxyConfigurationCrawlee);
             //     log.debug(JSON.stringify(urls));
 
 
@@ -144,10 +170,11 @@ export async function analyze(storageDir: string = ""): Promise<void> {
             //         await crawl(input.url, urls, []);
             //     }
             // } catch(e:any) {
-
+            //     log.error(e.message);
             // }
         } else {
-            log.error("Failed to scrape the website using Playwright. ");
+            log.error("Crawling the sitemap failed.")
+            log.error("Failed to scrape the website using Playwright.");
             output.actorSuccess = false;
         }
 
@@ -162,6 +189,7 @@ export async function analyze(storageDir: string = ""): Promise<void> {
 
         output.analysisEnded = getCurrentDate();
 
+
         await KeyValueStore.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
         // await store!.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
 
@@ -169,11 +197,49 @@ export async function analyze(storageDir: string = ""): Promise<void> {
         // On the Apify platform, this file is copied during actor's build in docker.
         await KeyValueStore.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
         // await store!.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
+
+        const saveRunAsFolder = true;
+        // save the run to the runs key value store
+        if (saveRunAsFolder) {
+            try {
+                const store = await Actor.openKeyValueStore(`runs/${dayjs(new Date()).format('YYYY-MM-DD-HH-mm-ss')}`);
+                await store.setValue("INPUT", JSON.stringify(input!), { contentType: "application/json; charset=utf-8" });
+                await store.setValue("OUTPUT", JSON.stringify(output!, null, 2), { contentType: 'application/json; charset=utf-8' });
+                await store.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
+
+                const diffHtml = await KeyValueStore.getValue("diff");
+                await store.setValue("diff", diffHtml, { contentType: 'text/html; charset=utf-8' });
+
+                const cheerioCrawlerInitial = await KeyValueStore.getValue("cheerioCrawlerInitial");
+                await store.setValue("cheerioCrawlerInitial", cheerioCrawlerInitial, { contentType: 'text/html; charset=utf-8' });
+
+                const initial = await KeyValueStore.getValue("initial");
+                await store.setValue("initial", initial, { contentType: 'text/html; charset=utf-8' });
+
+                const rendered = await KeyValueStore.getValue("rendered");
+                await store.setValue("rendered", rendered, { contentType: 'text/html; charset=utf-8' });
+
+                const screenshot = await KeyValueStore.getValue("screenshot");
+                await store.setValue("screenshot", screenshot, { contentType: 'image/jpeg; charset=utf-8' });
+
+                const xhrValidation = await KeyValueStore.getValue("xhrValidation");
+                await store.setValue("xhrValidation", JSON.stringify(xhrValidation, null, 2), { contentType: 'application/json; charset=utf-8' });
+
+            } catch (e:any) {
+                log.error("An error has okurek during the saving of the run.")
+                log.error(e.message);
+            }
+
+
+            
+
+        }
     }
 
-    Actor.exit({ exitCode: output.actorSuccess ? 0 : 1 });
+    // Actor.exit({ exitCode: output.actorSuccess ? 0 : 1 });
 }
 
 (async () => {
-   await analyze("../storage/key_value_stores/");    
+    await analyze(readFileSync("./src/static/example_inputs/INPUT_XHR.json").toString());
+    Actor.exit({ exitCode: 0 });
 })();

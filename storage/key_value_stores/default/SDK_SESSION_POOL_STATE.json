@@ -3,7 +3,7 @@
   "retiredSessionsCount": 0,
   "sessions": [
     {
-      "id": "session_Z3mwtsBFt0",
+      "id": "session_Lw3XdsYuaa",
       "cookieJar": {
         "version": "tough-cookie@4.1.2",
         "storeType": "MemoryCookieStore",
@@ -11,75 +11,13 @@
         "enableLooseMode": false,
         "allowSpecialUseDomain": true,
         "prefixSecurity": "silent",
-        "cookies": [
-          {
-            "key": "lb_id",
-            "value": "3f7c9f8946c5b4ac0e85e8dbf6f7618d",
-            "expires": "2023-04-17T15:47:33.000Z",
-            "maxAge": 7200,
-            "domain": "www.alza.sk",
-            "path": "/",
-            "httpOnly": true,
-            "hostOnly": true,
-            "creation": "2023-04-17T13:47:31.260Z",
-            "lastAccessed": "2023-04-17T13:47:31.260Z"
-          },
-          {
-            "key": "VZTX",
-            "value": "7067227494",
-            "expires": "2024-04-17T13:47:33.000Z",
-            "domain": "alza.sk",
-            "path": "/",
-            "secure": true,
-            "httpOnly": true,
-            "hostOnly": false,
-            "creation": "2023-04-17T13:47:31.260Z",
-            "lastAccessed": "2023-04-17T13:47:31.268Z",
-            "sameSite": "lax"
-          },
-          {
-            "key": "VST",
-            "value": "906d6565-26dd-ed11-ba66-0c42a19546bd",
-            "expires": "2024-04-17T13:47:33.000Z",
-            "domain": "alza.sk",
-            "path": "/",
-            "secure": true,
-            "httpOnly": true,
-            "hostOnly": false,
-            "creation": "2023-04-17T13:47:31.266Z",
-            "lastAccessed": "2023-04-17T13:47:31.269Z",
-            "sameSite": "lax"
-          },
-          {
-            "key": "CriticalCSS",
-            "value": "12408742",
-            "expires": "2023-04-24T13:47:33.000Z",
-            "domain": "www.alza.sk",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2023-04-17T13:47:31.270Z",
-            "lastAccessed": "2023-04-17T13:47:31.270Z"
-          },
-          {
-            "key": "__cf_bm",
-            "value": "vktmbm07VqsMSASInumkdk3_H3d4GEsmAwB_vjplf.A-1681739253-0-Ab2z+9mCTuV2vpYfdBjX5yPyu15j6A9TpO6PfEogcn+aEDgFMXfafGRSPN4UoIDMHBeoAzqfk6GtjqE0rE0ifdY=",
-            "expires": "2023-04-17T14:17:33.000Z",
-            "domain": "alza.sk",
-            "path": "/",
-            "secure": true,
-            "httpOnly": true,
-            "hostOnly": false,
-            "creation": "2023-04-17T13:47:31.270Z",
-            "lastAccessed": "2023-04-17T13:47:31.270Z",
-            "sameSite": "none"
-          }
-        ]
+        "cookies": []
       },
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2023-04-17T14:37:30.856Z",
-      "createdAt": "2023-04-17T13:47:30.856Z",
+      "expiresAt": "2023-04-19T13:58:33.476Z",
+      "createdAt": "2023-04-19T13:08:33.476Z",
       "usageCount": 1,
       "maxUsageCount": 50,
       "errorScore": 0
