@@ -198,7 +198,7 @@ export async function analyze(inputString: string | undefined = undefined): Prom
         await KeyValueStore.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
         // await store!.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
 
-        const saveRunAsFolder = true;
+        const saveRunAsFolder = false;
         // save the run to the runs key value store
         if (saveRunAsFolder) {
             try {
@@ -226,12 +226,9 @@ export async function analyze(inputString: string | undefined = undefined): Prom
                 await store.setValue("xhrValidation", JSON.stringify(xhrValidation, null, 2), { contentType: 'application/json; charset=utf-8' });
 
             } catch (e:any) {
-                log.error("An error has okurek during the saving of the run.")
+                log.error("An error has occured during the saving of the run.")
                 log.error(e.message);
             }
-
-
-            
 
         }
     }
@@ -240,6 +237,8 @@ export async function analyze(inputString: string | undefined = undefined): Prom
 }
 
 (async () => {
-    await analyze(readFileSync("./src/static/example_inputs/INPUT_XHR.json").toString());
+    // await analyze(readFileSync("./src/static/example_inputs/INPUT_SCROLL.json").toString());
+    await analyze(readFileSync("./src/static/example_inputs/INPUT_WAYFAIR.json").toString());
+
     Actor.exit({ exitCode: 0 });
 })();

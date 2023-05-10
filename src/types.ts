@@ -8,6 +8,13 @@ export interface Input {
     // proxy configuration
     proxyConfig: ProxyConfigurationOptions & { useApifyProxy?: boolean };
 }
+
+export interface RunDetails {
+    started: string,
+    success: boolean,
+    url: string
+
+}
 /**
  * Representation of the keyword. 
  */

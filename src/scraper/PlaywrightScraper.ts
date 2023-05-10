@@ -174,6 +174,14 @@ export class PlaywrightScraper {
                 // networkidle - navigate to the page and wait until no new network requests are made for 500 ms
                 await page.waitForLoadState("networkidle", { timeout: 30000 });
                 await page.waitForTimeout(6000);
+                await page.keyboard.down('End');
+                await page.waitForTimeout(3000);
+                await page.keyboard.down('End');
+                await page.waitForTimeout(2000);
+                await page.keyboard.down('End');
+                await page.keyboard.down('End');
+
+
                 navigated = true;
 
             } catch (e: any) {

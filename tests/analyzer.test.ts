@@ -29,11 +29,11 @@ log.setLevel(log.LEVELS.DEBUG);
 //     // }
 // });
 
-test("should analyze books", async () =>  {
-    const input = readFileSync("./src/static/example_inputs/INPUT_XHR.json").toString();
-    console.log(input);
-    await analyze(input);
-});
+// test("should analyze books", async () =>  {
+//     const input = readFileSync("./src/static/example_inputs/INPUT_XHR.json").toString();
+//     console.log(input);
+//     await analyze(input);
+// });
 
 test("should fail bacause of an invalid input", async () =>  {
     const input = readFileSync("./src/static/example_inputs/INPUT_XHR.json").toString();

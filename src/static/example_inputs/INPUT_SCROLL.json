@@ -1,0 +1,12 @@
+{
+    "keywords": [
+      "troubles",
+      "Albert Einstein",
+      "J.K. Rowling",
+      "For every minute you are angry you lose sixty seconds of happiness."
+    ],
+    "url": "http://quotes.toscrape.com/scroll",
+    "proxyConfig": {
+      "useApifyProxy": false
+    }
+  }

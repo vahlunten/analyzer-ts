@@ -23,8 +23,7 @@
 		"jsonpath": "^1.1.1",
 		"jsonpath-plus": "^7.2.0",
 		"lodash": "^4.17.21",
-		"playwright": "^1.31.2",
-		"sitemapper": "^3.2.6"
+		"playwright": "^1.31.2"
 	},
 	"devDependencies": {
 		"@apify/tsconfig": "^0.1.0",

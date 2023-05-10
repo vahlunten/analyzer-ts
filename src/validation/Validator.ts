@@ -129,25 +129,31 @@ export class Validator {
             keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)
         }
 
-        // for (const searchResult of searchResults.xhrFound) {
-        //     const keywordConclusion = conclusion.get(searchResult.keyword.index);
-        //     keywordConclusion?.SearchResults.windowFound.push(searchResult);
-        //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, searchResult.source)            
-        // }
-        // searchResults.xhrFound.forEach((xhrFound, index) => {
-
-        // });
+        for (const searchResult of searchResults.xhrFound) {
 
 
-        for (const xhr of xhrValidated) {
-            for (const call of xhr.callWithCookies) {
-                for (const kw of call.keywordsFound) {
-                    const keywordConclusion = conclusion.get(kw.index);
-                    // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-                    keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
-                }
+            for(const xhrSearchResult of searchResult.searchResults){
+                const keywordConclusion = conclusion.get(xhrSearchResult.keyword.index);
+
+                // keywordConclusion?.SearchResults.windowFound.push(searchResult);
+                keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
             }
+                        
         }
+        searchResults.xhrFound.forEach((xhrFound, index) => {
+
+        });
+
+
+        // for (const xhr of xhrValidated) {
+        //     for (const call of xhr.callWithCookies) {
+        //         for (const kw of call.keywordsFound) {
+        //             const keywordConclusion = conclusion.get(kw.index);
+        //             // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
+        //             keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
+        //         }
+        //     }
+        // }
 
         xhrValidated.forEach((xhr, index) => {
             for (const sr of xhr.xhrSearchResult.searchResults) {
@@ -157,7 +163,9 @@ export class Validator {
                 // log.debug("keyword: " + sr.keyword.original)
 
                 keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
-
+                if (xhr.validationSuccess) {
+                    keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
+                }
                 // const xhrUrls = keywordConclusion?.ValidatedXhr.filter((valXhr) => {
                 //     if (valXhr.originalRequestResponse.request.url === xhr.originalRequestResponse.request.url) {
                 //         return true;
