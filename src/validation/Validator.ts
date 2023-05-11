@@ -1,21 +1,18 @@
-import { KeywordConclusion, ScrapedData, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataOrigin, XhrSearchResult } from "../types";
-import { KeyValueStore, log, Request } from '@crawlee/core';
+import { KeywordConclusion, NormalizedKeywordPair, ScrapedPage, SearchResults, SearchResult, XhrValidation, DataOrigin, XhrSearchResult } from "../types";
+import { KeyValueStore, log } from '@crawlee/core';
 import { JSONPath } from "jsonpath-plus";
 import { parseHtml } from "../parsing/htmlParser";
 import { validateAllXHR } from "./XhrValidation";
 import { CheerioCrawler, createCheerioRouter } from "crawlee";
 import { ProxyConfiguration } from "apify";
-import { Actor } from "apify";
 import cheerio from "cheerio";
 import { normalizeString } from "../helpers/normalize";
-// import {  } from "@frontend/scripts";
 
 
 export class Validator {
 
     private $: any;;
     private body: string | null = null;
-    private $body: cheerio.Cheerio | null = null;
     public parsedCheerio: ScrapedPage | null = null;
     public proxyConfiguration: ProxyConfiguration | undefined;
     private proxyUrl: string | undefined;
@@ -44,9 +41,6 @@ export class Validator {
         // validate XHR requests    
         xhrValidated = await validateAllXHR(searchResults.xhrFound, keywords, this.proxyUrl);
         await KeyValueStore.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
-        // await this.store.setValue("xhrValidation", JSON.stringify(xhrValidated, null, 2), { contentType: 'application/json; charset=utf-8' });
-
-
 
         // if we failed to load the initial response by cheerioCrawler, there is nothing to validate against
         if (cheerioCrawlerLoaded == false) {
@@ -134,8 +128,6 @@ export class Validator {
 
             for(const xhrSearchResult of searchResult.searchResults){
                 const keywordConclusion = conclusion.get(xhrSearchResult.keyword.index);
-
-                // keywordConclusion?.SearchResults.windowFound.push(searchResult);
                 keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
             }
                         
@@ -144,69 +136,20 @@ export class Validator {
 
         });
 
-
-        // for (const xhr of xhrValidated) {
-        //     for (const call of xhr.callWithCookies) {
-        //         for (const kw of call.keywordsFound) {
-        //             const keywordConclusion = conclusion.get(kw.index);
-        //             // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-        //             keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
-        //         }
-        //     }
-        // }
-
         xhrValidated.forEach((xhr, index) => {
             for (const sr of xhr.xhrSearchResult.searchResults) {
 
                 const keywordConclusion = conclusion.get(sr.keyword.index);
-                // log.debug("request: " + xhr.originalRequestResponse.request.url)
-                // log.debug("keyword: " + sr.keyword.original)
 
                 keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
                 if (xhr.validationSuccess) {
                     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
                 }
-                // const xhrUrls = keywordConclusion?.ValidatedXhr.filter((valXhr) => {
-                //     if (valXhr.originalRequestResponse.request.url === xhr.originalRequestResponse.request.url) {
-                //         return true;
-                //     }
-                //     return false;
-                // });
-                // if (xhrUrls?.length! > 0) {
-                //     keywordConclusion?.ValidatedXhr.push(xhr);
-
-                // }
                 keywordConclusion?.ValidatedXhr.push(xhr);
-
-
-
-                // const keywordConclusion = conclusion.get(kw.index);
-                // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-                // for (const kw of xhr.) {
-                //     const keywordConclusion = conclusion.get(kw.index);
-                //     // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-                //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
-                // }
+    
             }
 
         })
-        // for (const xhr of xhrValidated) {
-        //     for (const sr of xhr.xhrSearchResult.searchResults) {
-
-        //         const keywordConclusion = conclusion.get(sr.keyword.index);
-        //         log.debug("request: " + xhr.originalRequestResponse.request.url)
-        //         log.debug("keyword: " + sr.keyword)
-
-        //         keywordConclusion?.SearchResults.xhrFound.push(xhr.xhrSearchResult);
-        //         // const keywordConclusion = conclusion.get(kw.index);
-        //             // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-        //         // for (const kw of xhr.) {
-        //         //     const keywordConclusion = conclusion.get(kw.index);
-        //         //     // keywordConclusion?.SearchResults.xhrFound.push(xhrValidated);
-        //         //     keywordConclusion!.SearchResults.canBeScrapedWith = this.mergeSources(keywordConclusion?.SearchResults.canBeScrapedWith!, [DataOrigin.got]);
-        //         // }
-        //     }
-        // }
 
         return Array.from(conclusion.values());
     }
@@ -233,21 +176,18 @@ export class Validator {
         router.addDefaultHandler(async ({ request, response, body, $, log }) => {
 
             this.$ = cheerio.load($.html());
-            this.$body = $("body").get(0);
             this.body = body.toString();
             log.info("CheerioCrawler response receiver sucessfully with responseStatus: " + response.statusCode);
             await KeyValueStore.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
-            // await this.store.setValue("cheerioCrawlerInitial", this.body, { contentType: 'text/html; charset=utf-8' });
-
 
         });
 
         const crawler = new CheerioCrawler({
+            
             proxyConfiguration: this.proxyConfiguration ?? undefined,
             requestHandler: router,
             requestHandlerTimeoutSecs: 30,
-            maxRequestRetries: 10,
-            // failedRequestHandler: 
+            maxRequestRetries: 10
 
         });
 
@@ -265,31 +205,10 @@ export class Validator {
 
     public validateHtmlSearchResults(searchResult: SearchResult[]): SearchResult[] {
         let validatedHtml: SearchResult[] = [];
-
-
         if (this.$ != null) {
             searchResult.forEach(searchResult => {
                 const textFound = this.$!(searchResult.path).text();
-                // TODO : check if .get(0)
                 const textFoundValidationShort = this.$!(searchResult.pathShort).text();
-
-
-                // firefox selector
-                // body > main:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(7) > td:nth-child(2) > code:nth-child(1)
-                // chromium selector
-                // body > main > table > tbody > tr:nth-child(7) > td > code
-
-
-                // const cheerios = this.$!(searchResult.pathShort);
-                // let textFound;
-                // if (cheerios) {
-                //     //this.$(this.getUniqueSelector(root)).text()
-                //     textFound = this.$!(searchResult.path).text()
-                //     cheerios.get().forEach(element => {
-                //         console.log("Cheerio length: " + cheerios.length +" "+ element.text());
-
-                //     });
-                // }
                 const validatedSearchResult = searchResult;
                 validatedSearchResult.textFoundValidation = textFound;
                 validatedSearchResult.score = normalizeString(textFound) == normalizeString(searchResult.textFound) ? searchResult.score : searchResult.score + 10000;
@@ -316,19 +235,13 @@ export class Validator {
     public validateJsonSearchResults(source: any, searchResults: SearchResult[]): SearchResult[] {
         let validatedJson: SearchResult[] = [];
 
-        // const cheerioJsonParsed = parseJsonLD(this.$!);
-
         for (const jsonSearchResult of searchResults) {
 
             try {
-                // TODO: implement own JPath or try to disable @type matching 
                 const textFoundValidation = JSONPath({ path: "$." + jsonSearchResult.path, json: source });
                 const validatedSearchResult = jsonSearchResult;
                 validatedSearchResult.textFoundValidation = textFoundValidation.length > 0 ? textFoundValidation[0] : null;
                 validatedSearchResult.textFoundValidationShort = textFoundValidation.length > 0 ? textFoundValidation[0] : null;
-
-                // console.log("Validation text:" + validatedSearchResult.textFoundValidation);
-                // console.log("Analysis text:" + jsonSearchResult.textFound);
 
                 if (validatedSearchResult.textFoundValidationShort === jsonSearchResult.textFound) {
                     validatedSearchResult.isValid = true;
@@ -336,9 +249,6 @@ export class Validator {
                 }
 
                 validatedJson.push(validatedSearchResult);
-
-                // TODO: unify error messages styles
-                // TODO: improve error handling
             } catch (e) {
                 console.error(e);
             }

@@ -15,7 +15,7 @@ The input consists of:
 1. <strong>URL</strong> of a website to be analyzed.
 2. <strong>Keywords</strong> - an array of strings the analyzer will try to find in the source code of the website.
 
-Input can be set using the visual input UI through Apify console, or using INPUT.json file inside the actors default key-value store.
+Input can be set using the visual input UI through Apify console, or using the INPUT.json file inside the actors default key-value store.
 ```javascript
 {
     // url of a  website to be analyzed
@@ -40,7 +40,7 @@ Output of this actor is saved in Apify key-value store of the particular actor r
 
 Results of the analysis are can be observed by opening the __DASHBOARD.html__ file.
 
-Analyzer also saves other files containing additional analysis data. To learn more about them, please read [how analyzer works.](./docs/analysis.md)
+Analyzer also saves other files containing additional analysis data. To learn more about them, please read [how analyzer works.](./docs/README_analyzer.md)
 
 <!-- # How to use 
 1. Navigate to the website you would like to scrape. 

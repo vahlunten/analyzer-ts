@@ -9,10 +9,7 @@ import { Actor, ProxyConfiguration } from 'apify';
 import { ProxyConfiguration as ProxyConfigurationCrawlee } from "crawlee";
 import { getPlaywrightProxyConfiguration, getApifyProxyConfiguration, PlaywrightProxyConfiguration, getCrawleeProxyConfiguration } from './helpers/proxy';
 import { createDiff } from './helpers/diff';
-import { crawlSitemaps } from './crawl/Sitemap';
-import { crawl } from './crawl/Crawler';
 import dayjs from 'dayjs';
-
 
 async function loadInput(inputString: string | undefined = undefined): Promise<Input | undefined> {
     let input: Input | undefined = undefined;
@@ -151,29 +148,7 @@ export async function analyze(inputString: string | undefined = undefined): Prom
                 log.error(e);
             }
 
-            // let urls:string[] = [];
-            // try {
-            //     // TODO: proxyCOnf parameter, headers parameter
-            //     urls = await crawlSitemaps(new URL("/robots.txt", input.url,).href, input.url, 100, undefined, proxyConfigurationCrawlee);
-            //     log.debug(JSON.stringify(urls));
-
-
-            // } catch (e:any) {
-            //     log.error("Crawling the sitemap failed.")
-            //     log.error(e);
-            // }
-
-
-
-            // try {
-            //     if (urls.length) {
-            //         await crawl(input.url, urls, []);
-            //     }
-            // } catch(e:any) {
-            //     log.error(e.message);
-            // }
         } else {
-            log.error("Crawling the sitemap failed.")
             log.error("Failed to scrape the website using Playwright.");
             output.actorSuccess = false;
         }
@@ -198,7 +173,7 @@ export async function analyze(inputString: string | undefined = undefined): Prom
         await KeyValueStore.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
         // await store!.setValue("DASHBOARD", readFileSync("./src/static/index.html"), { contentType: 'text/html; charset=utf-8' });
 
-        const saveRunAsFolder = false;
+        const saveRunAsFolder = true;
         // save the run to the runs key value store
         if (saveRunAsFolder) {
             try {
@@ -238,7 +213,15 @@ export async function analyze(inputString: string | undefined = undefined): Prom
 
 (async () => {
     // await analyze(readFileSync("./src/static/example_inputs/INPUT_SCROLL.json").toString());
-    await analyze(readFileSync("./src/static/example_inputs/INPUT_WAYFAIR.json").toString());
+    // await analyze(readFileSync("./src/static/example_inputs/INPUT_ALZA.json").toString());
+    // await analyze(readFileSync("./src/static/example_inputs/INPUT_books.json").toString());
+    // await analyze(readFileSync("./src/static/example_inputs/INPUT_JSDIFF.json").toString());
+
+    // this will use the input in analyzer-ts/storage/key_value_stores/default/INPUT.json
+    await analyze();
+
+
+
 
     Actor.exit({ exitCode: 0 });
 })();

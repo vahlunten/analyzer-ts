@@ -10,7 +10,7 @@
 "proxyConfig": {
         "useApifyProxy": false,
         "proxyUrls": [
-            "http://admin:halo@gugel.sk:8080"
+            "http://admin:hello@domain.com:8080"
         ]
     },
 

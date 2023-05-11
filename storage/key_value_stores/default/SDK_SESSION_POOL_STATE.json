@@ -3,7 +3,7 @@
   "retiredSessionsCount": 0,
   "sessions": [
     {
-      "id": "session_c6tYg1utVu",
+      "id": "session_lEtxonDJAI",
       "cookieJar": {
         "version": "tough-cookie@4.1.2",
         "storeType": "MemoryCookieStore",
@@ -11,51 +11,13 @@
         "enableLooseMode": false,
         "allowSpecialUseDomain": true,
         "prefixSecurity": "silent",
-        "cookies": [
-          {
-            "key": "WFDC",
-            "value": "DSM",
-            "expires": "2023-05-11T00:38:41.000Z",
-            "maxAge": 10800,
-            "domain": "wayfair.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": false,
-            "creation": "2023-05-11T00:08:42.159Z",
-            "lastAccessed": "2023-05-11T00:08:42.159Z"
-          },
-          {
-            "key": "CSNUtId",
-            "value": "0a6246e3-6ecb-4fbd-8684-3e28d86227f2",
-            "expires": "2076-09-17T00:17:22.000Z",
-            "maxAge": 1683763721,
-            "domain": "wayfair.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": false,
-            "creation": "2023-05-11T00:08:42.164Z",
-            "lastAccessed": "2023-05-11T00:08:42.164Z"
-          },
-          {
-            "key": "__cf_bm",
-            "value": "cAucPivS9fza8Ubgg.2JzfO1zTA_8tMf6tMjS1HoIgU-1683763721-0-Adhq/opsWs4nmozihBsd0/DjOV4fThQ79ySsBm9xFg2CHdaJ6uuzMaiVXHjhR4Pe0LmZNxHEvJSmaUEewxhM//M=",
-            "expires": "2023-05-11T00:38:41.000Z",
-            "domain": "wayfair.com",
-            "path": "/",
-            "secure": true,
-            "httpOnly": true,
-            "hostOnly": false,
-            "creation": "2023-05-11T00:08:42.166Z",
-            "lastAccessed": "2023-05-11T00:08:42.166Z",
-            "sameSite": "none"
-          }
-        ]
+        "cookies": []
       },
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2023-05-11T00:58:41.473Z",
-      "createdAt": "2023-05-11T00:08:41.473Z",
+      "expiresAt": "2023-05-11T21:29:31.113Z",
+      "createdAt": "2023-05-11T20:39:31.113Z",
       "usageCount": 1,
       "maxUsageCount": 50,
       "errorScore": 0

@@ -10,11 +10,12 @@ import { scrapeWindowProperties } from "../parsing/window-properties";
 import { KeyValueStore, log } from '@crawlee/core';
 import { prettyPrint } from "html";
 import { Request } from "playwright";
-import { Actor } from 'apify';
 import { PlaywrightProxyConfiguration } from '../helpers/proxy';
 
 
-
+/**
+ * 
+ */
 export class PlaywrightScraper {
 
     initialResponse: ParsedRequestResponse | null = null;

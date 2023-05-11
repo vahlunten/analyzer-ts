@@ -3,7 +3,7 @@ import { ProxyConfigurationOptions } from "apify";
 export interface Input {
     // analyzed url 
     url: string;
-    // an array of keyword strings
+    // an array of keyword strings the user would like to search for in the website
     keywords: string[];
     // proxy configuration
     proxyConfig: ProxyConfigurationOptions & { useApifyProxy?: boolean };
