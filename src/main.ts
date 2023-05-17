@@ -208,7 +208,7 @@ export async function analyze(inputString: string | undefined = undefined): Prom
         }
     }
 
-    // Actor.exit({ exitCode: output.actorSuccess ? 0 : 1 });
+    Actor.exit({ exitCode: output.actorSuccess ? 0 : 1 });
 }
 
 (async () => {
@@ -219,9 +219,5 @@ export async function analyze(inputString: string | undefined = undefined): Prom
 
     // this will use the input in analyzer-ts/storage/key_value_stores/default/INPUT.json
     await analyze();
-
-
-
-
-    Actor.exit({ exitCode: 0 });
+    // Actor.exit({ exitCode: 0 });
 })();

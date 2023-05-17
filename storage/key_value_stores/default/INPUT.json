@@ -1,15 +1,7 @@
 {
-  "url": "https://www.scrapethissite.com/pages/ajax-javascript/#2015",
-  "keywords" : [
-      "Spotlight",
-      "Oscar Winning Films: AJAX and Javascript",
-      "https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films",
-      "Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it. Look for ways that you can tell visually when a site is loading content with AJAX. Then, browse through your network tab to see those AJAX requests and scrape them. ",
-      "A Girl in the River: The Price of Forgiveness ",
-      "87 items"
-  ],
+  "keywords": ["A Light in the Attic","£51.77", " In stock (22 available) ", "a897fe39b1053632", "It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and drawings from Shel Silverstein celebrates its 20th anniversary with this special edition. Silverstein's humorous and creative verse can amuse the dowdiest of readers. Lemon-faced adults and fidgety kids sit still and read these rhythmic words and laugh and smile and love th It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and drawings from Shel Silverstein celebrates its 20th anniversary with this special edition. Silverstein's humorous and creative verse can amuse the dowdiest of readers. Lemon-faced adults and fidgety kids sit still and read these rhythmic words and laugh and smile and love that Silverstein. Need proof of his genius? RockabyeRockabye baby, in the treetopDon't you know a treetopIs no safe place to rock?And who put you up there,And your cradle, too?Baby, I think someone down here'sGot it in for you. Shel, you never sounded so good. ...more"],
   "proxyConfig": {
       "useApifyProxy": false
-  }
-
+  },
+  "url": "http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 }
